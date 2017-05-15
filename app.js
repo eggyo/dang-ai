@@ -363,8 +363,8 @@ function receivedPostback(event) {
   var results = _postback.payloadProcess(senderID,payload);
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
-  for (var i = 0; i < results.length; i++) {
-    callSendAPI(results[i]);
+  for (var i = 0; i < results.results.length; i++) {
+    callSendAPI(results.results[i]);
   }
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful

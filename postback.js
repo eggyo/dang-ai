@@ -31,7 +31,7 @@ module.exports = {
                       title: "สร้าง Quiz",
                       payload: "CREATE_QUIZ_PAYLOAD"
                     }]}}}};
-                    return {[messageData,templateData]};
+                    return {"results":[messageData,templateData]};
             break;
 
         default:
