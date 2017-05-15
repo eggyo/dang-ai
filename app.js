@@ -60,7 +60,7 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 
 
 app.get('/createquiz', function(req, res) {
-  res.render('/public/createQuiz.html');
+  res.render('/createQuiz.html');
 });
 
 /*
