@@ -58,6 +58,11 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   process.exit(1);
 }
 
+
+app.get('/createquiz', function(req, res) {
+  res.sendFile(path.join(__dirname, '/public/createQuiz.html'));
+});
+
 /*
  * Use your own validation token. Check that the token used in the Webhook
  * setup is the same token used here.
@@ -362,9 +367,12 @@ function receivedPostback(event) {
   var results = _postback.payloadProcess(senderID,payload);
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
-  for (var i = 0; i < results.results.length; i++) {
-    callSendAPI(results.results[i]);
+  if (results.results != null) {
+    for (var i = 0; i < results.results.length; i++) {
+      callSendAPI(results.results[i]);
+    }
   }
+
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
   //sendTextMessage(senderID, "Postback called");

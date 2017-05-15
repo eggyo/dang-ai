@@ -27,19 +27,37 @@ module.exports = {
                       payload: "PLAY_QUIZ_PAYLOAD",
                       title: "เล่น Quiz"
                     }, {
-                      type: "postback",
-                      title: "สร้าง Quiz",
-                      payload: "CREATE_QUIZ_PAYLOAD"
+                      type: "web_url",
+                      url: "https://dang.ai.heroku.com/createquiz",
+                      title: "สร้าง Quiz"
                     }]}}}};
                     return {"results":[messageData,templateData]};
-            break;
-
+          break;
+          case "PLAY_QUIZ_PAYLOAD":
+          var templateData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              attachment: {
+                type: "template",
+                payload: {
+                  template_type: "button",
+                  text: "คุณต้องการทำอะไร?",
+                  buttons:[{
+                    type: "postback",
+                    payload: "PLAY_QUIZ_PAYLOAD",
+                    title: "เล่น Quiz"
+                  }, {
+                    type: "web_url",
+                    url: "https://www.oculus.com/en-us/rift/",
+                    title: "สร้าง Quiz"
+                  }]}}}};
+                  return {"results":[templateData]};
+              break;
         default:
             return;
     }
 
-  },
-  bar: function () {
-    // whatever
   }
 };
