@@ -17,6 +17,7 @@ const
   express = require('express'),
   https = require('https'),
   request = require('request'),
+  path = require('path'),
   _postback = require('./postback.js');
 
 var app = express();
@@ -60,7 +61,7 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 
 
 app.get('/createquiz', function(req, res) {
-  res.render('public/createQuiz');
+  res.sendFile(path.join(__dirname + '/public/createQuiz.html'));
 });
 
 /*
