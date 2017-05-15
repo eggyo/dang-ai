@@ -17,10 +17,9 @@ const
   express = require('express'),
   https = require('https'),
   request = require('request'),
-  postback = require('./postback.js');
+  _postback = require('./postback.js');
 
 var app = express();
-var _postback = postback();
 
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
