@@ -28,7 +28,7 @@ module.exports = {
                       title: "เล่น Quiz"
                     }, {
                       type: "web_url",
-                      url: "https://dang.ai.heroku.com/createquiz",
+                      url: "https://dang-ai.herokuapp.com/createquiz",
                       title: "สร้าง Quiz"
                     }]}}}};
                     return {"results":[messageData,templateData]};
