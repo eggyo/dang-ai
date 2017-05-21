@@ -79,7 +79,7 @@ LICENSE file in the root directory of this source tree.
               <input placeholder="Your Incorrect answer(optional)" type="text" tabindex="6" required>
             </fieldset>
             <fieldset>
-              <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+              <button name="submit" type="submit" onclick="submitquiz()" id="contact-submit" data-submit="...Sending">Submit</button>
             </fieldset>
             <p class="copyright">Created by <a href="https://dang-ai.herokuapp.com" target="_blank" title="Colorlib">Dang.ai</a></p>
           </form>
@@ -124,9 +124,9 @@ LICENSE file in the root directory of this source tree.
 
        window.extAsyncInit = function() {
          console.log("MessengerExtensions.extAsyncInit done");
-         };
+       };
 
-         window.getUserID(function success(uids) {
+         MessengerExtensions.getUserID(function success(uids) {
        	// User ID was successfully obtained.
            	var psid = uids.psid;
              document.getElementById('#correct-input').value = uids;
@@ -134,7 +134,13 @@ LICENSE file in the root directory of this source tree.
          }, function error(err, errorMessage) {
        	// Error handling code
          });
+         function submitquiz() {
+           MessengerExtensions.requestCloseBrowser(function success() {
 
+                }, function error(err) {
+
+                });
+         }
     </script>
 
 </body>
