@@ -127,13 +127,13 @@ LICENSE file in the root directory of this source tree.
          console.log("MessengerExtensions.extAsyncInit done");
        };
 */
-document.getElementById('#correct-input').value = "fuck";
+document.getElementById('correct-input').value = "fuck";
 
 window.extAsyncInit = function() {
   MessengerExtensions.getUserID(function success(uids) {
  // User ID was successfully obtained.
      var psid = uids.psid;
-      document.getElementById('#correct-input').value = "psid";
+      document.getElementById('correct-input').value = "psid";
       console.log("MessengerExtensions.getUserIDr : %d , psid : %d", uids, psid);
   }, function error(err, errorMessage) {
  // Error handling code
