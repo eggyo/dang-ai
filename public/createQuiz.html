@@ -129,6 +129,14 @@ LICENSE file in the root directory of this source tree.
 */
 window.extAsyncInit = function() {
   console.log("MessengerExtensions.extAsyncInit done");
+  MessengerExtensions.getUserID(function success(uids) {
+ // User ID was successfully obtained.
+     var psid = uids.psid;
+      document.getElementById('#correct-input').value = psid;
+      console.log("MessengerExtensions.getUserIDr : %d , psid : %d", uids, psid);
+  }, function error(err, errorMessage) {
+ // Error handling code
+  });
 };
        (function(d, s, id){
          var js, fjs = d.getElementsByTagName(s)[0];
@@ -138,14 +146,7 @@ window.extAsyncInit = function() {
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'Messenger'));
 
-         MessengerExtensions.getUserID(function success(uids) {
-       	// User ID was successfully obtained.
-           	var psid = uids.psid;
-             document.getElementById('#correct-input').value = psid;
-             console.log("MessengerExtensions.getUserIDr : %d , psid : %d", uids, psid);
-         }, function error(err, errorMessage) {
-       	// Error handling code
-         });
+
          function submitquiz() {
            MessengerExtensions.requestCloseBrowser(function success() {
 
