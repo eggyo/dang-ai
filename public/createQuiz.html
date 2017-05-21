@@ -97,54 +97,34 @@ LICENSE file in the root directory of this source tree.
     $('#input-tags').selectize({
     persist: false,
     createOnBlur: true,
-    create: true
+    create: function(input) {
+        return {
+            value: input,
+            text: input
+        }
+    }
     });
     </script>
 
     <!-- Facebook Core JavaScript -->
 
     <script>
-    /*
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId: '307276553033009',
-          xfbml: true,
-          version: 'v2.6'
-        });
-        console.log("MessengerExtensions.fbAsyncInit done");
-
-      };
-
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/en_US/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
-
-       window.extAsyncInit = function() {
-         console.log("MessengerExtensions.extAsyncInit done");
-       };
-*/
-document.getElementById('correct-input').value = "fuck";
-
-window.extAsyncInit = function() {
-  MessengerExtensions.getUserID(function success(uids) {
- // User ID was successfully obtained.
-     var psid = uids.psid;
-      document.getElementById('correct-input').value = psid + " : " +uids;
-  }, function error(err, errorMessage) {
- // Error handling code
-  });
-};
-       (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'Messenger'));
+    window.extAsyncInit = function() {
+      MessengerExtensions.getUserID(function success(uids) {
+     // User ID was successfully obtained.
+         var psid = uids.psid;
+          document.getElementById('correct-input').value = psid + " : " +uids;
+      }, function error(err, errorMessage) {
+     // Error handling code
+      });
+    };
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
 
 
          function submitquiz() {
@@ -154,38 +134,46 @@ window.extAsyncInit = function() {
 
                 });
          }
+         getAllTag();
 
-         var data = '{"object_type":"Tag"}';
-         callParseServerCloudCode("retrieveAllObjects",data,function(response){
-           document.getElementById('textarea-quiz').value = response;
-
-           res(response);
-         });
+         function getAllTag() {
+           var data = '{"object_type":"Tag"}';
+           var tags = [];
+//           document.getElementById('input-tags').value = "tags,dssd,sdsds,sdsd";
+           var selectize_tags = $("#input-tags")[0].selectize;
+           callParseServerCloudCode("retrieveAllObjects",data,function(response){
+             for (var i = 0; i < response.length; i++) {
+               var v = response[i].name;
+               tags.push(v);
+               selectize_tags.addOption({
+                   text:v,
+                   value: v
+               });
+               selectize_tags.addItem(v);
+               selectize_tags.refreshOptions();
+               selectize_tags.setValue(v);
+             }
+             
+             selectize_tags.setValue('');
+           });
+         }
 
 
          function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
-           console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
-           var options = {
-           url: 'https://eggyo-quiz-db.herokuapp.com/parse/functions/'+methodName,
-           method: 'POST',
-           headers: {
-             'Content-Type': 'application/json',
-             'X-Parse-Application-Id' : 'myAppId',
-             'X-Parse-REST-API-Key': 'myRestKey'
-           },
-           body: requestMsg
-           };
-           function callback(error, response, body) {
-             console.log("response:"+JSON.stringify(response));
-             if (!error && response.statusCode == 200) {
-             var info = JSON.parse(body);
-             responseMsg(info.result.replyMsg);
-             console.log("result.msg: "+info.result.msg+" result.replyMsg: "+info.result.replyMsg);
-             }else {
-             console.error("Unable to send message. Error :"+error);
+           var xhr = new XMLHttpRequest();
+           xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/'+methodName, true);
+           xhr.setRequestHeader('Content-type', 'application/json');
+           xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
+           xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
+
+           xhr.onreadystatechange = function() {
+             if (this.readyState == 4 && this.status == 200) {
+               var myArr = JSON.parse(this.responseText);
+               responseMsg(myArr.result);
              }
-           }
-           request(options, callback);
+           };
+
+           xhr.send(requestMsg);
          }
 
 
