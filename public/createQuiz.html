@@ -64,7 +64,7 @@ LICENSE file in the root directory of this source tree.
               <textarea placeholder="Type your quiz here...." tabindex="1" required autofocus></textarea>
             </fieldset>
             <fieldset>
-              <input placeholder="Your Correct answer" type="text" tabindex="2" required>
+              <input placeholder="Your Correct answer" id="correct-input" type="text" tabindex="2" required>
             </fieldset>
             <fieldset>
               <input placeholder="Your Incorrect answer" type="text" tabindex="3" required>
@@ -129,7 +129,7 @@ LICENSE file in the root directory of this source tree.
          window.getUserID(function success(uids) {
        	// User ID was successfully obtained.
            	var psid = uids.psid;
-             $('#input-tags').value = uids;
+             document.getElementById('#correct-input').value = uids;
              console.log("MessengerExtensions.getUserIDr : %d , psid : %d", uids, psid);
          }, function error(err, errorMessage) {
        	// Error handling code
