@@ -29,7 +29,9 @@ module.exports = {
                     }, {
                       type: "web_url",
                       url: "https://dang-ai.herokuapp.com/createquiz",
-                      title: "สร้าง Quiz"
+                      title: "สร้าง Quiz",
+                      messenger_extensions: true,
+                      webview_height_ratio: "tall"
                     }]}}}};
                     return {"results":[messageData,templateData]};
           break;
