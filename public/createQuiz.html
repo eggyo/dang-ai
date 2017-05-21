@@ -8,7 +8,10 @@ LICENSE file in the root directory of this source tree.
 
 -->
 
-
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +22,7 @@ LICENSE file in the root directory of this source tree.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
 
     <title>Dang.ai - Quiz bot platform</title>
 
@@ -27,7 +31,7 @@ LICENSE file in the root directory of this source tree.
 
     <!-- Custom CSS -->
     <link href="css/theme.css" rel="stylesheet">
-
+    <link href="css/selectize.bootstrap3.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -44,10 +48,18 @@ LICENSE file in the root directory of this source tree.
     <!-- Navigation -->
 
 
-            <div class="container">
-          <form id="contact" action="" method="post">
+          <div class="container">
+            <form id="contact" action="" method="post">
             <h3>Create Quiz form</h3>
             <h4>Fill your quiz into this form</h4>
+
+            <div class="control-group">
+              <label for="input-tags">Quiz Tags:</label>
+              <fieldset>
+                <input type="text" id="input-tags" class="demo-default">
+              </fieldset>
+            </div>
+
             <fieldset>
               <textarea placeholder="Type your quiz here...." tabindex="0" required autofocus></textarea>
             </fieldset>
@@ -78,8 +90,15 @@ LICENSE file in the root directory of this source tree.
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/standalone/selectize.min.js"></script>
 
-
+    <script>
+    $('#input-tags').selectize({
+    persist: false,
+    createOnBlur: true,
+    create: true
+    });
+    </script>
     <script>
       window.fbAsyncInit = function() {
         FB.init({
