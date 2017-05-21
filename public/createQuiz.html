@@ -128,6 +128,7 @@ LICENSE file in the root directory of this source tree.
        	// User ID was successfully obtained.
            	var psid = uids.psid;
              $('#input-tags').value = uids;
+             console.log("MessengerExtensions.getUserIDr : %d , psid : %d", uids, psid);
          }, function error(err, errorMessage) {
        	// Error handling code
          });
