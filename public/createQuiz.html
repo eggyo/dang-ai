@@ -133,8 +133,7 @@ window.extAsyncInit = function() {
   MessengerExtensions.getUserID(function success(uids) {
  // User ID was successfully obtained.
      var psid = uids.psid;
-      document.getElementById('correct-input').value = psid;
-      console.log("MessengerExtensions.getUserIDr : %d , psid : %d", uids, psid);
+      document.getElementById('correct-input').value = psid + " : " +uids;
   }, function error(err, errorMessage) {
  // Error handling code
   });
