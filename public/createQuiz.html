@@ -104,6 +104,7 @@ LICENSE file in the root directory of this source tree.
     <!-- Facebook Core JavaScript -->
 
     <script>
+    /*
       window.fbAsyncInit = function() {
         FB.init({
           appId: '307276553033009',
@@ -125,6 +126,15 @@ LICENSE file in the root directory of this source tree.
        window.extAsyncInit = function() {
          console.log("MessengerExtensions.extAsyncInit done");
        };
+*/
+
+       (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'Messenger'));
 
          MessengerExtensions.getUserID(function success(uids) {
        	// User ID was successfully obtained.
