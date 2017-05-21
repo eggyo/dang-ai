@@ -61,7 +61,7 @@ LICENSE file in the root directory of this source tree.
             </div>
 
             <fieldset>
-              <textarea placeholder="Type your quiz here...." tabindex="1" required autofocus></textarea>
+              <textarea placeholder="Type your quiz here...." tabindex="1" required autofocus id="textarea-quiz"></textarea>
             </fieldset>
             <fieldset>
               <input placeholder="Your Correct answer" id="correct-input" type="text" tabindex="2" required>
@@ -154,6 +154,42 @@ window.extAsyncInit = function() {
 
                 });
          }
+
+         var data = '{"object_type":"Tag"}';
+         callParseServerCloudCode("retrieveAllObjects",data,function(response){
+           document.getElementById('textarea-quiz').value = response;
+
+           res(response);
+         });
+
+
+         function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
+           console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
+           var options = {
+           url: 'https://eggyo-quiz-db.herokuapp.com/parse/functions/'+methodName,
+           method: 'POST',
+           headers: {
+             'Content-Type': 'application/json',
+             'X-Parse-Application-Id' : 'myAppId',
+             'X-Parse-REST-API-Key': 'myRestKey'
+           },
+           body: requestMsg
+           };
+           function callback(error, response, body) {
+             console.log("response:"+JSON.stringify(response));
+             if (!error && response.statusCode == 200) {
+             var info = JSON.parse(body);
+             responseMsg(info.result.replyMsg);
+             console.log("result.msg: "+info.result.msg+" result.replyMsg: "+info.result.replyMsg);
+             }else {
+             console.error("Unable to send message. Error :"+error);
+             }
+           }
+           request(options, callback);
+         }
+
+
+
     </script>
 
 </body>
