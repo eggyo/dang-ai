@@ -92,6 +92,7 @@ LICENSE file in the root directory of this source tree.
     <script src="js/bootstrap.min.js"></script>
     <script src="js/standalone/selectize.min.js"></script>
 
+    <!-- selectize Script -->
     <script>
     $('#input-tags').selectize({
     persist: false,
@@ -99,10 +100,22 @@ LICENSE file in the root directory of this source tree.
     create: true
     });
     </script>
+
+    <!-- Facebook Core JavaScript -->
+    <script>
+        MessengerExtensions.getUserID(function success(uids) {
+      	// User ID was successfully obtained.
+          	var psid = uids.psid;
+            $('#input-tags').value = psid;
+        }, function error(err, errorMessage) {
+      	// Error handling code
+        });
+    </script>
+
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId: 'APP_ID',
+          appId: '307276553033009',
           xfbml: true,
           version: 'v2.6'
         });
