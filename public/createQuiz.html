@@ -127,7 +127,9 @@ LICENSE file in the root directory of this source tree.
          console.log("MessengerExtensions.extAsyncInit done");
        };
 */
-
+window.extAsyncInit = function() {
+  console.log("MessengerExtensions.extAsyncInit done");
+};
        (function(d, s, id){
          var js, fjs = d.getElementsByTagName(s)[0];
          if (d.getElementById(id)) {return;}
