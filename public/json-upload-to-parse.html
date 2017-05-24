@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Scrolling Nav - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/theme.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+  <div class="container_2" >
+    <form id="contact" action="" method="post">
+
+    <fieldset>
+      <textarea placeholder="Type your quiz here...." tabindex="1" required autofocus id="textarea-quiz-standalone" style="height:500px"></textarea>
+    </fieldset>
+
+    <fieldset>
+      <button type="button"  onclick="submitquiz()" id="contact-submit">Submit</button>
+    </fieldset>
+    <p class="copyright">Created by <a href="https://dang-ai.herokuapp.com" target="_blank" title="Colorlib">Dang.ai</a></p>
+  </form>
+</div>
+
+
+
+
+
+
+
+
+    <script>
+    function submitquiz() {
+
+      var sting = document.getElementById('textarea-quiz-standalone').value;
+      var data = '{"objects":'+ sting +'}';
+      callParseServerCloudCode("createQuizFromJsonText",data,function(response){
+
+      });
+
+    }
+    function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/'+methodName, true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
+      xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
+
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          responseMsg(myArr.result);
+        }
+      };
+
+      xhr.send(requestMsg);
+    }
+
+
+    </script>
+
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+
+</body>
+
+</html>

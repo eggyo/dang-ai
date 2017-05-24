@@ -63,7 +63,9 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 app.get('/createquiz', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/createQuiz.html'));
 });
-
+app.get('/json-upload-to-parse', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/json-upload-to-parse.html'));
+});
 /*
  * Use your own validation token. Check that the token used in the Webhook
  * setup is the same token used here.
