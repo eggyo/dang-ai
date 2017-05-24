@@ -92,19 +92,6 @@ LICENSE file in the root directory of this source tree.
     <script src="js/bootstrap.min.js"></script>
     <script src="js/standalone/selectize.min.js"></script>
 
-    <!-- selectize Script -->
-    <script>
-    $('#input-tags').selectize({
-    persist: false,
-    createOnBlur: true,
-    create: function(input) {
-        return {
-            value: input,
-            text: input
-        }
-    }
-    });
-    </script>
 
     <!-- Facebook Core JavaScript -->
 
@@ -113,7 +100,7 @@ LICENSE file in the root directory of this source tree.
       MessengerExtensions.getUserID(function success(uids) {
      // User ID was successfully obtained.
          var psid = uids.psid;
-          document.getElementById('correct-input').value = psid + " : " +uids;
+          $('correct-input').value = psid + " : " +uids;
       }, function error(err, errorMessage) {
      // Error handling code
       });
@@ -134,27 +121,32 @@ LICENSE file in the root directory of this source tree.
 
                 });
          }
+
          getAllTag();
 
          function getAllTag() {
            var data = '{"object_type":"Tag"}';
            var tags = [];
-//           document.getElementById('input-tags').value = "tags,dssd,sdsds,sdsd";
            var selectize_tags = $("#input-tags")[0].selectize;
            callParseServerCloudCode("retrieveAllObjects",data,function(response){
              for (var i = 0; i < response.length; i++) {
                var v = response[i].name;
-               tags.push(v);
-               selectize_tags.addOption({
+               tags.push({
                    text:v,
                    value: v
                });
-               selectize_tags.addItem(v);
-               selectize_tags.refreshOptions();
-               selectize_tags.setValue(v);
              }
-             
-             selectize_tags.setValue('');
+             // selectize script
+             $('#input-tags').selectize({
+               plugins: ['remove_button'],
+               persist: false,
+               createOnBlur : true,
+               delimiter: ',',
+               create: true,
+               options: tags,
+               labelField: "text",
+               valueField: "value"
+             });
            });
          }
 
