@@ -30,19 +30,19 @@
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
-  <div class="container_2" >
-    <form id="contact" action="" method="post">
+    <div class="container_2">
+        <form id="contact" action="" method="post">
 
-    <fieldset>
-      <textarea placeholder="Type your quiz here...." tabindex="1" required autofocus id="textarea-quiz-standalone" style="height:500px"></textarea>
-    </fieldset>
+            <fieldset>
+                <textarea placeholder="Type your quiz here...." tabindex="1" required autofocus id="textarea-quiz-standalone" style="height:500px"></textarea>
+            </fieldset>
 
-    <fieldset>
-      <button type="button"  onclick="submitquiz()" id="contact-submit">Submit</button>
-    </fieldset>
-    <p class="copyright">Created by <a href="https://dang-ai.herokuapp.com" target="_blank" title="Colorlib">Dang.ai</a></p>
-  </form>
-</div>
+            <fieldset>
+                <button type="button" onclick="submitquiz()" id="contact-submit">Submit</button>
+            </fieldset>
+            <p class="copyright">Created by <a href="https://dang-ai.herokuapp.com" target="_blank" title="Colorlib">Dang.ai</a></p>
+        </form>
+    </div>
 
 
 
@@ -52,33 +52,32 @@
 
 
     <script>
-    function submitquiz() {
+        function submitquiz() {
 
-      var sting = document.getElementById('textarea-quiz-standalone').value;
-      var data = '{"objects":'+ sting +'}';
-      callParseServerCloudCode("createQuizFromJsonText",data,function(response){
+            var sting = document.getElementById('textarea-quiz-standalone').value;
+            var data = '{"objects":' + sting + '}';
+            callParseServerCloudCode("createQuizFromJsonText", data, function(response) {
 
-      });
+            });
 
-    }
-    function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/'+methodName, true);
-      xhr.setRequestHeader('Content-type', 'application/json');
-      xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
-      xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
-
-      xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          var myArr = JSON.parse(this.responseText);
-          responseMsg(myArr.result);
         }
-      };
 
-      xhr.send(requestMsg);
-    }
+        function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/' + methodName, true);
+            xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
+            xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
 
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myArr = JSON.parse(this.responseText);
+                    responseMsg(myArr.result);
+                }
+            };
 
+            xhr.send(requestMsg);
+        }
     </script>
 
 

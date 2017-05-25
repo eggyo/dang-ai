@@ -11,7 +11,9 @@ LICENSE file in the root directory of this source tree.
 <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
 <!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
 <!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +25,11 @@ LICENSE file in the root directory of this source tree.
     <meta name="description" content="">
     <meta name="author" content="">
     <!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
+    <!-- Include FontAwesome CSS if you want to use feedback icons provided by FontAwesome -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.1.0/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" href="/path/to/dist/css/bootstrapValidator.min.css" />
+
 
     <title>Dang.ai - Quiz bot platform</title>
 
@@ -48,42 +55,58 @@ LICENSE file in the root directory of this source tree.
     <!-- Navigation -->
 
 
-          <div class="container">
-            <form id="contact" action="" method="post">
+
+
+    <div class="container">
+
+
+        <form id="contact" class="registerForm">
+
+            <div class="alert alert-success" id="alertbox">
+                <strong>Success!</strong> Your quiz has uploaded.
+            </div>
+
             <h3>Create Quiz form</h3>
             <h4>Fill your quiz into this form</h4>
 
+
+            <fieldset class="form-group">
+                <input id="category" name="category" placeholder="Your Quiz Category name" type="text" tabindex="1" required>
+            </fieldset>
             <div class="control-group">
-              <label for="input-tags">Quiz Tags:</label>
-              <fieldset>
-                <input type="text" id="input-tags" class="demo-default">
-              </fieldset>
+                <label for="input-tags">Quiz Tags:</label>
+                <fieldset class="form-group">
+                    <input type="text" id="input-tags" class="demo-default" tabindex="2">
+                </fieldset>
             </div>
 
-            <fieldset>
-              <textarea placeholder="Type your quiz here...." tabindex="1" required autofocus id="textarea-quiz"></textarea>
+            <fieldset class="form-group">
+                <textarea name="quiz" placeholder="Type your quiz here...." tabindex="3" required autofocus id="textarea-quiz"></textarea>
             </fieldset>
-            <fieldset>
-              <input placeholder="Your Correct answer" id="correct-input" type="text" tabindex="2" required>
+            <fieldset class="form-group">
+                <input name="correct" placeholder="Your Correct answer" id="correct-input" type="text" tabindex="4" required>
             </fieldset>
-            <fieldset>
-              <input placeholder="Your Incorrect answer" type="text" tabindex="3" required>
+            <fieldset class="form-group">
+                <input name="incorrect" placeholder="Your Incorrect answer" type="text" tabindex="5" required>
             </fieldset>
-            <fieldset>
-              <input placeholder="Your Incorrect answer(optional)" type="text" tabindex="4" required>
+            <fieldset class="form-group">
+                <input placeholder="Your Incorrect answer(optional)" type="text" tabindex="6" required>
             </fieldset>
-            <fieldset>
-              <input placeholder="Your Incorrect answer(optional)" type="text" tabindex="5" required>
+            <fieldset class="form-group">
+                <input placeholder="Your Incorrect answer(optional)" type="text" tabindex="7" required>
             </fieldset>
-            <fieldset>
-              <input placeholder="Your Incorrect answer(optional)" type="text" tabindex="6" required>
+            <fieldset class="form-group">
+                <input placeholder="Your Incorrect answer(optional)" type="text" tabindex="8" required>
             </fieldset>
-            <fieldset>
-              <button name="submit" type="submit" onclick="submitquiz()" id="contact-submit" data-submit="...Sending">Submit</button>
+            <fieldset class="form-group">
+                <button name="submit" type="submit" id="contact-submit">Submit</button>
             </fieldset>
             <p class="copyright">Created by <a href="https://dang-ai.herokuapp.com" target="_blank" title="Colorlib">Dang.ai</a></p>
-          </form>
-        </div>
+        </form>
+
+
+    </div>
+
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
@@ -91,85 +114,144 @@ LICENSE file in the root directory of this source tree.
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/standalone/selectize.min.js"></script>
+    <script src="js/bootstrapValidator.min.js"></script>
 
 
     <!-- Facebook Core JavaScript -->
 
     <script>
-    window.extAsyncInit = function() {
-      MessengerExtensions.getUserID(function success(uids) {
-     // User ID was successfully obtained.
-         var psid = uids.psid;
-          document.getElementById('correct-input').value = psid + " : " +uids;
-      }, function error(err, errorMessage) {
-     // Error handling code
-      });
-    };
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'Messenger'));
+        $(document).ready(function() {
 
 
-         function submitquiz() {
-           MessengerExtensions.requestCloseBrowser(function success() {
+        });
+        $('.registerForm').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                category: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Quiz category is required and cannot be empty'
+                        }
+                    }
+                },
+                quiz: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Quiz details is required and cannot be empty'
+                        }
+                    }
+                },
+                correct: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Correct answer is required and cannot be empty'
+                        }
+                    }
+                },
+                incorrect: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Incorrect answer is required and cannot be empty'
+                        }
+                    }
+                }
+            }
+        }).on('success.form.bv', function(e) {
+            submitquiz();
+        });
+        $('#alertbox').hide();
 
-                }, function error(err) {
 
+        window.extAsyncInit = function() {
+            MessengerExtensions.getUserID(function success(uids) {
+                // User ID was successfully obtained.
+                var psid = uids.psid;
+                //document.getElementById('correct-input').value = psid + " : " + uids;
+            }, function error(err, errorMessage) {
+                // Error handling code
+            });
+        };
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
+
+
+        function submitquiz() {
+            $('.registerForm').data('bootstrapValidator').resetForm();
+            $('#alertbox').show();
+            $('#alertbox').fadeTo(2000, 500).slideUp(500, function(){
+                $('#alertbox').hide();
+            });
+            var categoryName = $('#category').val();
+            document.getElementById("contact").reset();
+            $('#category').val(categoryName);
+
+            /*
+            MessengerExtensions.requestCloseBrowser(function success() {
+
+            }, function error(err) {
+
+            });
+            */
+        }
+
+        getAllTag();
+
+        function getAllTag() {
+            var data = '{"object_type":"Tag"}';
+            var tags = [];
+            var selectize_tags = $("#input-tags")[0].selectize;
+            callParseServerCloudCode("retrieveAllObjects", data, function(response) {
+                for (var i = 0; i < response.length; i++) {
+                    var v = response[i].name;
+                    tags.push({
+                        text: v,
+                        value: v
+                    });
+                }
+                // selectize script
+                $('#input-tags').selectize({
+                    plugins: ['remove_button'],
+                    persist: false,
+                    createOnBlur: true,
+                    delimiter: ',',
+                    create: true,
+                    options: tags,
+                    labelField: "text",
+                    valueField: "value"
                 });
-         }
-
-         getAllTag();
-
-         function getAllTag() {
-           var data = '{"object_type":"Tag"}';
-           var tags = [];
-           var selectize_tags = $("#input-tags")[0].selectize;
-           callParseServerCloudCode("retrieveAllObjects",data,function(response){
-             for (var i = 0; i < response.length; i++) {
-               var v = response[i].name;
-               tags.push({
-                   text:v,
-                   value: v
-               });
-             }
-             // selectize script
-             $('#input-tags').selectize({
-               plugins: ['remove_button'],
-               persist: false,
-               createOnBlur : true,
-               delimiter: ',',
-               create: true,
-               options: tags,
-               labelField: "text",
-               valueField: "value"
-             });
-           });
-         }
+            });
+        }
 
 
-         function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
-           var xhr = new XMLHttpRequest();
-           xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/'+methodName, true);
-           xhr.setRequestHeader('Content-type', 'application/json');
-           xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
-           xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
+        function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/' + methodName, true);
+            xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
+            xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
 
-           xhr.onreadystatechange = function() {
-             if (this.readyState == 4 && this.status == 200) {
-               var myArr = JSON.parse(this.responseText);
-               responseMsg(myArr.result);
-             }
-           };
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myArr = JSON.parse(this.responseText);
+                    responseMsg(myArr.result);
+                }
+            };
 
-           xhr.send(requestMsg);
-         }
-
-
-
+            xhr.send(requestMsg);
+        }
     </script>
 
 </body>
