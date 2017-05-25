@@ -81,22 +81,22 @@ LICENSE file in the root directory of this source tree.
             </div>
 
             <fieldset class="form-group">
-                <textarea name="quiz" placeholder="Type your quiz here...." tabindex="3" required autofocus id="textarea-quiz"></textarea>
+                <textarea id="quiz" name="quiz" placeholder="Type your quiz here...." tabindex="3" required autofocus></textarea>
             </fieldset>
             <fieldset class="form-group">
-                <input name="correct" placeholder="Your Correct answer" id="correct-input" type="text" tabindex="4" required>
+                <input id="correct" name="correct" placeholder="Your Correct answer" type="text" tabindex="4" required>
             </fieldset>
             <fieldset class="form-group">
-                <input name="incorrect" placeholder="Your Incorrect answer" type="text" tabindex="5" required>
+                <input id="incorrect_1" name="incorrect" placeholder="Your Incorrect answer" type="text" tabindex="5" required>
             </fieldset>
             <fieldset class="form-group">
-                <input placeholder="Your Incorrect answer(optional)" type="text" tabindex="6" required>
+                <input id="incorrect_2" placeholder="Your Incorrect answer(optional)" type="text" tabindex="6" required>
             </fieldset>
             <fieldset class="form-group">
-                <input placeholder="Your Incorrect answer(optional)" type="text" tabindex="7" required>
+                <input id="incorrect_3" placeholder="Your Incorrect answer(optional)" type="text" tabindex="7" required>
             </fieldset>
             <fieldset class="form-group">
-                <input placeholder="Your Incorrect answer(optional)" type="text" tabindex="8" required>
+                <input id="incorrect_4" placeholder="Your Incorrect answer(optional)" type="text" tabindex="8" required>
             </fieldset>
             <fieldset class="form-group">
                 <button name="submit" type="submit" id="contact-submit">Submit</button>
@@ -120,10 +120,8 @@ LICENSE file in the root directory of this source tree.
     <!-- Facebook Core JavaScript -->
 
     <script>
-        $(document).ready(function() {
+        var currentTagsString = "";
 
-
-        });
         $('.registerForm').bootstrapValidator({
             message: 'This value is not valid',
             feedbackIcons: {
@@ -187,17 +185,48 @@ LICENSE file in the root directory of this source tree.
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
 
+        function GenerateId() {
+            var i = function() {
+                return Math.floor(Math.random() * 9);
+            };
+            return "" + i() + i() + i() + i() + i() + i();
+        }
+
 
         function submitquiz() {
+
+            var categoryName = $('#category').val();
+            var tagArray = currentTagsString.split(',');
+            var quiz = $('#quiz').val();
+            var correct = $('#correct').val();
+            var incorrect_1 = $('#incorrect_1').val();
+            var incorrect_2 = $('#incorrect_2').val();
+            var incorrect_3 = $('#incorrect_3').val();
+            var incorrect_4 = $('#incorrect_4').val();
+            var obj = [{
+                "id": GenerateId(),
+                "category": categoryName,
+                "tag": tagArray,
+                "quiz": quiz,
+                "correct_ans": correct,
+                "incorrect_ans": [incorrect_1, incorrect_2, incorrect_3, incorrect_4]
+            }];
+
+            var data = '{"objects":' + JSON.stringify(obj) + '}';
+            callParseServerCloudCode("createQuizFromQuizForm", data, function(response) {
+
+            });
+
+
+
             $('.registerForm').data('bootstrapValidator').resetForm();
             $('#alertbox').show();
-            $('#alertbox').fadeTo(2000, 500).slideUp(500, function(){
+            $('#alertbox').fadeTo(2000, 500).slideUp(500, function() {
                 $('#alertbox').hide();
             });
-            var categoryName = $('#category').val();
             document.getElementById("contact").reset();
             $('#category').val(categoryName);
-
+            //$('#quiz').val(JSON.stringify(obj));
             /*
             MessengerExtensions.requestCloseBrowser(function success() {
 
@@ -212,7 +241,6 @@ LICENSE file in the root directory of this source tree.
         function getAllTag() {
             var data = '{"object_type":"Tag"}';
             var tags = [];
-            var selectize_tags = $("#input-tags")[0].selectize;
             callParseServerCloudCode("retrieveAllObjects", data, function(response) {
                 for (var i = 0; i < response.length; i++) {
                     var v = response[i].name;
@@ -230,8 +258,12 @@ LICENSE file in the root directory of this source tree.
                     create: true,
                     options: tags,
                     labelField: "text",
-                    valueField: "value"
+                    valueField: "value",
+                    onChange: function(value) {
+                        currentTagsString = value;
+                    }
                 });
+
             });
         }
 
