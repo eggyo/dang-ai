@@ -216,9 +216,20 @@ LICENSE file in the root directory of this source tree.
             callParseServerCloudCode("createQuizFromQuizForm", data, function(response) {
 
             });
+            // for check category name exist
+            var categoryNameData = '{"name":"' + categoryName + '"}';
+            callParseServerCloudCode("createNewCategory", categoryNameData, function(response) {
 
+            });
+            // for check tags name exist
+            for (var i = 0; i < tagArray.length; i++) {
+                var tag = tagArray[i]
+                var tagNameData = '{"name":"' + tag + '"}';
+                callParseServerCloudCode("createNewTag", tagNameData, function(response) {
 
-
+                });
+            }
+            
             $('.registerForm').data('bootstrapValidator').resetForm();
             $('#alertbox').show();
             $('#alertbox').fadeTo(2000, 500).slideUp(500, function() {
@@ -241,6 +252,20 @@ LICENSE file in the root directory of this source tree.
         function getAllTag() {
             var data = '{"object_type":"Tag"}';
             var tags = [];
+            $('#input-tags').selectize({
+                plugins: ['remove_button'],
+                persist: false,
+                createOnBlur: true,
+                delimiter: ',',
+                create: true,
+                options: tags,
+                labelField: "text",
+                valueField: "value",
+                onChange: function(value) {
+                    currentTagsString = value;
+                }
+            });
+
             callParseServerCloudCode("retrieveAllObjects", data, function(response) {
                 for (var i = 0; i < response.length; i++) {
                     var v = response[i].name;
