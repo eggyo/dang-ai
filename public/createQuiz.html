@@ -115,13 +115,16 @@ LICENSE file in the root directory of this source tree.
     <script src="js/bootstrap.min.js"></script>
     <script src="js/standalone/selectize.min.js"></script>
     <script src="js/bootstrapValidator.min.js"></script>
+    <script src="่js/wordcut-min.js"></script>
 
 
     <!-- Facebook Core JavaScript -->
 
     <script>
         var currentTagsString = "";
-
+        var wordcut = require("wordcut");
+        wordcut.init();
+        $('#category').val(wordcut.cut('วันนี้วันอะไร'));
         $('.registerForm').bootstrapValidator({
             message: 'This value is not valid',
             feedbackIcons: {
@@ -229,7 +232,7 @@ LICENSE file in the root directory of this source tree.
 
                 });
             }
-            
+
             $('.registerForm').data('bootstrapValidator').resetForm();
             $('#alertbox').show();
             $('#alertbox').fadeTo(2000, 500).slideUp(500, function() {
