@@ -1,13 +1,4 @@
-<!--
-
-Copyright 2016-present, Facebook, Inc.
-All rights reserved.
-
-This source code is licensed under the license found in the
-LICENSE file in the root directory of this source tree.
-
--->
-
+<!DOCTYPE html>
 <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
 <!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
 <!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
@@ -246,45 +237,44 @@ LICENSE file in the root directory of this source tree.
 
         function getAllTag() {
             var tags = [];
-            $('#input-tags').selectize({
-                plugins: ['remove_button'],
-                persist: false,
-                createOnBlur: true,
-                delimiter: ',',
-                create: true,
-                options: tags,
-                labelField: "text",
-                valueField: "value",
-                onChange: function(value) {
-                    currentTagsString = value;
-                }
-            });
-
             callParseServerCloudCode("getTags", null, function(response) {
-
-                for (var i = 0; i < response.length; i++) {
-                    var v = response[i];
-                    tags.push({
-                        text: v,
-                        value: v
+                if (response) {
+                    for (var i = 0; i < response.length; i++) {
+                        var v = JSON.stringify(response[i]);
+                        tags.push({
+                            text: v,
+                            value: v
+                        });
+                    }
+                    // selectize script
+                    $('#input-tags').selectize({
+                        plugins: ['remove_button'],
+                        persist: false,
+                        createOnBlur: true,
+                        delimiter: ',',
+                        create: true,
+                        options: tags,
+                        labelField: "text",
+                        valueField: "value",
+                        onChange: function(value) {
+                            currentTagsString = value;
+                        }
+                    });
+                } else {
+                    $('#input-tags').selectize({
+                        plugins: ['remove_button'],
+                        persist: false,
+                        createOnBlur: true,
+                        delimiter: ',',
+                        create: true,
+                        options: tags,
+                        labelField: "text",
+                        valueField: "value",
+                        onChange: function(value) {
+                            currentTagsString = value;
+                        }
                     });
                 }
-
-                // selectize script
-                $('#input-tags').selectize({
-                    plugins: ['remove_button'],
-                    persist: false,
-                    createOnBlur: true,
-                    delimiter: ',',
-                    create: true,
-                    options: tags,
-                    labelField: "text",
-                    valueField: "value",
-                    onChange: function(value) {
-                        currentTagsString = value;
-                    }
-                });
-
             });
         }
 
