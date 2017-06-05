@@ -253,7 +253,6 @@ LICENSE file in the root directory of this source tree.
         getAllTag();
 
         function getAllTag() {
-            var data = '{"object_type":"Tag"}';
             var tags = [];
             $('#input-tags').selectize({
                 plugins: ['remove_button'],
@@ -269,9 +268,9 @@ LICENSE file in the root directory of this source tree.
                 }
             });
 
-            callParseServerCloudCode("retrieveAllObjects", data, function(response) {
+            callParseServerCloudCode("getTags", {}, function(response) {
                 for (var i = 0; i < response.length; i++) {
-                    var v = response[i].name;
+                    var v = response[i];
                     tags.push({
                         text: v,
                         value: v
