@@ -268,7 +268,7 @@ LICENSE file in the root directory of this source tree.
                 }
             });
 
-            callParseServerCloudCode("getTags", {}, function(response) {
+            callParseServerCloudCode("getTags", null, function(response) {
                 for (var i = 0; i < response.length; i++) {
                     var v = response[i];
                     tags.push({
