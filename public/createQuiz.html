@@ -28,9 +28,6 @@ LICENSE file in the root directory of this source tree.
     <!-- Include FontAwesome CSS if you want to use feedback icons provided by FontAwesome -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.1.0/css/font-awesome.min.css" />
 
-    <link rel="stylesheet" href="/path/to/dist/css/bootstrapValidator.min.css" />
-
-
     <title>Dang.ai - Quiz bot platform</title>
 
     <!-- Bootstrap Core CSS -->
@@ -73,12 +70,10 @@ LICENSE file in the root directory of this source tree.
             <fieldset class="form-group">
                 <input id="category" name="category" placeholder="Your Quiz Category name" type="text" tabindex="1" required>
             </fieldset>
-            <div class="control-group">
-                <label for="input-tags">Quiz Tags:</label>
-                <fieldset class="form-group">
-                    <input type="text" id="input-tags" class="demo-default" tabindex="2">
-                </fieldset>
-            </div>
+            <label for="input-tags">Quiz Tags:</label>
+            <fieldset class="form-group">
+                <input type="text" id="input-tags" class="demo-default" tabindex="2">
+            </fieldset>
 
             <fieldset class="form-group">
                 <textarea id="quiz" name="quiz" placeholder="Type your quiz here...." tabindex="3" required autofocus></textarea>
@@ -115,16 +110,13 @@ LICENSE file in the root directory of this source tree.
     <script src="js/bootstrap.min.js"></script>
     <script src="js/standalone/selectize.min.js"></script>
     <script src="js/bootstrapValidator.min.js"></script>
-    <script src="่js/wordcut-min.js"></script>
 
 
     <!-- Facebook Core JavaScript -->
 
     <script>
         var currentTagsString = "";
-        var wordcut = require("wordcut");
-        wordcut.init();
-        $('#category').val(wordcut.cut('วันนี้วันอะไร'));
+
         $('.registerForm').bootstrapValidator({
             message: 'This value is not valid',
             feedbackIcons: {
@@ -269,6 +261,7 @@ LICENSE file in the root directory of this source tree.
             });
 
             callParseServerCloudCode("getTags", null, function(response) {
+
                 for (var i = 0; i < response.length; i++) {
                     var v = response[i];
                     tags.push({
@@ -276,6 +269,7 @@ LICENSE file in the root directory of this source tree.
                         value: v
                     });
                 }
+
                 // selectize script
                 $('#input-tags').selectize({
                     plugins: ['remove_button'],
