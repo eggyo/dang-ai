@@ -22,7 +22,7 @@ module.exports = {
       switch (type) {
         case "GET_QUIZ_BY_TAGS":
           var query = data.query;
-          var data = '{"tags":' + query + ',"limit":10}'
+          var data = '{"tags":[' + query + '],"limit":10}'
           console.log("data:" + JSON.stringify(data));
 
           callParseServerCloudCode("getQuizsByTags", data, function(response) {
@@ -106,7 +106,7 @@ module.exports = {
         default:
           return;
       }
-    
+
     } catch (e) {
         return false;
     }
