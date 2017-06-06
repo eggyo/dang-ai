@@ -43,6 +43,7 @@ module.exports = {
                   text: messageText,
                   metadata: JSON.stringify({
                     "type": "PLAY_QUIZ_STATE_FIRST",
+                    "userId": userId,
                     "data": dataResponse
                   })
                 }
@@ -68,7 +69,7 @@ module.exports = {
             }
           }
           getParseQuizObject(currentQuiz, function(response) {
-            console.log("getParseQuizObject "+currentQuiz +"response:" + JSON.stringify(response));
+            console.log("getParseQuizObject " + currentQuiz + "response:" + JSON.stringify(response));
 
             if (response != null) {
               var quiz = response.quiz;
@@ -114,7 +115,7 @@ module.exports = {
       }
 
     } catch (e) {
-        return false;
+      return false;
     }
     return true;
 
