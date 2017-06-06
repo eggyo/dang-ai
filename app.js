@@ -257,7 +257,9 @@ function receivedMessage(event) {
       messageId, appId, metadata);
     var results = _metadata.metadataProcess(recipientID,metadata);
     if (results.results != null) {
-
+      for (var i = 0; i < results.results.length; i++) {
+        callSendAPI(results.results[i]);
+      }
     }
     return;
   } else if (quickReply) {
