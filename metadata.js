@@ -101,10 +101,10 @@ module.exports = {
                 });
 
               }
+              responseData({
+                "results": [messageData]
+              });
             }
-            responseData({
-              "results": [messageData]
-            });
           });
 
 
