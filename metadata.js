@@ -14,11 +14,7 @@ request = require('request');
 
 module.exports = {
   metadataProcess: function(metadata, responseData) {
-    if (metadata == "DEVELOPER_DEFINED_METADATA") {
-
-    }else if (metadata == "GET_START_MSG_METADATA") {
-
-    } else {
+    try {
       var data = JSON.parse(metadata);
       var type = data.type;
       var userId = data.userId;
@@ -110,7 +106,12 @@ module.exports = {
         default:
           return;
       }
+    
+    } catch (e) {
+        return false;
     }
+    return true;
+
 
 
   }
