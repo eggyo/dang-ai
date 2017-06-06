@@ -69,7 +69,6 @@ module.exports = {
             }
           }
           getParseQuizObject(currentQuiz, function(response) {
-            console.log("getParseQuizObject " + currentQuiz + "response:" + JSON.stringify(response));
 
             if (response != null) {
               var quiz = response.quiz;
@@ -101,6 +100,8 @@ module.exports = {
                 });
               }
               messageData.message['quick_replies'] = quick_replies;
+              console.log("messageData " + JSON.stringify(messageData) + " quick_replies:" + JSON.stringify(quick_replies));
+
               responseData({
                 "results": [messageData]
               });
