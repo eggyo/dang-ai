@@ -180,9 +180,9 @@ function getParseQuizObject(objectId, responseMsg) {
 function parseQuizObjectToMessage(objectId, quizMsg) {
   getParseQuizObject(objectId, function(response) {
     if (response != null) {
-      var quiz = response.get('quiz');
-      var correct_ans = response.get('correct_ans');
-      var incorrect_ans = response.get('incorrect_ans');
+      var quiz = response.quiz;
+      var correct_ans = response.correct_ans;
+      var incorrect_ans = response.incorrect_ans;
       var correct_index = Math.floor(Math.random() * 4) + 1;
       var messageQuiz = quiz;
       var incorrect_index = 1;
