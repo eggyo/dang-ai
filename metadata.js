@@ -151,7 +151,6 @@ function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
 }
 
 function getParseQuizObject(objectId, responseMsg) {
-  console.log("callParseServerCloudCode:" + methodName + "\nrequestMsg:" + requestMsg);
   var options = {
     url: 'https://eggyo-quiz-db.herokuapp.com/parse/classes/Quiz/' + objectId,
     method: 'GET',
