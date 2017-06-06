@@ -18,7 +18,7 @@ const
     https = require('https'),
     request = require('request'),
     path = require('path'),
-    _postback = require('./postback.js');
+    _postback = require('./postback.js'),
     _metadata = require('./metadata.js');
 
 var app = express();
