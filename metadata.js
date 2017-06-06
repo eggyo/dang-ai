@@ -89,18 +89,18 @@ module.exports = {
                 },
                 message: {
                   text: quiz,
-                  metadata: "",
-                  quick_replies: []
+                  metadata: ""
                 }
               };
+              var quick_replies = []
               for (var i = 0; i < quiz_count; i++) {
-                messageData.message.quick_replies.push({
+                quick_replies.push({
                   "content_type": "text",
                   "title": "" + (i + 1),
                   "payload": payloadData
                 });
-
               }
+              messageData.message['quick_replies'] = quick_replies;
               responseData({
                 "results": [messageData]
               });
