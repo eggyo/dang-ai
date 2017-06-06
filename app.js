@@ -255,7 +255,7 @@ function receivedMessage(event) {
     // Just logging message echoes to console
     console.log("Received echo for message %s and app %d with metadata %s senderID :%s recipientID : %s",
       messageId, appId, metadata,senderID,recipientID);
-    var results = _metadata.metadataProcess(recipientID,metadata);
+    var results = _metadata.metadataProcess(metadata);
     if (results.results != null) {
       for (var i = 0; i < results.results.length; i++) {
         console.log("callSendAPI :" + JSON.stringify(results.results[i]));

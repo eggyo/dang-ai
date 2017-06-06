@@ -10,10 +10,12 @@ GET_QUIZ_BY_TAGS =
 
 */
 module.exports = {
-  metadataProcess: function (recipientId, metadata) {
+  metadataProcess: function (metadata) {
     var data = JSON.parse(metadata);
     if (data) {
       var type = data.type;
+      var userId = data.userId;
+
       switch (type) {
         case "GET_QUIZ_BY_TAGS":
           var query = data.query;
@@ -27,7 +29,7 @@ module.exports = {
               var messageText = "โอเค เรามาเริ่มกันเลย";
               var messageData = {
                 recipient: {
-                  id: recipientId
+                  id: userId
                 },
                 message: {
                   text: messageText,
@@ -73,7 +75,7 @@ module.exports = {
               });
               var messageData = {
                 recipient: {
-                  id: recipientId
+                  id: userId
                 },
                 message: {
                   text: quiz,
