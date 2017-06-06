@@ -68,6 +68,8 @@ module.exports = {
             }
           }
           getParseQuizObject(currentQuiz, function(response) {
+            console.log("getParseQuizObject "+currentQuiz +"response:" + JSON.stringify(response));
+
             if (response != null) {
               var quiz = response.quiz;
               var correct_index = response.correct_index;
