@@ -33,8 +33,9 @@
     <div class="container_2">
         <form id="contact" action="" method="post">
 
-            <fieldset>
-                <textarea placeholder="Type your quiz here...." tabindex="1" required autofocus id="textarea-quiz-standalone" style="height:500px"></textarea>
+            <label for="input-tags">Quiz Tags:</label>
+            <fieldset class="form-group">
+                <input type="text" id="input-tags" class="demo-default" tabindex="2">
             </fieldset>
 
             <fieldset>
@@ -52,6 +53,8 @@
 
 
     <script>
+        var currentTagsString = "";
+
         var userId = '';
         var pageToken = "EAAEXd2XKlTEBAFiCOWAwbvxrKeYq9m3ElhPZBpwR0Sn2nIeE8fnLFDGcGVR7TCCB6OegNcArLiXSl8I8eqLasjU0IzkSAhwicUxsHoepVygGgYcfIXiRnLdNkAOpD2azdVnx7GEUBJwe0beQ9tCB0ZABZCYavgDngTfzAd6DgZDZD";
         window.extAsyncInit = function() {
@@ -75,16 +78,68 @@
         }(document, 'script', 'Messenger'));
 
         function search() {
+            var tagArray = currentTagsString.split(',');
+
             var data = {
                 "recipient": {
                     "id": userId
                 },
                 "message": {
-                    "text": "send from web!"
+                    "text": "กำลังค้นหา Quiz จากการร้องขอ..",
+                    "metadata": {
+                        "type": "GET_QUIZ_BY_TAGS",
+                        "query": tagArray
+                    }
+
                 }
             };
             callSendAPI(JSON.stringify(data), function(response) {
                 document.getElementById('textarea-quiz-standalone').value = JSON.stringify(response);
+            });
+        }
+
+        getAllTag();
+
+        function getAllTag() {
+            var tags = [];
+            callParseServerCloudCode("getTags", null, function(response) {
+                if (response) {
+                    for (var i = 0; i < response.length; i++) {
+                        var v = JSON.stringify(response[i]);
+                        tags.push({
+                            text: v,
+                            value: v
+                        });
+                    }
+                    // selectize script
+                    $('#input-tags').selectize({
+                        plugins: ['remove_button'],
+                        persist: false,
+                        createOnBlur: true,
+                        delimiter: ',',
+                        create: true,
+                        options: tags,
+                        labelField: "text",
+                        valueField: "value",
+                        onChange: function(value) {
+                            currentTagsString = value;
+                        }
+                    });
+                } else {
+                    $('#input-tags').selectize({
+                        plugins: ['remove_button'],
+                        persist: false,
+                        createOnBlur: true,
+                        delimiter: ',',
+                        create: true,
+                        options: tags,
+                        labelField: "text",
+                        valueField: "value",
+                        onChange: function(value) {
+                            currentTagsString = value;
+                        }
+                    });
+                }
             });
         }
 
@@ -127,6 +182,7 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/standalone/selectize.min.js"></script>
 
     <!-- Scrolling Nav JavaScript -->
     <script src="js/jquery.easing.min.js"></script>
