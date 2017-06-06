@@ -158,8 +158,7 @@ function getParseQuizObject(objectId, responseMsg) {
       'Content-Type': 'application/json',
       'X-Parse-Application-Id': 'myAppId',
       'X-Parse-REST-API-Key': 'myRestKey'
-    },
-    body: {}
+    }
   };
 
   function callback(error, response, body) {
