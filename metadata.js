@@ -96,7 +96,7 @@ module.exports = {
               for (var i = 0; i < quiz_count; i++) {
                 quick_replies.push({
                   "content_type": "text",
-                  "title": "" + (i + 1),
+                  "title": i + 1,
                   "payload": payloadData
                 });
               }
