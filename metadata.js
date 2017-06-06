@@ -10,99 +10,98 @@ GET_QUIZ_BY_TAGS =
 
 */
 module.exports = {
-  metadataProcess: metadataProcess,
-  getParseQuizObject: getParseQuizObject
-};
+  metadataProcess: function (recipientId, metadata) {
+    var data = JSON.parse(metadata);
+    if (data) {
+      var type = data.type;
+      switch (type) {
+        case "GET_QUIZ_BY_TAGS":
+          var query = data.query;
+          var data = '{"tags":' + query + ',"limit":10}'
+          callParseServerCloudCode("getQuizsByTags", data, function(response) {
+            if (response) {
+              var messageText = "โอเค เรามาเริ่มกันเลย";
+              var messageData = {
+                recipient: {
+                  id: recipientId
+                },
+                message: {
+                  text: messageText,
+                  metadata: JSON.stringify({
+                    "type": "PLAY_QUIZ_STATE_FIRST",
+                    "data": response
+                  })
+                }
+              };
+              return {
+                "results": [messageData]
+              };
+            } else {
+              return;
+            }
+          });
+          break;
+        case "PLAY_QUIZ_STATE_FIRST":
+          var nextQuizs = [];
+          var currentQuiz = '';
+          var data = data.data;
+          for (var i = 0; i < data.length; i++) {
+            var object = data[i];
+            var objectId = object.objectId;
+            if (i != 0) {
+              nextQuizs.push(objectId);
+            } else {
+              currentQuiz = objectId;
+            }
+          }
+          getParseQuizObject(currentQuiz, function(response) {
+            if (response != null) {
+              var quiz = response.quiz;
+              var correct_index = response.correct_index;
+              var quiz_count = response.quiz_count;
+              var payloadData = JSON.stringify({
+                "type": "PLAY_QUIZ_STATE_NEXT",
+                "nextQuizs": nextQuizs,
+                "currentQuiz":currentQuiz,
+                "quiz_count":quiz_count,
+                "score":0,
+                "correct_index":correct_index
+              });
+              var messageData = {
+                recipient: {
+                  id: recipientId
+                },
+                message: {
+                  text: quiz,
+                  metadata: "",
+                  quick_replies: []
+                }
+              };
+              for (var i = 0; i < quiz_count.length; i++) {
+                messageData.message.quick_replies.push({
+                  "content_type":"text",
+                  "title":""+(i+1),
+                  "payload":payloadData
+                });
 
-function metadataProcess(recipientId, metadata) {
-  var data = JSON.parse(metadata);
-  if (data) {
-    var type = data.type;
-    switch (type) {
-      case "GET_QUIZ_BY_TAGS":
-        var query = data.query;
-        var data = '{"tags":' + query + ',"limit":10}'
-        callParseServerCloudCode("getQuizsByTags", data, function(response) {
-          if (response) {
-            var messageText = "โอเค เรามาเริ่มกันเลย";
-            var messageData = {
-              recipient: {
-                id: recipientId
-              },
-              message: {
-                text: messageText,
-                metadata: JSON.stringify({
-                  "type": "PLAY_QUIZ_STATE_FIRST",
-                  "data": response
-                })
               }
-            };
+            }
             return {
               "results": [messageData]
             };
-          } else {
-            return;
-          }
-        });
-        break;
-      case "PLAY_QUIZ_STATE_FIRST":
-        var nextQuizs = [];
-        var currentQuiz = '';
-        var data = data.data;
-        for (var i = 0; i < data.length; i++) {
-          var object = data[i];
-          var objectId = object.objectId;
-          if (i != 0) {
-            nextQuizs.push(objectId);
-          } else {
-            currentQuiz = objectId;
-          }
-        }
-        getParseQuizObject(currentQuiz, function(response) {
-          if (response != null) {
-            var quiz = response.quiz;
-            var correct_index = response.correct_index;
-            var quiz_count = response.quiz_count;
-            var payloadData = JSON.stringify({
-              "type": "PLAY_QUIZ_STATE_NEXT",
-              "nextQuizs": nextQuizs,
-              "currentQuiz":currentQuiz,
-              "quiz_count":quiz_count,
-              "score":0,
-              "correct_index":correct_index
-            });
-            var messageData = {
-              recipient: {
-                id: recipientId
-              },
-              message: {
-                text: quiz,
-                metadata: "",
-                quick_replies: []
-              }
-            };
-            for (var i = 0; i < quiz_count.length; i++) {
-              messageData.message.quick_replies.push({
-                "content_type":"text",
-                "title":""+(i+1),
-                "payload":payloadData
-              });
-
-            }
-          }
-          return {
-            "results": [messageData]
-          };
-        });
+          });
 
 
-        break;
+          break;
 
-      default:
-        return;
+        default:
+          return;
+      }
     }
   }
-}
+};
+
+
 
 function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
   var xhr = new XMLHttpRequest();
