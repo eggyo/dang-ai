@@ -65,6 +65,9 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 app.get('/createquiz', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/createQuiz.html'));
 });
+app.get('/searchquiz', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/searchQuiz.html'));
+});
 app.get('/json-upload-to-parse', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/json-upload-to-parse.html'));
 });

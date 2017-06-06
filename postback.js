@@ -45,15 +45,17 @@ module.exports = {
                 type: "template",
                 payload: {
                   template_type: "button",
-                  text: "คุณต้องการทำอะไร?",
+                  text: "ตัวเลือกก่อนเริ่ม",
                   buttons:[{
                     type: "postback",
                     payload: "PLAY_QUIZ_PAYLOAD",
                     title: "เล่น Quiz"
                   }, {
                     type: "web_url",
-                    url: "https://www.oculus.com/en-us/rift/",
-                    title: "สร้าง Quiz"
+                    url: "https://dang-ai.herokuapp.com/searchquiz",
+                    title: "ค้นหา Quiz",
+                    messenger_extensions: true,
+                    webview_height_ratio: "tall"
                   }]}}}};
                   return {"results":[templateData]};
               break;
