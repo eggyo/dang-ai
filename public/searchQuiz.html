@@ -86,11 +86,10 @@
                 },
                 "message": {
                     "text": "กำลังค้นหา Quiz จากการร้องขอ..",
-                    "metadata": {
+                    "metadata": JSON.stringify({
                         "type": "GET_QUIZ_BY_TAGS",
-                        "query": JSON.stringify(tagArray)
-                    }
-
+                        "query": tagArray
+                    })
                 }
             };
             callSendAPI(JSON.stringify(data), function(response) {
