@@ -9,6 +9,9 @@ GET_QUIZ_BY_TAGS =
 ---------------
 
 */
+request = require('request');
+
+
 module.exports = {
   metadataProcess: function(metadata, responseData) {
     if (metadata == "DEVELOPER_DEFINED_METADATA") {
@@ -112,41 +115,58 @@ module.exports = {
 };
 
 
-
 function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/' + methodName, true);
-  xhr.setRequestHeader('Content-type', 'application/json');
-  xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
-  xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
-
-  xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var myArr = JSON.parse(this.responseText);
-      responseMsg(myArr.result);
-    }
+  console.log("callParseServerCloudCode:" + methodName + "\nrequestMsg:" + requestMsg);
+  var options = {
+    url: 'https://eggyo-quiz-db.herokuapp.com/parse/functions/' + methodName,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Parse-Application-Id': 'myAppId',
+      'X-Parse-REST-API-Key': 'myRestKey'
+    },
+    body: requestMsg
   };
 
-  xhr.send(requestMsg);
+  function callback(error, response, body) {
+    console.log("response:" + JSON.stringify(response));
+    if (!error && response.statusCode == 200) {
+      var info = JSON.parse(body);
+      responseMsg(info.result);
+    } else {
+      console.error("Unable to send message. Error :" + error);
+    }
+  }
+  request(options, callback);
 }
-
 
 function getParseQuizObject(objectId, responseMsg) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/classes/Quiz/' + objectId, true);
-  xhr.setRequestHeader('Content-type', 'application/json');
-  xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
-  xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
-
-  xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var res = JSON.parse(this.responseText);
-      responseMsg(res);
-    }
+  console.log("callParseServerCloudCode:" + methodName + "\nrequestMsg:" + requestMsg);
+  var options = {
+    url: 'https://eggyo-quiz-db.herokuapp.com/parse/classes/Quiz/' + objectId,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Parse-Application-Id': 'myAppId',
+      'X-Parse-REST-API-Key': 'myRestKey'
+    },
+    body: {}
   };
 
-  xhr.send();
+  function callback(error, response, body) {
+    console.log("response:" + JSON.stringify(response));
+    if (!error && response.statusCode == 200) {
+      var info = JSON.parse(body);
+      responseMsg(info);
+    } else {
+      console.error("Unable to send message. Error :" + error);
+    }
+  }
+  request(options, callback);
 }
+
+
+
 
 function parseQuizObjectToMessage(objectId, quizMsg) {
   getParseQuizObject(objectId, function(response) {
