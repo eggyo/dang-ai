@@ -10,10 +10,10 @@ GET_QUIZ_BY_TAGS =
 
 */
 module.exports = {
-  metadataProcess: function(metadata) {
+  metadataProcess: function(metadata, responseData) {
     if (metadata == "DEVELOPER_DEFINED_METADATA") {
 
-    }else {
+    } else {
       var data = JSON.parse(metadata);
       var type = data.type;
       var userId = data.userId;
@@ -41,9 +41,9 @@ module.exports = {
                   })
                 }
               };
-              return {
+              responseData({
                 "results": [messageData]
-              };
+              });
             } else {
               return;
             }
@@ -94,9 +94,9 @@ module.exports = {
 
               }
             }
-            return {
+            responseData({
               "results": [messageData]
-            };
+            });
           });
 
 
