@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
     payloadProcess: function(recipientId, payload) {
         switch (payload) {

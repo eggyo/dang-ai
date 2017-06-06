@@ -9,6 +9,8 @@ GET_QUIZ_BY_TAGS =
 ---------------
 
 */
+'use strict';
+
 module.exports = {
     metadataProcess: function(metadata) {
         var data = JSON.parse(metadata);
