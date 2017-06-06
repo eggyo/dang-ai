@@ -68,7 +68,7 @@ module.exports = {
               currentQuiz = objectId;
             }
           }
-          getParseQuizObject(currentQuiz, function(response) {
+          parseQuizObjectToMessage(currentQuiz, function(response) {
 
             if (response != null) {
               var quiz = response.quiz;
