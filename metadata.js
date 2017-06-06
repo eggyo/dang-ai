@@ -11,97 +11,102 @@ GET_QUIZ_BY_TAGS =
 */
 module.exports = {
   metadataProcess: function(metadata) {
-    var data = JSON.parse(metadata);
-    var type = data.type;
-    var userId = data.userId;
+    if (metadata == "DEVELOPER_DEFINED_METADATA") {
 
-    switch (type) {
-      case "GET_QUIZ_BY_TAGS":
-        var query = data.query;
-        var data = '{"tags":' + query + ',"limit":10}'
-        console.log("data:" + JSON.stringify(data));
+    }else {
+      var data = JSON.parse(metadata);
+      var type = data.type;
+      var userId = data.userId;
 
-        callParseServerCloudCode("getQuizsByTags", data, function(response) {
-          if (response) {
-            console.log("getQuizsByTags response:" + JSON.stringify(response));
+      switch (type) {
+        case "GET_QUIZ_BY_TAGS":
+          var query = data.query;
+          var data = '{"tags":' + query + ',"limit":10}'
+          console.log("data:" + JSON.stringify(data));
 
-            var messageText = "โอเค เรามาเริ่มกันเลย";
-            var messageData = {
-              recipient: {
-                id: userId
-              },
-              message: {
-                text: messageText,
-                metadata: JSON.stringify({
-                  "type": "PLAY_QUIZ_STATE_FIRST",
-                  "data": response
-                })
+          callParseServerCloudCode("getQuizsByTags", data, function(response) {
+            if (response) {
+              console.log("getQuizsByTags response:" + JSON.stringify(response));
+
+              var messageText = "โอเค เรามาเริ่มกันเลย";
+              var messageData = {
+                recipient: {
+                  id: userId
+                },
+                message: {
+                  text: messageText,
+                  metadata: JSON.stringify({
+                    "type": "PLAY_QUIZ_STATE_FIRST",
+                    "data": response
+                  })
+                }
+              };
+              return {
+                "results": [messageData]
+              };
+            } else {
+              return;
+            }
+          });
+          break;
+        case "PLAY_QUIZ_STATE_FIRST":
+          var nextQuizs = [];
+          var currentQuiz = '';
+          var data = data.data;
+          for (var i = 0; i < data.length; i++) {
+            var object = data[i];
+            var objectId = object.objectId;
+            if (i != 0) {
+              nextQuizs.push(objectId);
+            } else {
+              currentQuiz = objectId;
+            }
+          }
+          getParseQuizObject(currentQuiz, function(response) {
+            if (response != null) {
+              var quiz = response.quiz;
+              var correct_index = response.correct_index;
+              var quiz_count = response.quiz_count;
+              var payloadData = JSON.stringify({
+                "type": "PLAY_QUIZ_STATE_NEXT",
+                "nextQuizs": nextQuizs,
+                "currentQuiz": currentQuiz,
+                "quiz_count": quiz_count,
+                "score": 0,
+                "correct_index": correct_index
+              });
+              var messageData = {
+                recipient: {
+                  id: userId
+                },
+                message: {
+                  text: quiz,
+                  metadata: "",
+                  quick_replies: []
+                }
+              };
+              for (var i = 0; i < quiz_count.length; i++) {
+                messageData.message.quick_replies.push({
+                  "content_type": "text",
+                  "title": "" + (i + 1),
+                  "payload": payloadData
+                });
+
               }
-            };
+            }
             return {
               "results": [messageData]
             };
-          } else {
-            return;
-          }
-        });
-        break;
-      case "PLAY_QUIZ_STATE_FIRST":
-        var nextQuizs = [];
-        var currentQuiz = '';
-        var data = data.data;
-        for (var i = 0; i < data.length; i++) {
-          var object = data[i];
-          var objectId = object.objectId;
-          if (i != 0) {
-            nextQuizs.push(objectId);
-          } else {
-            currentQuiz = objectId;
-          }
-        }
-        getParseQuizObject(currentQuiz, function(response) {
-          if (response != null) {
-            var quiz = response.quiz;
-            var correct_index = response.correct_index;
-            var quiz_count = response.quiz_count;
-            var payloadData = JSON.stringify({
-              "type": "PLAY_QUIZ_STATE_NEXT",
-              "nextQuizs": nextQuizs,
-              "currentQuiz": currentQuiz,
-              "quiz_count": quiz_count,
-              "score": 0,
-              "correct_index": correct_index
-            });
-            var messageData = {
-              recipient: {
-                id: userId
-              },
-              message: {
-                text: quiz,
-                metadata: "",
-                quick_replies: []
-              }
-            };
-            for (var i = 0; i < quiz_count.length; i++) {
-              messageData.message.quick_replies.push({
-                "content_type": "text",
-                "title": "" + (i + 1),
-                "payload": payloadData
-              });
-
-            }
-          }
-          return {
-            "results": [messageData]
-          };
-        });
+          });
 
 
-        break;
+          break;
 
-      default:
-        return;
+        default:
+          return;
+      }
     }
+
 
   }
 };
