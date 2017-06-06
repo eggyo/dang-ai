@@ -18,8 +18,12 @@ module.exports = {
         case "GET_QUIZ_BY_TAGS":
           var query = data.query;
           var data = '{"tags":' + query + ',"limit":10}'
+          console.log("data:" + JSON.stringify(data));
+
           callParseServerCloudCode("getQuizsByTags", data, function(response) {
             if (response) {
+              console.log("getQuizsByTags response:" + JSON.stringify(response));
+
               var messageText = "โอเค เรามาเริ่มกันเลย";
               var messageData = {
                 recipient: {

@@ -258,6 +258,7 @@ function receivedMessage(event) {
     var results = _metadata.metadataProcess(recipientID,metadata);
     if (results.results != null) {
       for (var i = 0; i < results.results.length; i++) {
+        console.log("callSendAPI :" + JSON.stringify(results.results[i]));
         callSendAPI(results.results[i]);
       }
     }
