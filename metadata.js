@@ -93,7 +93,7 @@ module.exports = {
                   quick_replies: []
                 }
               };
-              for (var i = 0; i < quiz_count.length; i++) {
+              for (var i = 0; i < quiz_count; i++) {
                 messageData.message.quick_replies.push({
                   "content_type": "text",
                   "title": "" + (i + 1),
