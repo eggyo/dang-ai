@@ -16,6 +16,8 @@ module.exports = {
   metadataProcess: function(metadata, responseData) {
     if (metadata == "DEVELOPER_DEFINED_METADATA") {
 
+    }else if (metadata == "GET_START_MSG_METADATA") {
+
     } else {
       var data = JSON.parse(metadata);
       var type = data.type;
