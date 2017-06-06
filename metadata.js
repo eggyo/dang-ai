@@ -27,8 +27,13 @@ module.exports = {
 
           callParseServerCloudCode("getQuizsByTags", data, function(response) {
             if (response) {
+              var dataResponse = [];
               console.log("getQuizsByTags response:" + JSON.stringify(response));
-
+              for (var i = 0; i < response.length; i++) {
+                var obj = response[i]
+                var objectId = obj.objectId;
+                dataResponse.push(objectId);
+              }
               var messageText = "โอเค เรามาเริ่มกันเลย";
               var messageData = {
                 recipient: {
@@ -38,7 +43,7 @@ module.exports = {
                   text: messageText,
                   metadata: JSON.stringify({
                     "type": "PLAY_QUIZ_STATE_FIRST",
-                    "data": response
+                    "data": dataResponse
                   })
                 }
               };
@@ -55,8 +60,7 @@ module.exports = {
           var currentQuiz = '';
           var data = data.data;
           for (var i = 0; i < data.length; i++) {
-            var object = data[i];
-            var objectId = object.objectId;
+            var objectId = data[i];
             if (i != 0) {
               nextQuizs.push(objectId);
             } else {
