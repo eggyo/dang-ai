@@ -1,5 +1,5 @@
 module.exports = {
-  payloadProcess: function(recipientId, payload,responseData) {
+  payloadProcess: function(recipientId, payload, responseData) {
     try {
       var data = JSON.parse(payload);
       var type = data.type;
@@ -9,6 +9,7 @@ module.exports = {
           var nextQuizs = data.nextQuizs;
           var currentQuiz = data.currentQuiz;
           var choice_count = data.choice_count;
+          var quiz_count = data.quiz_count;
           var score = data.score;
           var correct_index = data.correct_index;
           var payload_index = data.payload_index;
@@ -21,7 +22,7 @@ module.exports = {
                 id: recipientId
               },
               message: {
-                text: "ถูกต้อง! คุณได้คะแนน" + score + "/10 เริ่มข้อต่อไปเลยนะ",
+                text: "ถูกต้อง! คุณได้คะแนน" + score + "/" + quiz_count + " \n เฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ",
                 metadata: ""
               }
             };
@@ -32,7 +33,7 @@ module.exports = {
                 id: recipientId
               },
               message: {
-                text: "คุณตอบผิด! คุณได้คะแนน" + score + "/10 เริ่มข้อต่อไปเลยนะ",
+                text: "คุณตอบผิด! คุณได้คะแนน" + score + "/" + quiz_count + "\n เฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ",
                 metadata: ""
               }
             };
@@ -58,6 +59,7 @@ module.exports = {
                   "nextQuizs": newNextQuizs,
                   "currentQuiz": currentQuiz,
                   "choice_count": choice_count,
+                  "quiz_count": quiz_count,
                   "score": score,
                   "correct_index": correct_index
                 };
@@ -84,8 +86,8 @@ module.exports = {
 
                 responseData({
                   "results": {
-                    "messageText":messageText,
-                    "quizData":messageData
+                    "messageText": messageText,
+                    "quizData": messageData
                   }
                 });
               }
@@ -101,6 +103,7 @@ module.exports = {
                   "type": "PLAY_QUIZ_STATE_LAST",
                   "currentQuiz": currentQuiz,
                   "choice_count": choice_count,
+                  "quiz_count": quiz_count,
                   "score": score,
                   "correct_index": correct_index
                 };
@@ -127,17 +130,18 @@ module.exports = {
 
                 responseData({
                   "results": {
-                    "messageText":messageText,
-                    "quizData":messageData
+                    "messageText": messageText,
+                    "quizData": messageData
                   }
                 });
               }
             });
           }
           break;
-          case "PLAY_QUIZ_STATE_LAST":
+        case "PLAY_QUIZ_STATE_LAST":
           var currentQuiz = data.currentQuiz;
           var choice_count = data.choice_count;
+          var quiz_count = data.quiz_count;
           var score = data.score;
           var correct_index = data.correct_index;
           var payload_index = data.payload_index;
@@ -150,7 +154,7 @@ module.exports = {
                 id: recipientId
               },
               message: {
-                text: "ถูกต้อง! คุณได้คะแนน" + score + "/10",
+                text: "ถูกต้อง! คุณได้คะแนน" + score + "/" + quiz_count + "\n เฉลย : " + correct_index,
                 metadata: ""
               }
             };
@@ -161,15 +165,15 @@ module.exports = {
                 id: recipientId
               },
               message: {
-                text: "คุณตอบผิด! คุณได้คะแนน" + score + "/10",
+                text: "คุณตอบผิด! คุณได้คะแนน" + score + "/" + quiz_count + "\n เฉลย : " + correct_index,
                 metadata: ""
               }
             };
           }
           if (score > 5) {
-            messageText.message.text += " ผ่าน!!"
-          }else {
-            messageText.message.text += " ไม่ผ่าน!!"
+            messageText.message.text += "\nผลการทดสอบ : ผ่าน!!"
+          } else {
+            messageText.message.text += "\nผลการทดสอบ : ไม่ผ่าน!!"
           }
           var templateData = {
             recipient: {
@@ -199,8 +203,8 @@ module.exports = {
 
           responseData({
             "results": {
-              "messageText":messageText,
-              "quizData":templateData
+              "messageText": messageText,
+              "quizData": templateData
             }
           });
 

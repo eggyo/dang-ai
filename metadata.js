@@ -59,9 +59,9 @@ module.exports = {
         case "PLAY_QUIZ_STATE_FIRST":
           var nextQuizs = [];
           var currentQuiz = '';
-          var data = data.data;
-          for (var i = 0; i < data.length; i++) {
-            var objectId = data[i];
+          var quizData = data.data;
+          for (var i = 0; i < quizData.length; i++) {
+            var objectId = quizData[i];
             if (i != 0) {
               nextQuizs.push(objectId);
             } else {
@@ -79,10 +79,11 @@ module.exports = {
                 "nextQuizs": nextQuizs,
                 "currentQuiz": currentQuiz,
                 "choice_count": choice_count,
+                "quiz_count": quizData.length,
                 "score": 0,
                 "correct_index": correct_index
               };
-              
+
               var messageData = {
                 recipient: {
                   id: userId
