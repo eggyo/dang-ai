@@ -134,8 +134,75 @@ module.exports = {
               }
             });
           }
+          break;
+          case "PLAY_QUIZ_STATE_LAST":
+          var currentQuiz = data.currentQuiz;
+          var choice_count = data.choice_count;
+          var score = data.score;
+          var correct_index = data.correct_index;
+          var payload_index = data.payload_index;
+          var messageText;
+          if (payload_index == correct_index) {
+            // correct
+            score += 1;
+            messageText = {
+              recipient: {
+                id: recipientId
+              },
+              message: {
+                text: "ถูกต้อง! คุณได้คะแนน" + score + "/10",
+                metadata: ""
+              }
+            };
+          } else {
+            // incorrect
+            messageText = {
+              recipient: {
+                id: recipientId
+              },
+              message: {
+                text: "คุณตอบผิด! คุณได้คะแนน" + score + "/10",
+                metadata: ""
+              }
+            };
+          }
+          if (score > 5) {
+            messageText.message.text += " ผ่าน!!"
+          }else {
+            messageText.message.text += " ไม่ผ่าน!!"
+          }
+          var templateData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              attachment: {
+                type: "template",
+                payload: {
+                  template_type: "button",
+                  text: "คุณต้องการทำอะไรต่อ?",
+                  buttons: [{
+                    type: "postback",
+                    payload: "PLAY_QUIZ_PAYLOAD",
+                    title: "เล่น Quiz"
+                  }, {
+                    type: "web_url",
+                    url: "https://dang-ai.herokuapp.com/createquiz",
+                    title: "สร้าง Quiz",
+                    messenger_extensions: true,
+                    webview_height_ratio: "tall"
+                  }]
+                }
+              }
+            }
+          };
 
-
+          responseData({
+            "results": {
+              "messageText":messageText,
+              "quizData":templateData
+            }
+          });
 
 
           break;
