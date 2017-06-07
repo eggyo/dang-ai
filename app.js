@@ -19,6 +19,7 @@ const
   request = require('request'),
   path = require('path'),
   _postback = require('./postback.js'),
+  _quickreply = require('./quickreply.js'),
   _metadata = require('./metadata.js');
 
 var app = express();
@@ -269,7 +270,13 @@ function receivedMessage(event) {
     console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
 
-    sendTextMessage(senderID, "Quick reply tapped");
+    //sendTextMessage(senderID, "Quick reply tapped");
+    var results = _quickreply.payloadProcess(senderID, quickReplyPayload);
+    if (results.results != null) {
+      for (var i = 0; i < results.results.length; i++) {
+        callSendAPI(results.results[i]);
+      }
+    }
     return;
   }
 

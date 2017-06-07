@@ -73,15 +73,15 @@ module.exports = {
             if (response != null) {
               var quiz = response.quiz;
               var correct_index = response.correct_index;
-              var quiz_count = response.quiz_count;
-              var payloadData = JSON.stringify({
+              var choice_count = response.choice_count;
+              var payloadData = {
                 "type": "PLAY_QUIZ_STATE_NEXT",
                 "nextQuizs": nextQuizs,
                 "currentQuiz": currentQuiz,
-                "quiz_count": quiz_count,
+                "choice_count": choice_count,
                 "score": 0,
                 "correct_index": correct_index
-              });
+              };
               var messageData = {
                 recipient: {
                   id: userId
@@ -92,11 +92,12 @@ module.exports = {
                 }
               };
               var quick_replies = []
-              for (var i = 0; i < quiz_count; i++) {
+              for (var i = 0; i < choice_count; i++) {
+                payloadData['payload_index'] = i + 1;
                 quick_replies.push({
                   "content_type": "text",
                   "title": i + 1,
-                  "payload": payloadData
+                  "payload": JSON.stringify(payloadData)
                 });
               }
               messageData.message['quick_replies'] = quick_replies;
@@ -206,7 +207,7 @@ function parseQuizObjectToMessage(objectId, quizMsg) {
       quizMsg({
         quiz: messageQuiz,
         correct_index: correct_index,
-        quiz_count: incorrect_ans.length + 1
+        choice_count: incorrect_ans.length + 1
       });
     } else {
       quizMsg({});
