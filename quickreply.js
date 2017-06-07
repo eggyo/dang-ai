@@ -83,7 +83,10 @@ module.exports = {
                 console.log("messageData " + JSON.stringify(messageData) + " quick_replies:" + JSON.stringify(quick_replies));
 
                 responseData({
-                  "results": [messageText, messageData]
+                  "results": {
+                    "messageText":messageText,
+                    "quizData":messageData
+                  }
                 });
               }
             });
@@ -123,7 +126,10 @@ module.exports = {
                 console.log("messageData " + JSON.stringify(messageData) + " quick_replies:" + JSON.stringify(quick_replies));
 
                 responseData({
-                  "results": [messageText, messageData]
+                  "results": {
+                    "messageText":messageText,
+                    "quizData":messageData
+                  }
                 });
               }
             });

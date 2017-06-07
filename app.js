@@ -255,8 +255,8 @@ function receivedMessage(event) {
   if (isEcho) {
     // Just logging message echoes to console
     console.log("Received echo for message %s and app %d with metadata %s senderID :%s recipientID : %s",
-      messageId, appId, metadata,senderID,recipientID);
-    _metadata.metadataProcess(metadata,function(results) {
+      messageId, appId, metadata, senderID, recipientID);
+    _metadata.metadataProcess(metadata, function(results) {
       if (results.results != null) {
         for (var i = 0; i < results.results.length; i++) {
           console.log("callSendAPI :" + JSON.stringify(results.results[i]));
@@ -271,11 +271,13 @@ function receivedMessage(event) {
       messageId, quickReplyPayload);
 
     //sendTextMessage(senderID, "Quick reply tapped");
-    _quickreply.payloadProcess(senderID, quickReplyPayload,function(results) {
+    _quickreply.payloadProcess(senderID, quickReplyPayload, function(results) {
       if (results.results != null) {
-        for (var i = 0; i < results.results.length; i++) {
-          callSendAPI(results.results[i]);
-        }
+        callSendAPI(results.results.messageText);
+        setTimeout(function() {
+          callSendAPI(results.results.quizData);
+        }, 1000);
+
       }
       return;
     });

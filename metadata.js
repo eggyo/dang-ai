@@ -82,6 +82,7 @@ module.exports = {
                 "score": 0,
                 "correct_index": correct_index
               };
+              
               var messageData = {
                 recipient: {
                   id: userId
