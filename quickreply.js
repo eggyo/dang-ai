@@ -1,5 +1,5 @@
 module.exports = {
-  payloadProcess: function(recipientId, payload) {
+  payloadProcess: function(recipientId, payload,responseData) {
     try {
       var data = JSON.parse(payload);
       var type = data.type;
@@ -196,11 +196,11 @@ function parseQuizObjectToMessage(objectId, quizMsg) {
         } else {
           messageQuiz += "\n" + (incorrect_index) + ". " + inc;
           incorrect_index += 1;
-          if (incorrect_index == correct_index) {
-            messageQuiz += "\n" + (correct_index) + ". " + correct_ans;
-
-          }
         }
+      }
+      if ((incorrect_ans.length + 1) == correct_index) {
+        messageQuiz += "\n" + (correct_index) + ". " + correct_ans;
+
       }
       quizMsg({
         quiz: messageQuiz,

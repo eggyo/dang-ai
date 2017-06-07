@@ -271,13 +271,15 @@ function receivedMessage(event) {
       messageId, quickReplyPayload);
 
     //sendTextMessage(senderID, "Quick reply tapped");
-    var results = _quickreply.payloadProcess(senderID, quickReplyPayload);
-    if (results.results != null) {
-      for (var i = 0; i < results.results.length; i++) {
-        callSendAPI(results.results[i]);
+    _quickreply.payloadProcess(senderID, quickReplyPayload,function(results) {
+      if (results.results != null) {
+        for (var i = 0; i < results.results.length; i++) {
+          callSendAPI(results.results[i]);
+        }
       }
-    }
-    return;
+      return;
+    });
+
   }
 
   if (messageText) {
