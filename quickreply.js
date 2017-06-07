@@ -22,7 +22,7 @@ module.exports = {
               },
               message: {
                 text: "ถูกต้อง! คุณได้คะแนน" + score + "/10 เริ่มข้อต่อไปเลยนะ",
-                metadata: "GET_START_MSG_METADATA"
+                metadata: ""
               }
             };
           } else {
@@ -33,7 +33,7 @@ module.exports = {
               },
               message: {
                 text: "คุณตอบผิด! คุณได้คะแนน" + score + "/10 เริ่มข้อต่อไปเลยนะ",
-                metadata: "GET_START_MSG_METADATA"
+                metadata: ""
               }
             };
           }
@@ -55,7 +55,7 @@ module.exports = {
                 var choice_count = response.choice_count;
                 var payloadData = {
                   "type": "PLAY_QUIZ_STATE_NEXT",
-                  "nextQuizs": nextQuizs,
+                  "nextQuizs": newNextQuizs,
                   "currentQuiz": currentQuiz,
                   "choice_count": choice_count,
                   "score": score,
