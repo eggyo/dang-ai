@@ -189,7 +189,7 @@ function parseQuizObjectToMessage(objectId, quizMsg) {
       for (var i = 0; i < incorrect_ans.length; i++) {
         var inc = incorrect_ans[i];
         if ((i + 1) == correct_index) {
-          messageQuiz += "\n" + (i + 1) + ". " + correct_ans;
+          messageQuiz += "\n" + (correct_index) + ". " + correct_ans;
           incorrect_index += 1;
           messageQuiz += "\n" + (incorrect_index) + ". " + inc;
           incorrect_index += 1;
@@ -197,6 +197,10 @@ function parseQuizObjectToMessage(objectId, quizMsg) {
         } else {
           messageQuiz += "\n" + (incorrect_index) + ". " + inc;
           incorrect_index += 1;
+          if (incorrect_index == correct_index) {
+            messageQuiz += "\n" + (correct_index) + ". " + correct_ans;
+
+          }
         }
       }
       quizMsg({
