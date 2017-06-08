@@ -107,7 +107,10 @@ module.exports = {
           var tags = data.tags;
           var count = data.count;
           var name = data.name;
-          var tagArray = tags.split(',');
+          var tagArray = []];
+          for (var i = 0; i < tags.length; i++) {
+            tagArray.push(tags[i]);
+          }
           console.log("tags:"+tags+"  tagArray:" + tagArray);
 
           var messageData = {
