@@ -107,10 +107,8 @@ module.exports = {
           var tags = data.tags;
           var count = data.count;
           var name = data.name;
-          var tagArray = [];
-          for (var i = 0; i < tags.length; i++) {
-            tagArray.push(tags[i]);
-          }
+          var tagArray = JSON.stringify(tags);
+
           console.log("tags:"+tags+"  tagArray:" + tagArray);
 
           var messageData = {
