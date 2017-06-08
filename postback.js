@@ -79,7 +79,7 @@ module.exports = {
                   buttons: [{
                     type: "postback",
                     payload: JSON.stringify({
-                      type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ"
+                      type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ",
                       tags: tags,
                       count: count,
                       name: name
