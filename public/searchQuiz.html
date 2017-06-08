@@ -79,7 +79,7 @@
 
     function search() {
       var tagArray = currentTagsString.split(',');
-      var tags = JSON.stringify(tagArray);
+      //var tags = JSON.stringify(tagArray);
 
       var data = {
         recipient: {
@@ -89,13 +89,13 @@
           text: "กำลังค้นหา Quiz จากการร้องขอ..",
           metadata: JSON.stringify({
             type: "GET_QUIZ_BY_TAGS",
-            query: tags,
+            query: tagArray,
             userId: userId,
             limit: 10
           })
         }
       };
-      callSendAPI(data, function(response) {
+      callSendAPI(JSON.stringify(data), function(response) {
         document.getElementById('textarea-quiz-standalone').value = JSON.stringify(response);
       });
     }
