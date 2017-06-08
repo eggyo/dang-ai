@@ -1,4 +1,3 @@
-
 var request = require('request');
 
 module.exports = {
@@ -190,7 +189,9 @@ module.exports = {
                   text: "คุณต้องการทำอะไรต่อ?",
                   buttons: [{
                     type: "postback",
-                    payload: "PLAY_QUIZ_PAYLOAD",
+                    payload: JSON.stringify({
+                      "type": "PLAY_QUIZ_PAYLOAD"
+                    }),
                     title: "เล่น Quiz"
                   }, {
                     type: "web_url",
