@@ -95,7 +95,7 @@
           })
         }
       };
-      callSendAPI(JSON.stringify(data), function(response) {
+      callSendAPI(data, function(response) {
         document.getElementById('textarea-quiz-standalone').value = JSON.stringify(response);
       });
     }
