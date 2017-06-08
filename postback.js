@@ -108,6 +108,7 @@ module.exports = {
           var count = data.count;
           var name = data.name;
           var tagArray = tags.split(',');
+          console.log("tags:"+tags+"  tagArray:" + tagArray);
 
           var messageData = {
             recipient: {
