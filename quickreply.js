@@ -1,3 +1,6 @@
+
+var request = require('request');
+
 module.exports = {
   payloadProcess: function(recipientId, payload, responseData) {
     try {
