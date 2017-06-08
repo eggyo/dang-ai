@@ -95,12 +95,12 @@ module.exports = {
                 };
                 messageData.message.attachment.payload.elements.push(element);
               }
-
+              result({
+                "results": [messageData]
+              });
             }
           });
-          result({
-            "results": [messageData]
-          });
+
           break;
         case "PLAY_QUIZ_FROM_SAMPLE_QUIZ":
           var tags = data.tags;
