@@ -30,7 +30,7 @@ module.exports = {
           };
           console.log("userID:" + userId + "  data:" + JSON.stringify(data));
 
-          callParseServerCloudCode("getQuizsByTags", data, function(response) {
+          callParseServerCloudCode("getQuizsByTags", JSON.stringify(data), function(response) {
             if (response) {
               var dataResponse = [];
               console.log("getQuizsByTags response:" + JSON.stringify(response));
