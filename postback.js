@@ -73,10 +73,7 @@ module.exports = {
                 var tags = obj.tags;
                 var count = obj.count;
                 var name = obj.name;
-                var tagsArray = [];
-                for (var i = 0; i < tags.length; i++) {
-                  tagsArray.push(tags[i]);
-                }
+
                 var element = {
                   title: name,
                   subtitle: "ทำปัญหาชุดนี้กด Start หรือค้นหาเอง\nกด ค้นหา Quiz",
@@ -84,7 +81,7 @@ module.exports = {
                     type: "postback",
                     payload: JSON.stringify({
                       type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ",
-                      tags: tagsArray,
+                      tags: tags,
                       count: count,
                       name: name
                     }),
