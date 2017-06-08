@@ -10,9 +10,7 @@ GET_QUIZ_BY_TAGS =
 
 */
 var request = require('request');
-delete Object.prototype.toJSON;
-delete Array.prototype.toJSON;
-delete String.prototype.toJSON;
+
 module.exports = {
   metadataProcess: function(metadata, responseData) {
     try {
@@ -24,14 +22,14 @@ module.exports = {
       switch (type) {
         case "GET_QUIZ_BY_TAGS":
           var query = data.query;
-          //var data = '{"tags":' + JSON.parse(query) + ',"limit":'+limit+'}'
-          var data = {
+          var taggg = JSON.stringify(query);
+          var data = '{"tags":' + JSON.parse(taggg) + ',"limit":'+limit+'}'
+          /*var data = {
             tags: query,
             limit: limit
-          };
-          console.log("userID:" + userId + "  data:" + JSON.stringify(data));
-          var req = JSON.stringify(data);
-          callParseServerCloudCode("getQuizsByTags", req, function(response) {
+          };*/
+          console.log("userID:" + userId + "  data:" + data);
+          callParseServerCloudCode("getQuizsByTags", data, function(response) {
             if (response) {
               var dataResponse = [];
               console.log("getQuizsByTags response:" + JSON.stringify(response));
