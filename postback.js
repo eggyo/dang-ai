@@ -73,6 +73,7 @@ module.exports = {
                 var tags = obj.tags;
                 var count = obj.count;
                 var name = obj.name;
+                var tagArray = tags.split(',');
 
                 var element = {
                   title: name,
@@ -81,7 +82,7 @@ module.exports = {
                     type: "postback",
                     payload: JSON.stringify({
                       type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ",
-                      tags: tags,
+                      tags: tagArray,
                       count: count,
                       name: name
                     }),
