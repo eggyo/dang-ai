@@ -79,6 +79,7 @@
 
     function search() {
       var tagArray = currentTagsString.split(',');
+      var tags = JSON.stringify(tagArray);
 
       var data = {
         recipient: {
@@ -88,7 +89,7 @@
           text: "กำลังค้นหา Quiz จากการร้องขอ..",
           metadata: JSON.stringify({
             type: "GET_QUIZ_BY_TAGS",
-            query: tagArray,
+            query: tags,
             userId: userId,
             limit: 10
           })
