@@ -1,3 +1,6 @@
+
+var _parseFunction = require('./parseFunction.js');
+
 module.exports = {
   payloadProcess: function(recipientId, payload) {
     switch (payload) {
@@ -42,6 +45,16 @@ module.exports = {
         };
         break;
       case "PLAY_QUIZ_PAYLOAD":
+      var data = '{"limit":5}';
+      _parseFunction.callCloudCode("getSampleQuiz",data,function(response){
+        if (response.length != 0) {
+          console.log("getSampleQuiz: "+JSON.stringify(response));
+        }
+      });
+
+
+
+      /*
         var templateData = {
           recipient: {
             id: recipientId
@@ -69,7 +82,7 @@ module.exports = {
         };
         return {
           "results": [templateData]
-        };
+        };*/
         break;
       default:
         return;
