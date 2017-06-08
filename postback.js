@@ -107,7 +107,7 @@ module.exports = {
           var tags = data.tags;
           var count = data.count;
           var name = data.name;
-          var tagArray = tags.split(',');
+          //var tagArray = tags.split(',');
 
           var messageData = {
             recipient: {
@@ -117,7 +117,7 @@ module.exports = {
               text: "กำลังค้นหา Quiz: " + name,
               metadata: JSON.stringify({
                 type: "GET_QUIZ_BY_TAGS",
-                query: tagArray,
+                query: tags,
                 userId: recipientId,
                 limit: count
               })
