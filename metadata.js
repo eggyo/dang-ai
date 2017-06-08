@@ -29,8 +29,8 @@ module.exports = {
             limit: limit
           };
           console.log("userID:" + userId + "  data:" + JSON.stringify(data));
-
-          callParseServerCloudCode("getQuizsByTags", JSON.stringify(data), function(response) {
+          var req = JSON.stringify(data).replace("/", "");
+          callParseServerCloudCode("getQuizsByTags", req, function(response) {
             if (response) {
               var dataResponse = [];
               console.log("getQuizsByTags response:" + JSON.stringify(response));
