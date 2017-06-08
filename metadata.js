@@ -12,7 +12,6 @@ GET_QUIZ_BY_TAGS =
 var request = require('request');
 delete Object.prototype.toJSON;
 delete Array.prototype.toJSON;
-delete Hash.prototype.toJSON;
 delete String.prototype.toJSON;
 module.exports = {
   metadataProcess: function(metadata, responseData) {
