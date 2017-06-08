@@ -25,7 +25,7 @@ module.exports = {
           var query = data.query;
           //var data = '{"tags":' + JSON.parse(query) + ',"limit":'+limit+'}'
           var data = {
-            tags: JSON.parse(query),
+            tags: query,
             limit: limit
           };
           console.log("userID:" + userId + "  data:" + JSON.stringify(data));
