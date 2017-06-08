@@ -10,13 +10,10 @@ GET_QUIZ_BY_TAGS =
 
 */
 var request = require('request');
-if(window.Prototype) {
-    delete Object.prototype.toJSON;
-    delete Array.prototype.toJSON;
-    delete Hash.prototype.toJSON;
-    delete String.prototype.toJSON;
-}
-
+delete Object.prototype.toJSON;
+delete Array.prototype.toJSON;
+delete Hash.prototype.toJSON;
+delete String.prototype.toJSON;
 module.exports = {
   metadataProcess: function(metadata, responseData) {
     try {
