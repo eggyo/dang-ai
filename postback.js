@@ -73,7 +73,6 @@ module.exports = {
                 var tags = obj.tags;
                 var count = obj.count;
                 var name = obj.name;
-                var tagArray = tags.split(',');
 
                 var element = {
                   title: name,
@@ -82,7 +81,7 @@ module.exports = {
                     type: "postback",
                     payload: JSON.stringify({
                       type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ",
-                      tags: tagArray,
+                      tags: tags,
                       count: count,
                       name: name
                     }),
@@ -108,6 +107,8 @@ module.exports = {
           var tags = data.tags;
           var count = data.count;
           var name = data.name;
+          var tagArray = tags.split(',');
+
           var messageData = {
             recipient: {
               id: recipientId
@@ -116,7 +117,7 @@ module.exports = {
               text: "กำลังค้นหา Quiz: " + name,
               metadata: JSON.stringify({
                 type: "GET_QUIZ_BY_TAGS",
-                query: tags,
+                query: tagArray,
                 userId: recipientId,
                 limit: count
               })
