@@ -18,11 +18,12 @@ module.exports = {
       var data = JSON.parse(metadata);
       var type = data.type;
       var userId = data.userId;
+      var limit = data.limit;
 
       switch (type) {
         case "GET_QUIZ_BY_TAGS":
           var query = data.query;
-          var data = '{"tags":[' + query + '],"limit":10}'
+          var data = '{"tags":[' + query + '],"limit":'+limit+'}'
           console.log("data:" + JSON.stringify(data));
 
           callParseServerCloudCode("getQuizsByTags", data, function(response) {

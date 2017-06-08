@@ -3,23 +3,23 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>Search Quiz</title>
+  <title>Search Quiz</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="css/theme.css" rel="stylesheet">
-    <link href="css/selectize.bootstrap3.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+  <!-- Custom CSS -->
+  <link href="css/theme.css" rel="stylesheet">
+  <link href="css/selectize.bootstrap3.css" rel="stylesheet">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -30,163 +30,164 @@
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
-    <div class="container_2">
-        <form id="contact" action="" method="post">
+  <div class="container_2">
+    <form id="contact" action="" method="post">
 
-            <label for="input-tags">Quiz Tags:</label>
-            <fieldset class="form-group">
-                <input type="text" id="input-tags" class="demo-default" tabindex="2">
-            </fieldset>
+      <label for="input-tags">Quiz Tags:</label>
+      <fieldset class="form-group">
+        <input type="text" id="input-tags" class="demo-default" tabindex="2">
+      </fieldset>
 
-            <fieldset>
-                <button type="button" onclick="search()" id="contact-submit">Submit</button>
-            </fieldset>
-            <p class="copyright">Created by <a href="https://dang-ai.herokuapp.com" target="_blank" title="Colorlib">Dang.ai</a></p>
-        </form>
-    </div>
-
-
+      <fieldset>
+        <button type="button" onclick="search()" id="contact-submit">Submit</button>
+      </fieldset>
+      <p class="copyright">Created by <a href="https://dang-ai.herokuapp.com" target="_blank" title="Colorlib">Dang.ai</a></p>
+    </form>
+  </div>
 
 
 
 
 
 
-    <script>
-        var currentTagsString = "";
 
-        var userId = '';
-        var pageToken = "EAAEXd2XKlTEBAFiCOWAwbvxrKeYq9m3ElhPZBpwR0Sn2nIeE8fnLFDGcGVR7TCCB6OegNcArLiXSl8I8eqLasjU0IzkSAhwicUxsHoepVygGgYcfIXiRnLdNkAOpD2azdVnx7GEUBJwe0beQ9tCB0ZABZCYavgDngTfzAd6DgZDZD";
-        window.extAsyncInit = function() {
-            MessengerExtensions.getUserID(function success(uids) {
-                var psid = uids.psid;
-                userId = psid;
 
-            }, function error(err, errorMessage) {
-                // Error handling code
+  <script>
+    var currentTagsString = "";
+
+    var userId = '';
+    var pageToken = "EAAEXd2XKlTEBAFiCOWAwbvxrKeYq9m3ElhPZBpwR0Sn2nIeE8fnLFDGcGVR7TCCB6OegNcArLiXSl8I8eqLasjU0IzkSAhwicUxsHoepVygGgYcfIXiRnLdNkAOpD2azdVnx7GEUBJwe0beQ9tCB0ZABZCYavgDngTfzAd6DgZDZD";
+    window.extAsyncInit = function() {
+      MessengerExtensions.getUserID(function success(uids) {
+        var psid = uids.psid;
+        userId = psid;
+
+      }, function error(err, errorMessage) {
+        // Error handling code
+      });
+    };
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+
+    function search() {
+      var tagArray = currentTagsString.split(',');
+
+      var data = {
+        "recipient": {
+          "id": userId
+        },
+        "message": {
+          "text": "กำลังค้นหา Quiz จากการร้องขอ..",
+          "metadata": JSON.stringify({
+            "type": "GET_QUIZ_BY_TAGS",
+            "query": tagArray,
+            "userId": userId,
+            "limit": 10
+          })
+        }
+      };
+      callSendAPI(JSON.stringify(data), function(response) {
+        document.getElementById('textarea-quiz-standalone').value = JSON.stringify(response);
+      });
+    }
+
+    getAllTag();
+
+    function getAllTag() {
+      var tags = [];
+      callParseServerCloudCode("getTags", null, function(response) {
+        if (response) {
+          for (var i = 0; i < response.length; i++) {
+            var v = JSON.stringify(response[i]);
+            tags.push({
+              text: v,
+              value: v
             });
-        };
-        (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
+          }
+          // selectize script
+          $('#input-tags').selectize({
+            plugins: ['remove_button'],
+            persist: false,
+            createOnBlur: true,
+            delimiter: ',',
+            create: true,
+            options: tags,
+            labelField: "text",
+            valueField: "value",
+            onChange: function(value) {
+              currentTagsString = value;
             }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'Messenger'));
-
-        function search() {
-            var tagArray = currentTagsString.split(',');
-
-            var data = {
-                "recipient": {
-                    "id": userId
-                },
-                "message": {
-                    "text": "กำลังค้นหา Quiz จากการร้องขอ..",
-                    "metadata": JSON.stringify({
-                        "type": "GET_QUIZ_BY_TAGS",
-                        "query": tagArray,
-                        "userId":userId
-                    })
-                }
-            };
-            callSendAPI(JSON.stringify(data), function(response) {
-                document.getElementById('textarea-quiz-standalone').value = JSON.stringify(response);
-            });
+          });
+        } else {
+          $('#input-tags').selectize({
+            plugins: ['remove_button'],
+            persist: false,
+            createOnBlur: true,
+            delimiter: ',',
+            create: true,
+            options: tags,
+            labelField: "text",
+            valueField: "value",
+            onChange: function(value) {
+              currentTagsString = value;
+            }
+          });
         }
+      });
+    }
 
-        getAllTag();
+    function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/' + methodName, true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
+      xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
 
-        function getAllTag() {
-            var tags = [];
-            callParseServerCloudCode("getTags", null, function(response) {
-                if (response) {
-                    for (var i = 0; i < response.length; i++) {
-                        var v = JSON.stringify(response[i]);
-                        tags.push({
-                            text: v,
-                            value: v
-                        });
-                    }
-                    // selectize script
-                    $('#input-tags').selectize({
-                        plugins: ['remove_button'],
-                        persist: false,
-                        createOnBlur: true,
-                        delimiter: ',',
-                        create: true,
-                        options: tags,
-                        labelField: "text",
-                        valueField: "value",
-                        onChange: function(value) {
-                            currentTagsString = value;
-                        }
-                    });
-                } else {
-                    $('#input-tags').selectize({
-                        plugins: ['remove_button'],
-                        persist: false,
-                        createOnBlur: true,
-                        delimiter: ',',
-                        create: true,
-                        options: tags,
-                        labelField: "text",
-                        valueField: "value",
-                        onChange: function(value) {
-                            currentTagsString = value;
-                        }
-                    });
-                }
-            });
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          responseMsg(myArr.result);
         }
+      };
 
-        function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/' + methodName, true);
-            xhr.setRequestHeader('Content-type', 'application/json');
-            xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
-            xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
+      xhr.send(requestMsg);
+    }
 
-            xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var myArr = JSON.parse(this.responseText);
-                    responseMsg(myArr.result);
-                }
-            };
-
-            xhr.send(requestMsg);
+    function callSendAPI(messageData, responseMsg) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://graph.facebook.com/v2.6/me/messages?access_token=' + pageToken, true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          responseMsg(myArr);
         }
+      };
 
-        function callSendAPI(messageData, responseMsg) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://graph.facebook.com/v2.6/me/messages?access_token=' + pageToken, true);
-            xhr.setRequestHeader('Content-type', 'application/json');
-            xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var myArr = JSON.parse(this.responseText);
-                    responseMsg(myArr);
-                }
-            };
+      xhr.send(messageData);
 
-            xhr.send(messageData);
-
-        }
-    </script>
+    }
+  </script>
 
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+  <!-- jQuery -->
+  <script src="js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/standalone/selectize.min.js"></script>
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/standalone/selectize.min.js"></script>
 
-    <!-- Scrolling Nav JavaScript -->
-    <script src="js/jquery.easing.min.js"></script>
-    <script src="js/scrolling-nav.js"></script>
+  <!-- Scrolling Nav JavaScript -->
+  <script src="js/jquery.easing.min.js"></script>
+  <script src="js/scrolling-nav.js"></script>
 
 </body>
 

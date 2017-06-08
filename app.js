@@ -394,14 +394,18 @@ function receivedPostback(event) {
   // The 'payload' param is a developer-defined field which is set in a postback
   // button for Structured Messages.
   var payload = event.postback.payload;
-  var results = _postback.payloadProcess(senderID, payload);
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
-  if (results.results != null) {
-    for (var i = 0; i < results.results.length; i++) {
-      callSendAPI(results.results[i]);
+
+  _postback.payloadProcess(senderID, payload,function(results){
+    if (results.results != null) {
+      for (var i = 0; i < results.results.length; i++) {
+        callSendAPI(results.results[i]);
+      }
     }
-  }
+  });
+
+
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
