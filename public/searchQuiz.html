@@ -83,7 +83,7 @@
 
     function search() {
       var tagArray = currentTagsString.split(',');
-      //var tags = JSON.stringify(tagArray);
+      var count = parseInt($('#quiz-count').val());
 
       var data = {
         recipient: {
@@ -95,7 +95,7 @@
             type: "GET_QUIZ_BY_TAGS",
             query: '[' + tagArray + ']',
             userId: userId,
-            limit: parseInt($('#quiz-count').val());
+            limit: count
           })
         }
       };
