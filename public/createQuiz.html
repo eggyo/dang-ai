@@ -12,7 +12,9 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1 ,maximum-scale=1.0, user-scalable=0">
+
+  <!--  <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <meta name="description" content="">
     <meta name="author" content="">
     <!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
@@ -202,6 +204,7 @@
             callParseServerCloudCode("createQuizFromQuizForm", data, function(response) {
 
             });
+            /*
             // for check category name exist
             var categoryNameData = '{"name":"' + categoryName + '"}';
             callParseServerCloudCode("createNewCategory", categoryNameData, function(response) {
@@ -214,7 +217,15 @@
                 callParseServerCloudCode("createNewTag", tagNameData, function(response) {
 
                 });
-            }
+            }*/
+            var categoryNameData = '{"categories":"' + categoryName + '"}';
+            callParseServerCloudCode("createCategoryToDataArray", categoryNameData, function(response) {
+
+            });
+            var tagNameData = '{"tags":"[' + tagArray + ']"}';
+            callParseServerCloudCode("createTagsToDataArray", tagNameData, function(response) {
+
+            });
 
             $('.registerForm').data('bootstrapValidator').resetForm();
             $('#alertbox').show();
