@@ -213,8 +213,7 @@
   display: none;
 }
 .selectize-input > input:focus {
-  outline: 0;
-
+  outline: none !important;
 }
 .selectize-input::after {
   content: ' ';
