@@ -1,4 +1,5 @@
 var request = require('request');
+var _postback = require('./postback.js');
 
 module.exports = {
   payloadProcess: function(recipientId, payload, responseData) {
@@ -213,6 +214,15 @@ module.exports = {
           });
 
 
+          break;
+        case "SHUFFLE_TOPICS":
+          _postback.shuffle_quiz_return_msg(recipientId, function(result) {
+            responseData({
+              "results": {
+                "messageText": result.results[0]
+              }
+            });
+          });
           break;
 
         default:

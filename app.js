@@ -275,7 +275,9 @@ function receivedMessage(event) {
       if (results.results != null) {
         callSendAPI(results.results.messageText);
         setTimeout(function() {
-          callSendAPI(results.results.quizData);
+          if (results.results.quizData != null) {
+            callSendAPI(results.results.quizData);
+          }
         }, 1000);
 
       }
