@@ -95,12 +95,16 @@
             type: "GET_QUIZ_BY_TAGS",
             query: '[' + tagArray + ']',
             userId: userId,
-            limit: 10
+            limit: parseInt($('#quiz-count').val());
           })
         }
       };
       callSendAPI(JSON.stringify(data), function(response) {
-        document.getElementById('textarea-quiz-standalone').value = JSON.stringify(response);
+        MessengerExtensions.requestCloseBrowser(function success() {
+
+        }, function error(err) {
+
+        });
       });
     }
 
