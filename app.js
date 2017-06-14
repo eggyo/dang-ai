@@ -980,8 +980,15 @@ bot.on('beacon', function(event) {
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
 // certificate authority.
+var port = process.env.PORT || 5000;
+
+var httpServer = require('http').createServer(app);
+httpServer.listen(port, function() {
+    console.log('Node app is running on port ' + port + '.');
+});
+/*
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
-
+*/
 module.exports = app;
