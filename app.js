@@ -18,21 +18,9 @@ const
   https = require('https'),
   request = require('request'),
   path = require('path'),
-  linebot = require('linebot'),
   _postback = require('./postback.js'),
   _quickreply = require('./quickreply.js'),
   _metadata = require('./metadata.js');
-
-var CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET;
-var CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;
-var CHANNEL_ID = process.env.LINE_CHANNEL_ID;
-
-var bot = linebot({
-  channelId: CHANNEL_ID,
-  channelSecret: CHANNEL_SECRET,
-  channelAccessToken: CHANNEL_ACCESS_TOKEN
-});
-var botParser = bot.parser();
 
 var app = express();
 
@@ -104,11 +92,6 @@ app.get('/webhook', function(req, res) {
   }
 });
 
-/*
- * For LINE MESSEGING API
- *
- */
-app.post('/linewebhook', botParser);
 
 /*
  * All callbacks for Messenger are POST-ed. They will be sent to the same
@@ -912,73 +895,6 @@ function callSendAPI(messageData) {
     }
   });
 }
-
-///// FOR LINE //////
-
-bot.on('message', function(event) {
-  switch (event.message.type) {
-    case 'text':
-      var messageText = event.message.text;
-
-      event.reply(messageText).then(function(data) {
-        // success
-      }).catch(function(error) {
-        // error
-      });
-
-      break;
-    case 'image':
-
-      break;
-    case 'video':
-
-      break;
-    case 'audio':
-      //event.reply('Nice song!');
-      break;
-    case 'location':
-      //event.reply(['That\'s a good location!', 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
-      break;
-    case 'sticker':
-      /*
-      event.reply({
-          type: 'sticker',
-          packageId: 1,
-          stickerId: 1
-      });
-      */
-      break;
-    default:
-      console.log('unkwon type! :' + JSON.stringify(event));
-      break;
-  }
-});
-
-bot.on('follow', function(event) {
-  //event.reply('follow: ' + event.source.userId);
-});
-
-bot.on('unfollow', function(event) {
-  //event.reply('unfollow: ' + event.source.userId);
-});
-
-bot.on('join', function(event) {
-  ///	event.reply('join: ' + event.source.groupId);
-});
-
-bot.on('leave', function(event) {
-  //	event.reply('leave: ' + event.source.groupId);
-});
-
-bot.on('postback', function(event) {
-  //event.reply('postback: ' + event.postback.data);
-});
-
-bot.on('beacon', function(event) {
-  //	event.reply('beacon: ' + event.beacon.hwid);
-});
-
-
 
 
 // Start server
