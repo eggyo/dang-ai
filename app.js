@@ -20,7 +20,14 @@ const
   path = require('path'),
   _postback = require('./postback.js'),
   _quickreply = require('./quickreply.js'),
+  line = require('@line/bot-sdk'),
   _metadata = require('./metadata.js');
+
+  const config = {
+    channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
+    channelSecret: process.env.LINE_CHANNEL_SECRET,
+  };
+  const lineClient = new line.Client(config);
 
 var app = express();
 
@@ -895,6 +902,31 @@ function callSendAPI(messageData) {
     }
   });
 }
+
+
+
+// about the middleware, please refer to doc
+//----- LINE api --------//
+app.post('/line-webhook', line.middleware(config), (req, res) => {
+  Promise
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result));
+});
+
+// event handler
+function handleEvent(event) {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    // ignore non-text-message event
+    return Promise.resolve(null);
+  }
+
+  // create a echoing text message
+  const echo = { type: 'text', text: event.message.text };
+
+  // use reply API
+  return lineClient.replyMessage(event.replyToken, echo);
+}
+
 
 
 
