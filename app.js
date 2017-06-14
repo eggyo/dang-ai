@@ -24,9 +24,9 @@ const
   _metadata = require('./metadata.js');
 
   var bot = linebot({
-  	channelId: LINE_CHANNEL_ID,
-  	channelSecret: LINE_CHANNEL_SECRET,
-  	channelAccessToken: LINE_CHANNEL_ACCESS_TOKEN
+  	channelId: process.env.LINE_CHANNEL_ID,
+  	channelSecret: process.env.LINE_CHANNEL_SECRET,
+  	channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN
   });
   var botParser = bot.parser();
 
