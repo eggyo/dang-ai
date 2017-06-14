@@ -18,17 +18,17 @@ const
   https = require('https'),
   request = require('request'),
   path = require('path'),
-  linemiddleware = require('@line/bot-sdk').middleware,
+  linebot = require('linebot'),
   _postback = require('./postback.js'),
   _quickreply = require('./quickreply.js'),
-  line = require('@line/bot-sdk'),
   _metadata = require('./metadata.js');
 
-  const lineConfig = {
-    channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-    channelSecret: process.env.LINE_CHANNEL_SECRET,
-  };
-  const lineClient = new line.Client(lineConfig);
+  var bot = linebot({
+  	channelId: LINE_CHANNEL_ID,
+  	channelSecret: LINE_CHANNEL_SECRET,
+  	channelAccessToken: LINE_CHANNEL_ACCESS_TOKEN
+  });
+  var botParser = bot.parser();
 
 var app = express();
 
@@ -38,7 +38,6 @@ app.use(bodyParser.json({
   verify: verifyRequestSignature
 }));
 app.use(express.static('public'));
-app.use(linemiddleware(lineConfig))
 
 /*
  * Be sure to setup your config values before running this code. You can
@@ -101,6 +100,11 @@ app.get('/webhook', function(req, res) {
   }
 });
 
+/*
+ * For LINE MESSEGING API
+ *
+ */
+app.post('/linewebhook', botParser);
 
 /*
  * All callbacks for Messenger are POST-ed. They will be sent to the same
@@ -905,29 +909,70 @@ function callSendAPI(messageData) {
   });
 }
 
+///// FOR LINE //////
 
+bot.on('message', function(event) {
+    switch (event.message.type) {
+        case 'text':
+            var messageText = event.message.text;
 
-// about the middleware, please refer to doc
-//----- LINE api --------//
-app.post('/linewebhook', (req, res) => {
-  Promise
-    .all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result));
+            event.reply(messageText).then(function(data) {
+                // success
+            }).catch(function(error) {
+                // error
+            });
+
+            break;
+        case 'image':
+
+            break;
+        case 'video':
+
+            break;
+        case 'audio':
+            //event.reply('Nice song!');
+            break;
+        case 'location':
+            //event.reply(['That\'s a good location!', 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
+            break;
+        case 'sticker':
+            /*
+            event.reply({
+                type: 'sticker',
+                packageId: 1,
+                stickerId: 1
+            });
+            */
+            break;
+        default:
+            console.log('unkwon type! :' + JSON.stringify(event));
+            break;
+    }
 });
 
-// event handler
-function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    // ignore non-text-message event
-    return Promise.resolve(null);
-  }
+bot.on('follow', function(event) {
+    //event.reply('follow: ' + event.source.userId);
+});
 
-  // create a echoing text message
-  const echo = { type: 'text', text: event.message.text };
+bot.on('unfollow', function(event) {
+    //event.reply('unfollow: ' + event.source.userId);
+});
 
-  // use reply API
-  return lineClient.replyMessage(event.replyToken, echo);
-}
+bot.on('join', function(event) {
+    ///	event.reply('join: ' + event.source.groupId);
+});
+
+bot.on('leave', function(event) {
+    //	event.reply('leave: ' + event.source.groupId);
+});
+
+bot.on('postback', function(event) {
+    //event.reply('postback: ' + event.postback.data);
+});
+
+bot.on('beacon', function(event) {
+    //	event.reply('beacon: ' + event.beacon.hwid);
+});
 
 
 
