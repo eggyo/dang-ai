@@ -907,7 +907,7 @@ function callSendAPI(messageData) {
 
 // about the middleware, please refer to doc
 //----- LINE api --------//
-app.post('/line-webhook', line.middleware(lineConfig), (req, res) => {
+app.post('/linewebhook', line.middleware(lineConfig), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
     .then((result) => res.json(result));
