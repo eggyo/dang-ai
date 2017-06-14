@@ -347,6 +347,23 @@ function receivedMessage(event) {
         sendAccountLinking(senderID);
         break;
 
+      case 'play':
+        var data = {
+          recipient: {
+            id: senderID
+          },
+          message: {
+            text: "กำลังสุ่ม Quiz จากการร้องขอ..",
+            metadata: JSON.stringify({
+              type: "GET_QUIZ_BY_TAGS",
+              query: '["gat"]',
+              userId: senderID,
+              limit: 10
+            })
+          }
+        };
+        callSendAPI(data);
+        break;
       default:
         //sendTextMessage(senderID, messageText);
         break;
@@ -402,7 +419,7 @@ function receivedPostback(event) {
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
-  _postback.payloadProcess(senderID, payload,function(results){
+  _postback.payloadProcess(senderID, payload, function(results) {
     if (results.results != null) {
       for (var i = 0; i < results.results.length; i++) {
         callSendAPI(results.results[i]);
