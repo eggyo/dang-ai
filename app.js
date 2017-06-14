@@ -28,9 +28,9 @@ var CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 var CHANNEL_ID = process.env.LINE_CHANNEL_ID;
 
 var bot = linebot({
-  channelId: LINE_CHANNEL_ID,
-  channelSecret: LINE_CHANNEL_SECRET,
-  channelAccessToken: LINE_CHANNEL_ACCESS_TOKEN
+  channelId: CHANNEL_ID,
+  channelSecret: CHANNEL_SECRET,
+  channelAccessToken: CHANNEL_ACCESS_TOKEN
 });
 var botParser = bot.parser();
 
