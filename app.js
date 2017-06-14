@@ -70,6 +70,9 @@ app.get('/createquiz', function(req, res) {
 app.get('/searchquiz', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/searchQuiz.html'));
 });
+app.get('/policy', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/policy.html'));
+});
 app.get('/json-upload-to-parse', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/json-upload-to-parse.html'));
 });
