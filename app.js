@@ -18,13 +18,15 @@ const
   https = require('https'),
   request = require('request'),
   path = require('path'),
+  linemiddleware = require('@line/bot-sdk').middleware,
   _postback = require('./postback.js'),
   _quickreply = require('./quickreply.js'),
   line = require('@line/bot-sdk'),
   _metadata = require('./metadata.js');
 
   const lineConfig = {
-    channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN
+    channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
+    channelSecret: process.env.LINE_CHANNEL_SECRET,
   };
   const lineClient = new line.Client(lineConfig);
 
@@ -36,6 +38,7 @@ app.use(bodyParser.json({
   verify: verifyRequestSignature
 }));
 app.use(express.static('public'));
+app.use(linemiddleware(lineConfig))
 
 /*
  * Be sure to setup your config values before running this code. You can
@@ -906,7 +909,7 @@ function callSendAPI(messageData) {
 
 // about the middleware, please refer to doc
 //----- LINE api --------//
-app.post('/linewebhook', line.middleware(lineConfig), (req, res) => {
+app.post('/linewebhook', (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
     .then((result) => res.json(result));
