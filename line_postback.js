@@ -87,7 +87,7 @@ function showTopics(userId, replyData) {
         var count = obj.count;
         var name = obj.name;
 
-        var elemet = {
+        var element = {
           title: name,
           text: "ทำปัญหาชุดนี้กด Start หรือค้นหาเอง\nกด ค้นหา Quiz",
           actions: [{
