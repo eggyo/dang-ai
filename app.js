@@ -499,11 +499,11 @@ function handleEvent(event) {
   } else {
     return Promise.resolve(null);
   }
-
+/*
   return line_client.replyMessage(event.replyToken, {
     type: 'text',
     text: event.message.text
-  });
+  });*/
 }
 
 
