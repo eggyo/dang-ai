@@ -20,9 +20,16 @@ const
   path = require('path'),
   _postback = require('./postback.js'),
   _quickreply = require('./quickreply.js'),
+  line = require('@line/bot-sdk'),
   _metadata = require('./metadata.js');
 
 var app = express();
+const lineconfig = {
+  channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
+  channelSecret: process.env.LINE_CHANNEL_SECRET
+};
+const client = new line.Client(lineconfig);
+app.use(line.middleware(lineconfig));
 
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
@@ -30,6 +37,10 @@ app.use(bodyParser.json({
   verify: verifyRequestSignature
 }));
 app.use(express.static('public'));
+
+app.post('/linewebhook', (req, res) => {
+  res.json(req.body.events) // req.body will be webhook event object
+});
 
 /*
  * Be sure to setup your config values before running this code. You can
