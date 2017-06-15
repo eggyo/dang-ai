@@ -366,6 +366,9 @@ function receivedPostback(event) {
   //sendTextMessage(senderID, "Postback called");
 }
 
+
+
+
 /*
  * Message Read Event
  *
@@ -404,6 +407,20 @@ function receivedAccountLink(event) {
     "and auth code %s ", senderID, status, authCode);
 }
 
+
+function sendTextMessage(recipientId, messageText) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: messageText,
+      metadata: "DEVELOPER_DEFINED_METADATA"
+    }
+  };
+
+  callSendAPI(messageData);
+}
 
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
