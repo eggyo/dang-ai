@@ -464,6 +464,30 @@ app.post('/linewebhook', (req, res) => {
 function handleEvent(event) {
   if (event.type !== 'message' || event.message.type !== 'text') {
     return Promise.resolve(null);
+  } else if (event.message.text == 'เล่น' || event.message.text == 'เริ่ม') {
+    return line_client.replyMessage(event.replyToken, [{
+      type: "template",
+      altText: "this is a buttons template",
+      template: {
+        type: "buttons",
+        thumbnailImageUrl: SERVER_URL + "/assets/dan.ai_cover_bg.jpg",
+        title: "คุณต้องการทำอะไร?",
+        text: "เลือกเมนูด้านล่าง",
+        actions: [{
+            type: "postback",
+            label: "เล่น Quiz",
+            data: JSON.stringify({
+              "type": "PLAY_QUIZ_PAYLOAD"
+            })
+          },
+          {
+            "type": "uri",
+            "label": "สร้าง Quiz",
+            "uri": "https://dang-ai.herokuapp.com/createquiz"
+          }
+        ]
+      }
+    }]);
   }
 
   return line_client.replyMessage(event.replyToken, {
