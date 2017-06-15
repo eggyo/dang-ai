@@ -469,7 +469,7 @@ function handleEvent(event) {
   if (event.type == 'postback') {
     var data = event.postback.data;
     _line_postback.process(userId, data, function(replyData) {
-      var replyMessage = replyData.results[0];
+      var replyMessage = replyData.results;
       console.log("userId: %s ---- replyMessage: %s", userId, JSON.stringify(replyMessage));
       line_client.replyMessage(event.replyToken,replyMessage );
     });
