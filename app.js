@@ -18,10 +18,10 @@ const
   https = require('https'),
   request = require('request'),
   path = require('path'),
-  _postback = require('./postback.js'),
-  _quickreply = require('./quickreply.js'),
+  _postback = require('./lib/postback.js'),
+  _quickreply = require('./lib/quickreply.js'),
   line = require('@line/bot-sdk'),
-  _metadata = require('./metadata.js');
+  _metadata = require('./lib/metadata.js');
 
 var app = express();
 const lineconfig = {
@@ -38,21 +38,7 @@ app.use(bodyParser.json({
 }));
 app.use(express.static('public'));
 
-app.post('/linewebhook', (req, res) => {
-  Promise
-    .all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result));
-});
-function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    return Promise.resolve(null);
-  }
 
-  return line_client.replyMessage(event.replyToken, {
-    type: 'text',
-    text: event.message.text
-  });
-}
 
 /*
  * Be sure to setup your config values before running this code. You can
@@ -918,6 +904,25 @@ function callSendAPI(messageData) {
     }
   });
 }
+
+// line api here!
+app.post('/linewebhook', (req, res) => {
+  Promise
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result));
+});
+function handleEvent(event) {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    return Promise.resolve(null);
+  }
+
+  return line_client.replyMessage(event.replyToken, {
+    type: 'text',
+    text: event.message.text
+  });
+}
+
+
 
 
 // Start server
