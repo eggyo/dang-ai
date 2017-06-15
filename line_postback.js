@@ -137,7 +137,12 @@ function showTopics(userId, replyData) {
               {
                   "type": "postback",
                   "label": "Start",
-                  "data": "action=buy&itemid=111"
+                  "data": JSON.stringify({
+                    type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ",
+                    tags: tags,
+                    count: count,
+                    name: name
+                  })
               },
               {
                   "type": "postback",
