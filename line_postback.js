@@ -136,18 +136,18 @@ function showTopics(userId, replyData) {
           "actions": [
               {
                   "type": "postback",
-                  "label": "Buy",
+                  "label": "Start",
                   "data": "action=buy&itemid=111"
               },
               {
                   "type": "postback",
-                  "label": "Add to cart",
+                  "label": "Shuffle!!",
                   "data": "action=add&itemid=111"
               },
               {
                   "type": "uri",
-                  "label": "View detail",
-                  "uri": "http://example.com/page/111"
+                  "label": "ค้นหา Quiz",
+                  "uri": "https://dang-ai.herokuapp.com/searchquizLine?userId=" + userId
               }
           ]
         };
