@@ -471,10 +471,43 @@ function handleEvent(event) {
     _line_postback.process(userId, data, function(replyData) {
       var replyMessage = replyData.results[0];
       console.log("replyMessage: %s",JSON.stringify(replyMessage));
-      return line_client.replyMessage(event.replyToken, replyMessage);
+      line_client.replyMessage(event.replyToken, {
+        type: "template",
+        altText: "this is a carousel template",
+        template: {
+          type: "carousel",
+          columns: [{
+            title: "name",
+            text: "ทำปัญหาชุดนี้กด Start หรือค้นหาเอง\nกด ค้นหา Quiz",
+            actions: [{
+                type: "postback",
+                label: "Start",
+                data: JSON.stringify({
+                  type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ",
+                  tags: "tags",
+                  count: "count",
+                  name: "name"
+                })
+              }, {
+                type: "uri",
+                label: "ค้นหา Quiz",
+                uri: "https://dang-ai.herokuapp.com/searchquizLine?userId=" + userId
+              },
+              {
+                type: "postback",
+                labe: "Shuffle!!",
+                data: JSON.stringify({
+                  "type": "SHUFFLE_TOPICS"
+                })
+              }
+
+            ]
+          }]
+        }
+      });
     });
   } else if (event.message.text == 'เล่น' || event.message.text == 'เริ่ม') {
-    return line_client.replyMessage(event.replyToken, [{
+    line_client.replyMessage(event.replyToken, [{
       type: "template",
       altText: "this is a buttons template",
       template: {
