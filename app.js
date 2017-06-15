@@ -477,6 +477,7 @@ function handleEvent(event) {
         template: {
           type: "carousel",
           columns: [{
+            thumbnailImageUrl: "https://example.com/bot/images/item1.jpg",
             title: "name",
             text: "ทำปัญหาชุดนี้กด Start หรือค้นหาเอง\nกด ค้นหา Quiz",
             actions: [{
