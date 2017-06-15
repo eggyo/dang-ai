@@ -130,9 +130,9 @@ function showTopics(userId, replyData) {
         };
 
         var e = {
-          "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
-          "title": "this is menu",
-          "text": "description",
+          "thumbnailImageUrl": SERVER_URL + "/assets/dan.ai_cover_bg.jpg",
+          "title": name,
+          "text": "ทำปัญหาชุดนี้กด Start หรือค้นหาเอง\nกด ค้นหา Quiz",
           "actions": [
               {
                   "type": "postback",
