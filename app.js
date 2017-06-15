@@ -19,6 +19,7 @@ const
   request = require('request'),
   path = require('path'),
   _postback = require('./postback.js'),
+  _line_postback = require('./line_postback.js'),
   _quickreply = require('./quickreply.js'),
   _fbMessageProcess = require('./fbMessageProcess.js'),
   line = require('@line/bot-sdk'),
@@ -462,8 +463,15 @@ app.post('/linewebhook', (req, res) => {
 });
 
 function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    return Promise.resolve(null);
+  var userId = event.source.userId;
+
+
+  if (event.type == 'postback') {
+    var data = event.postback.data;
+    _line_postback.process(userId, data, function(replyData) {
+      var replyMessage = replyData.results[0];
+      return line_client.replyMessage(event.replyToken, replyMessage);
+    });
   } else if (event.message.text == 'เล่น' || event.message.text == 'เริ่ม') {
     return line_client.replyMessage(event.replyToken, [{
       type: "template",
@@ -488,6 +496,8 @@ function handleEvent(event) {
         ]
       }
     }]);
+  } else {
+    return Promise.resolve(null);
   }
 
   return line_client.replyMessage(event.replyToken, {
