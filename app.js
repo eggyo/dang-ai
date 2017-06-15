@@ -477,7 +477,7 @@ function handleEvent(event) {
         "template": {
           "type": "carousel",
           "columns": [{
-              "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
+              //"thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
               "title": "this is menu",
               "text": "description",
               "actions": [{
