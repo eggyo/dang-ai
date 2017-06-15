@@ -147,7 +147,9 @@ function showTopics(userId, replyData) {
               {
                   "type": "postback",
                   "label": "Shuffle!!",
-                  "data": "action=add&itemid=111"
+                  "data": JSON.stringify({
+                    "type": "SHUFFLE_TOPICS"
+                  })
               },
               {
                   "type": "uri",
