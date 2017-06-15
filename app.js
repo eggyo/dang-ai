@@ -18,10 +18,10 @@ const
   https = require('https'),
   request = require('request'),
   path = require('path'),
-  _postback = require('./lib/postback.js'),
-  _quickreply = require('./lib/quickreply.js'),
+  _postback = require('./src/postback.js'),
+  _quickreply = require('./src/quickreply.js'),
   line = require('@line/bot-sdk'),
-  _metadata = require('./lib/metadata.js');
+  _metadata = require('./src/metadata.js');
 
 var app = express();
 const lineconfig = {

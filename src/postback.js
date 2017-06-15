@@ -1,6 +1,6 @@
 'use strict';
 
-var _parseFunction = require('./lib/parseFunction.js');
+var _parseFunction = require('./src/parseFunction.js');
 
 module.exports = {
   payloadProcess: function(recipientId, payload, result) {

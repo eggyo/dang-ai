@@ -1,7 +1,7 @@
 'use strict';
 
 var request = require('request');
-var _postback = require('./lib/postback.js');
+var _postback = require('./src/postback.js');
 
 module.exports = {
   payloadProcess: function(recipientId, payload, responseData) {
