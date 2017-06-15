@@ -1,5 +1,6 @@
 var _parseFunction = require('./parseFunction.js');
 var request = require('request');
+var jsscompress = require("js-string-compression");
 
 
 
@@ -111,6 +112,19 @@ function processPostback(userId, postbackData, replyData) {
                 replyData({
                   "results": [msg_1, msg_2, messageQuiz, choiceData]
                 });
+
+                var hm = new jsscompress.Hauffman();
+                var compressed = hm.compress(JSON.stringify(payloadData));
+
+                console.log("before compressed: " + JSON.stringify(payloadData));
+                console.log("length: " + JSON.stringify(payloadData).length);
+                console.log("after compressed: " + compressed);
+                console.log("length: " + compressed.length);
+
+                console.log("decompressed: " + hm.decompress(compressed));
+
+
+
               }
             });
           } else {
