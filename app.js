@@ -28,8 +28,8 @@ const lineconfig = {
   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
   channelSecret: process.env.LINE_CHANNEL_SECRET
 };
-const client = new line.Client(lineconfig);
-app.use(line.middleware(lineconfig));
+const line_client = new line.Client(lineconfig);
+app.use(line.middleware(lineconfig));   /// This line must be place before app.use->bodyParser
 
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
@@ -39,8 +39,20 @@ app.use(bodyParser.json({
 app.use(express.static('public'));
 
 app.post('/linewebhook', (req, res) => {
-  res.json(req.body.events) // req.body will be webhook event object
+  Promise
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result));
 });
+function handleEvent(event) {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    return Promise.resolve(null);
+  }
+
+  return line_client.replyMessage(event.replyToken, {
+    type: 'text',
+    text: event.message.text
+  });
+}
 
 /*
  * Be sure to setup your config values before running this code. You can
