@@ -471,35 +471,7 @@ function handleEvent(event) {
     _line_postback.process(userId, data, function(replyData) {
       var replyMessage = replyData.results[0];
       console.log("userId: %s ---- replyMessage: %s", userId, JSON.stringify(replyMessage));
-      line_client.replyMessage(event.replyToken, {
-        "type": "template",
-        "altText": "this is a carousel template",
-        "template": {
-          "type": "carousel",
-          "columns": [{
-              "thumbnailImageUrl": SERVER_URL + "/assets/dan.ai_cover_bg.jpg",
-              "title": "this is menu",
-              "text": "description",
-              "actions": [{
-                  "type": "postback",
-                  "label": "Buy",
-                  "data": "action=buy&itemid=111"
-                },
-                {
-                  "type": "postback",
-                  "label": "Add to cart",
-                  "data": "action=add&itemid=111"
-                },
-                {
-                  "type": "uri",
-                  "label": "View detail",
-                  "uri": "http://example.com/page/111"
-                }
-              ]
-            }
-          ]
-        }
-      });
+      line_client.replyMessage(event.replyToken,replyMessage );
     });
   } else if (event.message.text == 'เล่น' || event.message.text == 'เริ่ม') {
     line_client.replyMessage(event.replyToken, [{

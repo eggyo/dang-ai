@@ -1,5 +1,7 @@
 var _parseFunction = require('./parseFunction.js');
-
+const SERVER_URL = (process.env.SERVER_URL) ?
+  (process.env.SERVER_URL) :
+  config.get('serverURL');
 
 module.exports = {
   process: function(userId, postbackData, replyData) {
@@ -68,6 +70,7 @@ function processPostback(userId, postbackData, replyData) {
 
 
 function showTopics(userId, replyData) {
+
   var messageData = {
     type: "template",
     altText: "this is a carousel template",
@@ -88,6 +91,7 @@ function showTopics(userId, replyData) {
         var name = obj.name;
 
         var element = {
+          thumbnailImageUrl: SERVER_URL + "/assets/dan.ai_cover_bg.jpg",
           title: name,
           text: "ทำปัญหาชุดนี้กด Start หรือค้นหาเอง\nกด ค้นหา Quiz",
           actions: [{
@@ -111,7 +115,6 @@ function showTopics(userId, replyData) {
                 "type": "SHUFFLE_TOPICS"
               })
             }
-
           ]
         };
 
