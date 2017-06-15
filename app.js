@@ -470,40 +470,55 @@ function handleEvent(event) {
     var data = event.postback.data;
     _line_postback.process(userId, data, function(replyData) {
       var replyMessage = replyData.results[0];
-      console.log("replyMessage: %s",JSON.stringify(replyMessage));
+      console.log("userId: %s ---- replyMessage: %s", userId, JSON.stringify(replyMessage));
       line_client.replyMessage(event.replyToken, {
-        type: "template",
-        altText: "this is a carousel template",
-        template: {
-          type: "carousel",
-          columns: [{
-            thumbnailImageUrl: "https://example.com/bot/images/item1.jpg",
-            title: "name",
-            text: "ทำปัญหาชุดนี้กด Start หรือค้นหาเอง\nกด ค้นหา Quiz",
-            actions: [{
-                type: "postback",
-                label: "Start",
-                data: JSON.stringify({
-                  type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ",
-                  tags: "tags",
-                  count: "count",
-                  name: "name"
-                })
-              }, {
-                type: "uri",
-                label: "ค้นหา Quiz",
-                uri: "https://dang-ai.herokuapp.com/searchquizLine?userId=" + userId
-              },
-              {
-                type: "postback",
-                labe: "Shuffle!!",
-                data: JSON.stringify({
-                  "type": "SHUFFLE_TOPICS"
-                })
-              }
-
-            ]
-          }]
+        "type": "template",
+        "altText": "this is a carousel template",
+        "template": {
+          "type": "carousel",
+          "columns": [{
+              "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
+              "title": "this is menu",
+              "text": "description",
+              "actions": [{
+                  "type": "postback",
+                  "label": "Buy",
+                  "data": "action=buy&itemid=111"
+                },
+                {
+                  "type": "postback",
+                  "label": "Add to cart",
+                  "data": "action=add&itemid=111"
+                },
+                {
+                  "type": "uri",
+                  "label": "View detail",
+                  "uri": "http://example.com/page/111"
+                }
+              ]
+            },
+            {
+              "thumbnailImageUrl": "https://example.com/bot/images/item2.jpg",
+              "title": "this is menu",
+              "text": "description",
+              "actions": [{
+                  "type": "postback",
+                  "label": "Buy",
+                  "data": "action=buy&itemid=222"
+                },
+                {
+                  "type": "postback",
+                  "label": "Add to cart",
+                  "data": "action=add&itemid=222"
+                },
+                {
+                  "type": "uri",
+                  "label": "View detail",
+                  "uri": "http://example.com/page/222"
+                }
+              ]
+            }
+          ]
         }
       });
     });
@@ -534,11 +549,11 @@ function handleEvent(event) {
   } else {
     return Promise.resolve(null);
   }
-/*
-  return line_client.replyMessage(event.replyToken, {
-    type: 'text',
-    text: event.message.text
-  });*/
+  /*
+    return line_client.replyMessage(event.replyToken, {
+      type: 'text',
+      text: event.message.text
+    });*/
 }
 
 
