@@ -71,6 +71,17 @@ function processPostback(userId, postbackData, replyData) {
 
 function showTopics(userId, replyData) {
 
+  var m = {
+  type: "template",
+  altText: "this is a carousel template",
+  template: {
+      type: "carousel",
+      columns: [
+
+      ]
+  }
+};
+
   var messageData = {
     type: "template",
     altText: "this is a carousel template",
@@ -118,10 +129,34 @@ function showTopics(userId, replyData) {
           ]
         };
 
-        messageData.template.columns.push(element);
+        var e = {
+          "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
+          "title": "this is menu",
+          "text": "description",
+          "actions": [
+              {
+                  "type": "postback",
+                  "label": "Buy",
+                  "data": "action=buy&itemid=111"
+              },
+              {
+                  "type": "postback",
+                  "label": "Add to cart",
+                  "data": "action=add&itemid=111"
+              },
+              {
+                  "type": "uri",
+                  "label": "View detail",
+                  "uri": "http://example.com/page/111"
+              }
+          ]
+        };
+
+        //messageData.template.columns.push(element);
+        m.template.columns.push(e);
       }
       replyData({
-        "results": [messageData]
+        "results": [m]
       });
     }
   });
