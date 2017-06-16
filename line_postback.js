@@ -48,7 +48,7 @@ function processPostback(userId, postbackData, replyData) {
           type: 'text',
           text: "โอเค เรามาเริ่มกันเลย"
         };
-        var requestdata = '{"tags":' + tagArray + ',"limit":' + count + '}'
+        var requestdata = '{"tags":' + tagArray + ',"limit":' + count + ',"getTemp":'+true+'}'
         _parseFunction.callCloudCode("getQuizsByTags", requestdata, function(response) {
           if (response) {
             //TODO response is quiztemp obj
