@@ -23,6 +23,7 @@ const
   _quickreply = require('./quickreply.js'),
   _fbMessageProcess = require('./fbMessageProcess.js'),
   line = require('@line/bot-sdk'),
+   _parseFunction = require('./parseFunction.js'),
   _metadata = require('./metadata.js');
 
 var app = express();
@@ -94,7 +95,7 @@ app.get('/push/userId=:userId&tags=:tags&limit=:limit', function(req, res) {
   var userId = req.params.userId;
   var tags = req.params.tags;
   var limit = req.params.limit;
-  var data = '{"tags":' + tags + ',"limit":'+limit+'}'
+  var data = '{"tags":' + tags + ',"limit":'+limit+ ',"getTemp":' + true +'}'
   console.log("push userId: " + userId + " limit :" + limit + " tags :" + tags +"\ndata:"+data);
 
   line_client.pushMessage(userId, {
@@ -108,6 +109,15 @@ app.get('/push/userId=:userId&tags=:tags&limit=:limit', function(req, res) {
       console.error("push error :" + err);
     });
 
+    _line_postback.getQuizsByTags(data,function(replyData){
+      line_client.pushMessage(userId,replyData.results)
+        .then(() => {
+          res.json("done");
+        })
+        .catch((err) => {
+          console.error("push error :" + err);
+        });
+    });
 
 
 

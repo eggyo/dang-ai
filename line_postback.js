@@ -12,6 +12,11 @@ module.exports = {
     processPostback(userId, postbackData, function(data) {
       replyData(data);
     });
+  },
+  getQuizsByTags: function(data, replyData) {
+    getQuizsByTags(data, function(res) {
+      replyData(res);
+    });
   }
 };
 
@@ -62,6 +67,7 @@ function processPostback(userId, postbackData, replyData) {
   }
   return true;
 }
+
 function showLastQuiz(data, replyData) {
   var currentQuiz = data.currentQuiz;
   var choice_count = data.choice_count;
@@ -81,7 +87,7 @@ function showLastQuiz(data, replyData) {
     // incorrect
     messageText = {
       type: 'text',
-      text: "คุณตอบ : " + payload_index + "\n❌❌❌❌\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index 
+      text: "คุณตอบ : " + payload_index + "\n❌❌❌❌\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index
     };
   }
   if (score > 5) {
@@ -116,6 +122,7 @@ function showLastQuiz(data, replyData) {
     "results": [messageText, template]
   });
 }
+
 function showNextQuiz(data, replyData) {
   var quizTempId = data.quizTempId;
   var currentQuiz = data.currentQuiz;
@@ -470,6 +477,82 @@ function parseQuizObjectToMessage(objectId, quizMsg) {
       });
     } else {
       quizMsg({});
+    }
+  });
+}
+
+function getQuizsByTags(requestdata, replyData) {
+  _parseFunction.callCloudCode("getQuizsByTags", requestdata, function(response) {
+    if (response) {
+      console.log("getQuizsByTags response:" + JSON.stringify(response));
+
+      var quizs = response.quizs;
+      var quizTempId = response.objectId;
+
+      var nextQuizs = [];
+      var currentQuiz = '';
+      for (var i = 0; i < quizs.length; i++) {
+        var objectId = quizs[i].objectId;
+        if (i != 0) {
+          nextQuizs.push(quizs[i]);
+        } else {
+          currentQuiz = objectId;
+        }
+      }
+      var requestdata = '{"objectId":"' + quizTempId + '","quizs":' + JSON.stringify(nextQuizs) + '}';
+      _parseFunction.callCloudCode("updateQuizTemp", requestdata, function(response) {
+        if (response == "done") {
+          parseQuizObjectToMessage(currentQuiz, function(response) {
+
+            if (response != null) {
+              var quiz = response.quiz;
+              var correct_index = response.correct_index;
+              var choice_count = response.choice_count;
+              var payloadData = {
+                "type": "PLAY_QUIZ_STATE_NEXT",
+                "quizTempId": quizTempId,
+                "currentQuiz": currentQuiz,
+                "choice_count": choice_count,
+                "quiz_count": quizs.length,
+                "score": 0,
+                "correct_index": correct_index
+              };
+              var choiceData = {
+                type: "template",
+                altText: "เลือกคำตอบที่ถูกต้อง",
+                template: {
+                  type: "buttons",
+                  text: "เลือกคำตอบที่ถูกต้อง",
+                  actions: []
+                }
+              };
+              var actions = [];
+              for (var i = 0; i < choice_count; i++) {
+                payloadData['payload_index'] = i + 1;
+                actions.push({
+                  type: "postback",
+                  label: i + 1,
+                  data: JSON.stringify(payloadData)
+                });
+              }
+              choiceData.template['actions'] = actions;
+
+              var messageQuiz = {
+                type: 'text',
+                text: quiz
+              };
+              replyData({
+                "results": [messageQuiz, choiceData]
+              });
+            }
+          });
+        } else {
+          console.log("updateQuizTemp error:" + response);
+          return;
+        }
+      });
+    } else {
+      return;
     }
   });
 }
