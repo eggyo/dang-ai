@@ -180,6 +180,7 @@
         data: messageData,
         success: function(data) {
           alert(JSON.stringify(data));
+          responseMsg(data);
         },
         error: function(error {
           alert(JSON.stringify(error));
