@@ -75,7 +75,7 @@ function processPostback(userId, postbackData, replyData) {
             }
             var requestdata = '{"objectId":"'+quizTempId+'","quizs":'+JSON.stringify(nextQuizs) +'}';
             _parseFunction.callCloudCode("updateQuizTemp", requestdata, function(response) {
-              if (JSON.stringify(response) == "done") {
+              if (response == "done") {
                 parseQuizObjectToMessage(currentQuiz, function(response) {
 
                   if (response != null) {
@@ -121,7 +121,7 @@ function processPostback(userId, postbackData, replyData) {
                   }
                 });
               }else {
-                console.log("updateQuizTemp error:" + JSON.stringify(response));
+                console.log("updateQuizTemp error:" + response);
                 return;
               }
             });
