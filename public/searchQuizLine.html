@@ -98,8 +98,8 @@
     getAllTag();
 
     function getAllTag() {
-      userId = getUrlVars()['userId'];
-      $('#quiz-count').val(userId)
+      var u = getUrlVars()['userId'];
+      alert(u);
       var tags = [];
       callParseServerCloudCode("getTags", null, function(response) {
         if (response) {
