@@ -170,7 +170,7 @@
 
     function call_LINE_pushAPI(messageData, responseMsg) {
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://api.line.me/v2/bot/message/push', true);
+      xhr.open('POST', 'https://api.line.me/v2/bot/message/push');
       xhr.setRequestHeader('Content-type', 'application/json');
       xhr.setRequestHeader('Authorization', 'Bearer ' + token);
 
