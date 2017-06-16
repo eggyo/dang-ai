@@ -76,8 +76,7 @@
     function search() {
       var tagArray = currentTagsString.split(',');
       var count = parseInt($('#quiz-count').val());
-      userId = findGetParameter('userId');
-      $('#quiz-count').val(userId)
+      userId = getUrlVars()['userId'];
       var data = {
         "to": userId,
         "messages": [{
@@ -98,8 +97,7 @@
     getAllTag();
 
     function getAllTag() {
-      var u = getUrlVars()['userId'];
-      alert(u);
+
       var tags = [];
       callParseServerCloudCode("getTags", null, function(response) {
         if (response) {
