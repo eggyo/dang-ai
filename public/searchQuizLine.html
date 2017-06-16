@@ -89,6 +89,9 @@
           }
         ]
       };
+      alert(userId);
+      alert(data);
+
       call_LINE_pushAPI(JSON.stringify(data), function(response) {
         alert(response);
       });
