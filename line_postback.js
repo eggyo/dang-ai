@@ -37,8 +37,16 @@ function processPostback(userId, postbackData, replyData) {
         showFirstQuiz(data, function(res) {
           replyData(res);
         });
+        break;
+
       case "PLAY_QUIZ_STATE_NEXT":
         showNextQuiz(data, function(res) {
+          replyData(res);
+        });
+        break;
+
+      case "PLAY_QUIZ_STATE_LAST":
+        showLastQuiz(data, function(res) {
           replyData(res);
         });
         break;
@@ -54,7 +62,60 @@ function processPostback(userId, postbackData, replyData) {
   }
   return true;
 }
-
+function showLastQuiz(data, replyData) {
+  var currentQuiz = data.currentQuiz;
+  var choice_count = data.choice_count;
+  var quiz_count = data.quiz_count;
+  var score = data.score;
+  var correct_index = data.correct_index;
+  var payload_index = data.payload_index;
+  var messageText;
+  if (payload_index == correct_index) {
+    // correct
+    score += 1;
+    messageText = {
+      type: 'text',
+      text: "คุณตอบ : " + payload_index + "\n✅✅✅✅\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ"
+    };
+  } else {
+    // incorrect
+    messageText = {
+      type: 'text',
+      text: "คุณตอบ : " + payload_index + "\n❌❌❌❌\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ"
+    };
+  }
+  if (score > 5) {
+    messageText.text += "\nผลการทดสอบ : ผ่าน!! 😁😁"
+  } else {
+    messageText.text += "\nผลการทดสอบ : ไม่ผ่าน!! 😭😭"
+  }
+  var template = {
+    type: "template",
+    altText: "this is a buttons template",
+    template: {
+      type: "buttons",
+      thumbnailImageUrl: SERVER_URL + "/assets/dan.ai_cover_bg.jpg",
+      title: "คุณต้องการทำอะไรต่อ?",
+      text: "เลือกเมนูด้านล่าง",
+      actions: [{
+          type: "postback",
+          label: "เล่น Quiz",
+          data: JSON.stringify({
+            "type": "PLAY_QUIZ_PAYLOAD"
+          })
+        },
+        {
+          "type": "uri",
+          "label": "สร้าง Quiz",
+          "uri": "https://dang-ai.herokuapp.com/createquiz"
+        }
+      ]
+    }
+  };
+  replyData({
+    "results": [messageText, template]
+  });
+}
 function showNextQuiz(data, replyData) {
   var quizTempId = data.quizTempId;
   var currentQuiz = data.currentQuiz;

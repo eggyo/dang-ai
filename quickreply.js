@@ -27,7 +27,7 @@ module.exports = {
                 id: recipientId
               },
               message: {
-                text: "ถูกต้อง! คุณได้คะแนน" + score + "/" + quiz_count + " \n เฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ",
+                text: "✅✅✅✅\nคุณได้คะแนน" + score + "/" + quiz_count + " \nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ",
                 metadata: ""
               }
             };
@@ -38,7 +38,7 @@ module.exports = {
                 id: recipientId
               },
               message: {
-                text: "คุณตอบผิด! คุณได้คะแนน" + score + "/" + quiz_count + "\n เฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ",
+                text: "❌❌❌❌\nคุณได้คะแนน" + score + "/" + quiz_count + "\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ",
                 metadata: ""
               }
             };
@@ -159,7 +159,7 @@ module.exports = {
                 id: recipientId
               },
               message: {
-                text: "ถูกต้อง! คุณได้คะแนน" + score + "/" + quiz_count + "\n เฉลย : " + correct_index,
+                text: "✅✅✅✅\nคุณได้คะแนน" + score + "/" + quiz_count + "\nเฉลย : " + correct_index,
                 metadata: ""
               }
             };
@@ -170,15 +170,15 @@ module.exports = {
                 id: recipientId
               },
               message: {
-                text: "คุณตอบผิด! คุณได้คะแนน" + score + "/" + quiz_count + "\n เฉลย : " + correct_index,
+                text: "❌❌❌❌\nคุณได้คะแนน" + score + "/" + quiz_count + "\nเฉลย : " + correct_index,
                 metadata: ""
               }
             };
           }
           if (score > 5) {
-            messageText.message.text += "\nผลการทดสอบ : ผ่าน!!"
+            messageText.message.text += "\nผลการทดสอบ : ผ่าน!! 😁😁"
           } else {
-            messageText.message.text += "\nผลการทดสอบ : ไม่ผ่าน!!"
+            messageText.message.text += "\nผลการทดสอบ : ไม่ผ่าน!! 😭😭"
           }
           var templateData = {
             recipient: {
