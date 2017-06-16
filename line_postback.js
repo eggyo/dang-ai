@@ -75,7 +75,7 @@ function showNextQuiz(data, replyData) {
     // incorrect
     messageText = {
       type: 'text',
-      text: "(sad)คุณตอบ : " + payload_index + "\n❌❌❌❌\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ"
+      text: "คุณตอบ : " + payload_index + "\n❌❌❌❌\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ"
     };
   }
   getParseObject('QuizTemp', quizTempId, function(response) {
