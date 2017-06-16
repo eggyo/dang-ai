@@ -92,7 +92,7 @@
       alert(userId);
       alert(JSON.stringify(data));
 
-      call_LINE_pushAPI(data, function(response) {
+      call_LINE_pushAPI(JSON.stringify(data), function(response) {
         alert(response);
       });
     }
@@ -159,6 +159,7 @@
       xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
 
       xhr.onreadystatechange = function() {
+        alert(JSON.stringify(this));
         if (this.readyState == 4 && this.status == 200) {
           var myArr = JSON.parse(this.responseText);
           responseMsg(myArr.result);
