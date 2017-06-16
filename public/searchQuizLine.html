@@ -180,26 +180,30 @@
         data: messageData,
         success: function(data) {
           alert(JSON.stringify(data));
+        },
+        error: function(error {
+          alert(JSON.stringify(error));
+
         }
       });
-/*
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://api.line.me/v2/bot/message/push/', true);
-      xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
-      xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+      /*
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://api.line.me/v2/bot/message/push/', true);
+            xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
 
-      xhr.onreadystatechange = function() {
-        alert(JSON.stringify(this));
-        alert(JSON.stringify(this.status));
+            xhr.onreadystatechange = function() {
+              alert(JSON.stringify(this));
+              alert(JSON.stringify(this.status));
 
-        if (this.readyState == 4 && this.status == 200) {
-          var myArr = JSON.parse(this.responseText);
-          responseMsg(myArr);
-        }
-      };
+              if (this.readyState == 4 && this.status == 200) {
+                var myArr = JSON.parse(this.responseText);
+                responseMsg(myArr);
+              }
+            };
 
-      xhr.send(messageData);
-*/
+            xhr.send(messageData);
+      */
     }
   </script>
 
