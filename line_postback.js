@@ -51,14 +51,10 @@ function processPostback(userId, postbackData, replyData) {
         var requestdata = '{"tags":' + tagArray + ',"limit":' + count + ',"getTemp":'+true+'}'
         _parseFunction.callCloudCode("getQuizsByTags", requestdata, function(response) {
           if (response) {
-            //TODO response is quiztemp obj
-            //call getparseobject quiztemp and get quizs
-            // remove current quiz from quiz Array
-            // update quizs in temp obj
-            // change nextQuizs to quiztemp in payloadData
+            console.log("getQuizsByTags response:" + JSON.stringify(response));
+
             var quizs = response.quizs;
             var quizTempId = response.objectId;
-            console.log("getQuizsByTags response:" + JSON.stringify(response));
             /*
             var quizData = [];
             for (var i = 0; i < quizs.length; i++) {
@@ -77,7 +73,7 @@ function processPostback(userId, postbackData, replyData) {
                 currentQuiz = objectId;
               }
             }
-            var requestdata = '{"objectId":'+quizTempId+',"quizs":'+nextQuizs +'}';
+            var requestdata = '{"objectId":'+quizTempId+',"quizs":['+nextQuizs +']}';
             _parseFunction.callCloudCode("updateQuizTemp", requestdata, function(response) {
               if (response.result == "done") {
                 parseQuizObjectToMessage(currentQuiz, function(response) {
