@@ -75,13 +75,13 @@ function showLastQuiz(data, replyData) {
     score += 1;
     messageText = {
       type: 'text',
-      text: "คุณตอบ : " + payload_index + "\n✅✅✅✅\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ"
+      text: "คุณตอบ : " + payload_index + "\n✅✅✅✅\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index
     };
   } else {
     // incorrect
     messageText = {
       type: 'text',
-      text: "คุณตอบ : " + payload_index + "\n❌❌❌❌\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ"
+      text: "คุณตอบ : " + payload_index + "\n❌❌❌❌\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index 
     };
   }
   if (score > 5) {
