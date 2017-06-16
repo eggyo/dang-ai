@@ -74,25 +74,13 @@
       var tagArray = currentTagsString.split(',');
       var count = parseInt($('#quiz-count').val());
       userId = getUrlVars()['userId'];
-      var data = {
-        "to": userId,
-        "messages": [{
-          "type": "text",
-          "text": "กำลังค้นหา Quiz จากการร้องขอ.."
-        }]
-      };
-      alert(userId);
-      alert(JSON.stringify(data));
-
       $.ajax({
         type: 'GET',
-        url: 'https://dang-ai.herokuapp.com/push/userId=' + userId + '&data=' + JSON.stringify(data) + '&tags=[' + tagArray + ']',
+        url: 'https://dang-ai.herokuapp.com/push/userId=' + userId + '&tags=[' + tagArray + ']&limit='+count,
         success: function(resp) {
           alert(JSON.stringify(resp));
         },
         error: function(error) {
-          alert(JSON.stringify(error));
-
         }
       });
     }

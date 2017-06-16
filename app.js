@@ -90,23 +90,28 @@ app.get('/policy', function(req, res) {
 app.get('/json-upload-to-parse', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/json-upload-to-parse.html'));
 });
-app.get('/push/userId=:userId&data=:data&tags=:tags', function(req, res) {
-  console.log("push req: "+req+" res: "+res);
-
+app.get('/push/userId=:userId&tags=:tags&limit=:limit', function(req, res) {
   var userId = req.params.userId;
-  var data = req.params.data;
   var tags = req.params.tags;
+  var limit = req.params.limit;
+  var data = '{"tags":' + tags + ',"limit":'+limit+'}'
+  console.log("push userId: " + userId + " limit :" + limit + " tags :" + tags +"\ndata:"+data);
 
-  console.log("push userId: "+userId +" data :"+data+" tags :"+tags);
-
-
-  line_client.pushMessage(userId, JSON.parse(data))
+  line_client.pushMessage(userId, {
+      type: 'text',
+      text: "กำลังค้นหา Quiz จากการร้องขอ.."
+    })
     .then(() => {
-      console.log("push donr:");
+      res.json("done");
     })
     .catch((err) => {
-      console.error("push error :"+err);
+      console.error("push error :" + err);
     });
+
+
+
+
+
 });
 /*
  * Use your own validation token. Check that the token used in the Webhook
