@@ -51,78 +51,88 @@ function processPostback(userId, postbackData, replyData) {
         var requestdata = '{"tags":' + tagArray + ',"limit":' + count + '}'
         _parseFunction.callCloudCode("getQuizsByTags", requestdata, function(response) {
           if (response) {
-            var quizData = [];
+            //TODO response is quiztemp obj
+            //call getparseobject quiztemp and get quizs
+            // remove current quiz from quiz Array
+            // update quizs in temp obj
+            // change nextQuizs to quiztemp in payloadData
+            var quizs = response.get('quiz');
+            var quizTempId = response.objectId;
             console.log("getQuizsByTags response:" + JSON.stringify(response));
-            for (var i = 0; i < response.length; i++) {
-              var obj = response[i]
+            /*
+            var quizData = [];
+            for (var i = 0; i < quizs.length; i++) {
+              var obj = quizs[i]
               var objectId = obj.objectId;
               quizData.push(objectId);
-            }
+            }*/
 
             var nextQuizs = [];
             var currentQuiz = '';
-            for (var i = 0; i < quizData.length; i++) {
-              var objectId = quizData[i];
+            for (var i = 0; i < quizs.length; i++) {
+              var objectId = quizs[i].objectId;
               if (i != 0) {
-                nextQuizs.push(objectId);
+                nextQuizs.push(quizs[i]);
               } else {
                 currentQuiz = objectId;
               }
             }
-            parseQuizObjectToMessage(currentQuiz, function(response) {
+            var requestdata = '{"objectId":'+quizTempId+',"quizs":'+nextQuizs +'}';
+            _parseFunction.callCloudCode("updateQuizTemp", requestdata, function(response) {
+              if (response.result == "done") {
+                parseQuizObjectToMessage(currentQuiz, function(response) {
 
-              if (response != null) {
-                var quiz = response.quiz;
-                var correct_index = response.correct_index;
-                var choice_count = response.choice_count;
-                var payloadData = {
-                  "type": "PLAY_QUIZ_STATE_NEXT",
-                  "nextQuizs": nextQuizs,
-                  "currentQuiz": currentQuiz,
-                  "choice_count": choice_count,
-                  "quiz_count": quizData.length,
-                  "score": 0,
-                  "correct_index": correct_index
-                };
-                var choiceData = {
-                  type: "template",
-                  altText: "this is a buttons template",
-                  template: {
-                    type: "buttons",
-                    text: "เลือกคำตอบที่ถูกต้อง",
-                    actions: []
+                  if (response != null) {
+                    var quiz = response.quiz;
+                    var correct_index = response.correct_index;
+                    var choice_count = response.choice_count;
+                    var payloadData = {
+                      "type": "PLAY_QUIZ_STATE_NEXT",
+                      "quizTempId": quizTempId,
+                      "currentQuiz": currentQuiz,
+                      "choice_count": choice_count,
+                      "quiz_count": quizData.length,
+                      "score": 0,
+                      "correct_index": correct_index
+                    };
+                    var choiceData = {
+                      type: "template",
+                      altText: "this is a buttons template",
+                      template: {
+                        type: "buttons",
+                        text: "เลือกคำตอบที่ถูกต้อง",
+                        actions: []
+                      }
+                    };
+                    var actions = [];
+                    for (var i = 0; i < choice_count; i++) {
+                      payloadData['payload_index'] = i + 1;
+                      actions.push({
+                        type: "postback",
+                        label: i + 1,
+                        data: JSON.stringify(payloadData)
+                      });
+                    }
+                    choiceData.template['actions'] = actions;
+
+                    var messageQuiz = {
+                      type: 'text',
+                      text: quiz
+                    };
+                    replyData({
+                      "results": [msg_1, msg_2, messageQuiz, choiceData]
+                    });
                   }
-                };
-                var actions = [];
-                for (var i = 0; i < choice_count; i++) {
-                  payloadData['payload_index'] = i + 1;
-                  actions.push({
-                    type: "postback",
-                    label: i + 1,
-                    data: JSON.stringify(payloadData)
-                  });
-                }
-                choiceData.template['actions'] = actions;
-
-                var messageQuiz = {
-                  type: 'text',
-                  text: quiz
-                };
-                replyData({
-                  "results": [msg_1, msg_2, messageQuiz, choiceData]
                 });
-
-
-
-
-
+              }else {
+                console.log("updateQuizTemp error:" + JSON.stringify(response));
+                return;
               }
             });
           } else {
             return;
           }
         });
-
 
         break;
 
@@ -200,9 +210,9 @@ function showTopics(userId, replyData) {
 }
 
 
-function getParseQuizObject(objectId, responseMsg) {
+function getParseObject(className, objectId, responseMsg) {
   var options = {
-    url: 'https://eggyo-quiz-db.herokuapp.com/parse/classes/Quiz/' + objectId,
+    url: 'https://eggyo-quiz-db.herokuapp.com/parse/classes/' + className + '/' + objectId,
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -227,7 +237,7 @@ function getParseQuizObject(objectId, responseMsg) {
 
 
 function parseQuizObjectToMessage(objectId, quizMsg) {
-  getParseQuizObject(objectId, function(response) {
+  getParseObject('Quiz', objectId, function(response) {
     if (response != null) {
       var quiz = response.quiz;
       var correct_ans = response.correct_ans;
