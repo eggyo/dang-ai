@@ -56,7 +56,7 @@ function processPostback(userId, postbackData, replyData) {
             // remove current quiz from quiz Array
             // update quizs in temp obj
             // change nextQuizs to quiztemp in payloadData
-            var quizs = response.get('quiz');
+            var quizs = response.quizs;
             var quizTempId = response.objectId;
             console.log("getQuizsByTags response:" + JSON.stringify(response));
             /*
