@@ -90,7 +90,7 @@ app.get('/policy', function(req, res) {
 app.get('/json-upload-to-parse', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/json-upload-to-parse.html'));
 });
-app.get('/push/userId=:userId', function(req, res) {
+app.get('/push?userId=:userId', function(req, res) {
   console.log("push req: "+req+" res: "+res);
 
   var userId = req.params.userId;
