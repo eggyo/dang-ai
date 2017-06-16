@@ -81,7 +81,7 @@
         "to": userId,
         "messages": [{
             "type": "text",
-            "text": "Hello, world1"
+            "text": "กำลังค้นหา Quiz จากการร้องขอ.."
           },
           {
             "type": "text",
@@ -94,7 +94,7 @@
 
       $.ajax({
         type: 'GET',
-        url: 'https://dang-ai.herokuapp.com/push?userId='+userId,
+        url: 'https://dang-ai.herokuapp.com/push/userId='+userId+'&data='+JSON.stringify(data),
         success: function(resp) {
           alert(JSON.stringify(resp));
         },
