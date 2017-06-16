@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1 ,maximum-scale=1.0, user-scalable=0">
+
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Search Quiz</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/theme.css" rel="stylesheet">
+  <link href="css/selectize.bootstrap3.css" rel="stylesheet">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+  <div class="container_2">
+    <form id="contact" action="" method="post">
+
+      <label id="label-tags" for="input-tags">Quiz Tags:</label>
+      <fieldset class="form-group">
+        <input type="text" id="input-tags" class="demo-default" tabindex="1" style="visibility:hidden;" required>
+      </fieldset>
+      <label for="input-tags">จำนวนข้อ:</label>
+      <fieldset class="form-group">
+        <input id="quiz-count" name="quiz-count" placeholder="กรอกจำนวนข้อที่เล่น 5 - 20 ข้อ (ใส่แค่ตัวเลข)" type="text" tabindex="2" required>
+      </fieldset>
+
+      <fieldset>
+        <button type="button" onclick="search()" id="contact-submit">Submit</button>
+      </fieldset>
+      <p class="copyright">Created by <a href="https://dang-ai.herokuapp.com" target="_blank" title="Colorlib">Dang.ai</a></p>
+    </form>
+  </div>
+
+
+
+
+
+
+
+
+  <script>
+    function findGetParameter(parameterName) {
+      var result = null,
+        tmp = [];
+      var items = location.search.substr(1).split("&");
+      for (var index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+      }
+      return result;
+    }
+    var currentTagsString = "";
+
+    var userId = '';
+    var token = "TdqcvSCSoM2PWMxgnEWY+qqGSjC0NDUyYeTYZxmeGUyOf9I0olxbuYKAZ/Yp4Mir7ll7e1QNkdTYfi6U09ubFmgrDqMQYErHncZ3AQBDpRY6cCLYD2viUnYH0C37T1wfUTwxS9xWW6lE2oK2YnrUCgdB04t89/1O/w1cDnyilFU=";
+
+
+    function search() {
+      var tagArray = currentTagsString.split(',');
+      var count = parseInt($('#quiz-count').val());
+      userId = findGetParameter('userId');
+      $('#quiz-count').val(userId)
+      var data = {
+        "to": userId,
+        "messages": [{
+            "type": "text",
+            "text": "Hello, world1"
+          },
+          {
+            "type": "text",
+            "text": "Hello, world2"
+          }
+        ]
+      };
+      call_LINE_pushAPI(JSON.stringify(data), function(response) {
+
+      });
+    }
+
+    getAllTag();
+
+    function getAllTag() {
+      var tags = [];
+      callParseServerCloudCode("getTags", null, function(response) {
+        if (response) {
+          for (var i = 0; i < response.length; i++) {
+            var v = JSON.stringify(response[i]);
+            tags.push({
+              text: v,
+              value: v
+            });
+          }
+          document.getElementById('input-tags').style.visibility = "visible";
+          // selectize script
+          $('#input-tags').selectize({
+            plugins: ['remove_button'],
+            persist: false,
+            createOnBlur: true,
+            delimiter: ',',
+            create: true,
+            options: tags,
+            placeholder: "ใส่ Tag ที่ต้องการค้นหา...",
+            labelField: "text",
+            valueField: "value",
+            onChange: function(value) {
+              currentTagsString = value;
+              var tagArray = currentTagsString.split(',');
+              var data = '{"tags":[' + tagArray + ']}';
+              callParseServerCloudCode("quizsCountByTags", data, function(response) {
+                document.getElementById('label-tags').innerHTML = "จำนวน Quiz ที่พบ : " + response + " ข้อ";
+
+              });
+            }
+          });
+        } else {
+          $('#input-tags').selectize({
+            plugins: ['remove_button'],
+            persist: false,
+            createOnBlur: true,
+            delimiter: ',',
+            create: true,
+            options: tags,
+            labelField: "text",
+            valueField: "value",
+            onChange: function(value) {
+              currentTagsString = value;
+            }
+          });
+        }
+      });
+    }
+
+    function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/' + methodName, true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
+      xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
+
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          responseMsg(myArr.result);
+        }
+      };
+
+      xhr.send(requestMsg);
+    }
+
+    function call_LINE_pushAPI(messageData, responseMsg) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://api.line.me/v2/bot/message/push', true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          responseMsg(myArr);
+        }
+      };
+
+      xhr.send(messageData);
+
+    }
+  </script>
+
+
+  <!-- jQuery -->
+  <script src="js/jquery.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/standalone/selectize.min.js"></script>
+
+  <!-- Scrolling Nav JavaScript -->
+  <script src="js/jquery.easing.min.js"></script>
+  <script src="js/scrolling-nav.js"></script>
+
+</body>
+
+</html>
