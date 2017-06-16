@@ -87,7 +87,7 @@ function processPostback(userId, postbackData, replyData) {
                       "quizTempId": quizTempId,
                       "currentQuiz": currentQuiz,
                       "choice_count": choice_count,
-                      "quiz_count": quizData.length,
+                      "quiz_count": quizs.length,
                       "score": 0,
                       "correct_index": correct_index
                     };
