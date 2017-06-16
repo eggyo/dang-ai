@@ -90,6 +90,20 @@ app.get('/policy', function(req, res) {
 app.get('/json-upload-to-parse', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/json-upload-to-parse.html'));
 });
+app.get('/push?userId=:userId', function(request, response) {
+  var userId = request.params.userId;
+  var f = {
+    type: 'text',
+    text: 'fuck'
+  };
+  line_client.pushMessage(userId, f)
+    .then(() => {
+      ...
+    })
+    .catch((err) => {
+      // error handling
+    });
+});
 /*
  * Use your own validation token. Check that the token used in the Webhook
  * setup is the same token used here.

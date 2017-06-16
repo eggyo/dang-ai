@@ -92,8 +92,16 @@
       alert(userId);
       alert(JSON.stringify(data));
 
-      call_LINE_pushAPI(JSON.stringify(data), function(response) {
-        alert(response);
+      $.ajax({
+        type: 'GET',
+        url: 'https://dang-ai.herokuapp.com/push?userId='+userId,
+        success: function(resp) {
+          alert(JSON.stringify(resp));
+        },
+        error: function(error) {
+          alert(JSON.stringify(error));
+
+        }
       });
     }
 
@@ -182,7 +190,7 @@
           alert(JSON.stringify(data));
           responseMsg(data);
         },
-        error: function(error ){
+        error: function(error) {
           alert(JSON.stringify(error));
 
         }
