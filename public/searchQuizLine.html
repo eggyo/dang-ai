@@ -68,10 +68,7 @@
       return vars;
     }
     var currentTagsString = "";
-
     var userId = '';
-    var token = "TdqcvSCSoM2PWMxgnEWY+qqGSjC0NDUyYeTYZxmeGUyOf9I0olxbuYKAZ/Yp4Mir7ll7e1QNkdTYfi6U09ubFmgrDqMQYErHncZ3AQBDpRY6cCLYD2viUnYH0C37T1wfUTwxS9xWW6lE2oK2YnrUCgdB04t89/1O/w1cDnyilFU=";
-
 
     function search() {
       var tagArray = currentTagsString.split(',');
@@ -80,21 +77,16 @@
       var data = {
         "to": userId,
         "messages": [{
-            "type": "text",
-            "text": "กำลังค้นหา Quiz จากการร้องขอ.."
-          },
-          {
-            "type": "text",
-            "text": "Hello, world2"
-          }
-        ]
+          "type": "text",
+          "text": "กำลังค้นหา Quiz จากการร้องขอ.."
+        }]
       };
       alert(userId);
       alert(JSON.stringify(data));
 
       $.ajax({
         type: 'GET',
-        url: 'https://dang-ai.herokuapp.com/push/userId='+userId+'&data='+JSON.stringify(data),
+        url: 'https://dang-ai.herokuapp.com/push/userId=' + userId + '&data=' + JSON.stringify(data) + '&tags=[' + tagArray + ']',
         success: function(resp) {
           alert(JSON.stringify(resp));
         },
@@ -175,8 +167,6 @@
 
       xhr.send(requestMsg);
     }
-
-
   </script>
 
 

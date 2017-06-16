@@ -90,19 +90,17 @@ app.get('/policy', function(req, res) {
 app.get('/json-upload-to-parse', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/json-upload-to-parse.html'));
 });
-app.get('/push/userId=:userId&data=:data', function(req, res) {
+app.get('/push/userId=:userId&data=:data&tags=:tags', function(req, res) {
   console.log("push req: "+req+" res: "+res);
 
   var userId = req.params.userId;
   var data = req.params.data;
+  var tags = req.params.tags;
 
-  console.log("push userId: "+userId +" data :"+data);
+  console.log("push userId: "+userId +" data :"+data+" tags :"+tags);
 
-  var f = {
-    type: 'text',
-    text: 'fuck'
-  };
-  line_client.pushMessage(userId, f)
+
+  line_client.pushMessage(userId, JSON.parse(data))
     .then(() => {
       console.log("push donr:");
     })
