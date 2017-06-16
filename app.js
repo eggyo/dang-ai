@@ -471,7 +471,7 @@ function handleEvent(event) {
     _line_postback.process(userId, data, function(replyData) {
       var replyMessage = replyData.results;
       console.log("userId: %s ---- replyMessage: %s", userId, JSON.stringify(replyMessage));
-      line_client.replyMessage(event.replyToken,replyMessage );
+      line_client.replyMessage(event.replyToken, replyMessage);
     });
   } else if (event.message.text == 'เล่น' || event.message.text == 'เริ่ม') {
     line_client.replyMessage(event.replyToken, [{
@@ -497,6 +497,8 @@ function handleEvent(event) {
         ]
       }
     }]);
+  } else if (event.message.type == 'text') {
+    console.log("------------> event.message.text: %s", event.message.text);
   } else {
     return Promise.resolve(null);
   }
