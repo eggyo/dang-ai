@@ -69,13 +69,13 @@ function showNextQuiz(data, replyData) {
     score += 1;
     messageText = {
       type: 'text',
-      text: "คุณตอบ : " + payload_index + "\n✅✅ คุณได้คะแนน " + score + "/" + quiz_count + " ✅✅\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ"
+      text: "(love)คุณตอบ : " + payload_index + "\n✅✅ คุณได้คะแนน " + score + "/" + quiz_count + " ✅✅\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ"
     };
   } else {
     // incorrect
     messageText = {
       type: 'text',
-      text: "คุณตอบ : " + payload_index + "\n❌❌ คุณได้คะแนน " + score + "/" + quiz_count + "❌❌\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ"
+      text: "(sad)คุณตอบ : " + payload_index + "\n❌❌ คุณได้คะแนน " + score + "/" + quiz_count + "❌❌\nเฉลย : " + correct_index + "\nเริ่มข้อต่อไปเลยนะ"
     };
   }
   getParseObject('QuizTemp', quizTempId, function(response) {
