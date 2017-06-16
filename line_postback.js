@@ -85,9 +85,9 @@ function showLastQuiz(data, replyData) {
     };
   }
   if (score > 5) {
-    messageText.text += "\nผลการทดสอบ : ผ่าน!! 😁😁"
+    messageText.text += "\n\nผลการทดสอบ : ผ่าน!!\n😁😁😁😁"
   } else {
-    messageText.text += "\nผลการทดสอบ : ไม่ผ่าน!! 😭😭"
+    messageText.text += "\n\nผลการทดสอบ : ไม่ผ่าน!!\n😭😭😭😭"
   }
   var template = {
     type: "template",
