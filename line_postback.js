@@ -34,100 +34,8 @@ function processPostback(userId, postbackData, replyData) {
         break;
 
       case "PLAY_QUIZ_FROM_SAMPLE_QUIZ":
-        var tags = data.tags;
-        var count = data.count;
-        var name = data.name;
-        var tagArray = JSON.stringify(tags);
-
-        console.log("tags:" + tags + "  tagArray:" + tagArray);
-        var msg_1 = {
-          type: 'text',
-          text: "กำลังค้นหา Quiz: " + name
-        };
-        var msg_2 = {
-          type: 'text',
-          text: "โอเค เรามาเริ่มกันเลย"
-        };
-        var requestdata = '{"tags":' + tagArray + ',"limit":' + count + ',"getTemp":'+true+'}'
-        _parseFunction.callCloudCode("getQuizsByTags", requestdata, function(response) {
-          if (response) {
-            console.log("getQuizsByTags response:" + JSON.stringify(response));
-
-            var quizs = response.quizs;
-            var quizTempId = response.objectId;
-            /*
-            var quizData = [];
-            for (var i = 0; i < quizs.length; i++) {
-              var obj = quizs[i]
-              var objectId = obj.objectId;
-              quizData.push(objectId);
-            }*/
-
-            var nextQuizs = [];
-            var currentQuiz = '';
-            for (var i = 0; i < quizs.length; i++) {
-              var objectId = quizs[i].objectId;
-              if (i != 0) {
-                nextQuizs.push(quizs[i]);
-              } else {
-                currentQuiz = objectId;
-              }
-            }
-            var requestdata = '{"objectId":"'+quizTempId+'","quizs":'+JSON.stringify(nextQuizs) +'}';
-            _parseFunction.callCloudCode("updateQuizTemp", requestdata, function(response) {
-              if (response == "done") {
-                parseQuizObjectToMessage(currentQuiz, function(response) {
-
-                  if (response != null) {
-                    var quiz = response.quiz;
-                    var correct_index = response.correct_index;
-                    var choice_count = response.choice_count;
-                    var payloadData = {
-                      "type": "PLAY_QUIZ_STATE_NEXT",
-                      "quizTempId": quizTempId,
-                      "currentQuiz": currentQuiz,
-                      "choice_count": choice_count,
-                      "quiz_count": quizs.length,
-                      "score": 0,
-                      "correct_index": correct_index
-                    };
-                    var choiceData = {
-                      type: "template",
-                      altText: "this is a buttons template",
-                      template: {
-                        type: "buttons",
-                        text: "เลือกคำตอบที่ถูกต้อง",
-                        actions: []
-                      }
-                    };
-                    var actions = [];
-                    for (var i = 0; i < choice_count; i++) {
-                      payloadData['payload_index'] = i + 1;
-                      actions.push({
-                        type: "postback",
-                        label: i + 1,
-                        data: JSON.stringify(payloadData)
-                      });
-                    }
-                    choiceData.template['actions'] = actions;
-
-                    var messageQuiz = {
-                      type: 'text',
-                      text: quiz
-                    };
-                    replyData({
-                      "results": [msg_1, msg_2, messageQuiz, choiceData]
-                    });
-                  }
-                });
-              }else {
-                console.log("updateQuizTemp error:" + response);
-                return;
-              }
-            });
-          } else {
-            return;
-          }
+        showFirstQuiz(data, function(res) {
+          replyData(res);
         });
 
         break;
@@ -145,6 +53,103 @@ function processPostback(userId, postbackData, replyData) {
 }
 
 
+function showFirstQuiz(data, replyData) {
+  var tags = data.tags;
+  var count = data.count;
+  var name = data.name;
+  var tagArray = JSON.stringify(tags);
+
+  console.log("tags:" + tags + "  tagArray:" + tagArray);
+  var msg_1 = {
+    type: 'text',
+    text: "กำลังค้นหา Quiz: " + name
+  };
+  var msg_2 = {
+    type: 'text',
+    text: "โอเค เรามาเริ่มกันเลย"
+  };
+  var requestdata = '{"tags":' + tagArray + ',"limit":' + count + ',"getTemp":'+true+'}'
+  _parseFunction.callCloudCode("getQuizsByTags", requestdata, function(response) {
+    if (response) {
+      console.log("getQuizsByTags response:" + JSON.stringify(response));
+
+      var quizs = response.quizs;
+      var quizTempId = response.objectId;
+      /*
+      var quizData = [];
+      for (var i = 0; i < quizs.length; i++) {
+        var obj = quizs[i]
+        var objectId = obj.objectId;
+        quizData.push(objectId);
+      }*/
+
+      var nextQuizs = [];
+      var currentQuiz = '';
+      for (var i = 0; i < quizs.length; i++) {
+        var objectId = quizs[i].objectId;
+        if (i != 0) {
+          nextQuizs.push(quizs[i]);
+        } else {
+          currentQuiz = objectId;
+        }
+      }
+      var requestdata = '{"objectId":"'+quizTempId+'","quizs":'+JSON.stringify(nextQuizs) +'}';
+      _parseFunction.callCloudCode("updateQuizTemp", requestdata, function(response) {
+        if (response == "done") {
+          parseQuizObjectToMessage(currentQuiz, function(response) {
+
+            if (response != null) {
+              var quiz = response.quiz;
+              var correct_index = response.correct_index;
+              var choice_count = response.choice_count;
+              var payloadData = {
+                "type": "PLAY_QUIZ_STATE_NEXT",
+                "quizTempId": quizTempId,
+                "currentQuiz": currentQuiz,
+                "choice_count": choice_count,
+                "quiz_count": quizs.length,
+                "score": 0,
+                "correct_index": correct_index
+              };
+              var choiceData = {
+                type: "template",
+                altText: "เลือกคำตอบที่ถูกต้อง",
+                template: {
+                  type: "buttons",
+                  text: "เลือกคำตอบที่ถูกต้อง",
+                  actions: []
+                }
+              };
+              var actions = [];
+              for (var i = 0; i < choice_count; i++) {
+                payloadData['payload_index'] = i + 1;
+                actions.push({
+                  type: "postback",
+                  label: i + 1,
+                  data: JSON.stringify(payloadData)
+                });
+              }
+              choiceData.template['actions'] = actions;
+
+              var messageQuiz = {
+                type: 'text',
+                text: quiz
+              };
+              replyData({
+                "results": [msg_1, msg_2, messageQuiz, choiceData]
+              });
+            }
+          });
+        }else {
+          console.log("updateQuizTemp error:" + response);
+          return;
+        }
+      });
+    } else {
+      return;
+    }
+  });
+}
 function showTopics(userId, replyData) {
 
   var m = {
