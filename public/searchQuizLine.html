@@ -90,9 +90,9 @@
         ]
       };
       alert(userId);
-      alert(data);
+      alert(JSON.stringify(data));
 
-      call_LINE_pushAPI(JSON.stringify(data), function(response) {
+      call_LINE_pushAPI(data, function(response) {
         alert(response);
       });
     }
