@@ -104,8 +104,8 @@ function showNextQuiz(data, replyData) {
                 "quizTempId": quizTempId,
                 "currentQuiz": currentQuiz,
                 "choice_count": choice_count,
-                "quiz_count": quizs.length,
-                "score": 0,
+                "quiz_count": quiz_count,
+                "score": score,
                 "correct_index": correct_index
               };
               var choiceData = {
@@ -148,8 +148,8 @@ function showNextQuiz(data, replyData) {
                 "type": "PLAY_QUIZ_STATE_LAST",
                 "currentQuiz": currentQuiz,
                 "choice_count": choice_count,
-                "quiz_count": quizs.length,
-                "score": 0,
+                "quiz_count": quiz_count,
+                "score": score,
                 "correct_index": correct_index
               };
               var choiceData = {
