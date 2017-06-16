@@ -98,10 +98,10 @@ app.get('/push?userId=:userId', function(request, response) {
   };
   line_client.pushMessage(userId, f)
     .then(() => {
-      ...
+      console.log("push donr:");
     })
     .catch((err) => {
-      // error handling
+      console.error("push error :"+err);
     });
 });
 /*
