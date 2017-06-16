@@ -100,6 +100,8 @@
     getAllTag();
 
     function getAllTag() {
+      userId = findGetParameter('userId');
+      $('#quiz-count').val(userId)
       var tags = [];
       callParseServerCloudCode("getTags", null, function(response) {
         if (response) {

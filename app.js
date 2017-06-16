@@ -81,6 +81,9 @@ app.get('/createquiz', function(req, res) {
 app.get('/searchquiz', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/searchQuiz.html'));
 });
+app.get('/searchquizLine', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/searchQuizLine.html'));
+});
 app.get('/policy', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/policy.html'));
 });
