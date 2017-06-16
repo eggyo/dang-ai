@@ -93,7 +93,7 @@ app.get('/json-upload-to-parse', function(req, res) {
 app.get('/push/userId=:userId', function(req, res) {
   console.log("push req: "+req+" res: "+res);
 
-  var userId = request.params.userId;
+  var userId = req.params.userId;
   console.log("push userId: "+userId);
 
   var f = {
