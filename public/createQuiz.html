@@ -61,7 +61,7 @@
 
 
             <fieldset class="form-group">
-                <input id="category" name="category" placeholder="Your Quiz Category name" type="text" tabindex="1" required>
+                <input id="category" name="category" placeholder="ชื่อหัวข้อคำถาม..." type="text" tabindex="1" required>
             </fieldset>
             <label for="input-tags">Quiz Tags:</label>
             <fieldset class="form-group">
@@ -69,22 +69,22 @@
             </fieldset>
 
             <fieldset class="form-group">
-                <textarea id="quiz" name="quiz" placeholder="Type your quiz here...." tabindex="3" required autofocus></textarea>
+                <textarea id="quiz" name="quiz" placeholder="่คำถามของคุณ..." tabindex="3" required autofocus></textarea>
             </fieldset>
             <fieldset class="form-group">
-                <input id="correct" name="correct" placeholder="Your Correct answer" type="text" tabindex="4" required>
+                <input id="correct" name="correct" placeholder="คำตอบที่ถูกต้อง..." type="text" tabindex="4" required>
             </fieldset>
             <fieldset class="form-group">
-                <input id="incorrect_1" name="incorrect" placeholder="Your Incorrect answer" type="text" tabindex="5" required>
+                <input id="incorrect_1" name="incorrect" placeholder="คำตอบที่ผิด..." type="text" tabindex="5" required>
             </fieldset>
             <fieldset class="form-group">
-                <input id="incorrect_2" placeholder="Your Incorrect answer(optional)" type="text" tabindex="6" required>
+                <input id="incorrect_2" placeholder="คำตอบที่ผิด...(จะใส่หรือไม่ใส่ก็ได้)" type="text" tabindex="6" required>
             </fieldset>
             <fieldset class="form-group">
-                <input id="incorrect_3" placeholder="Your Incorrect answer(optional)" type="text" tabindex="7" required>
+                <input id="incorrect_3" placeholder="คำตอบที่ผิด...(จะใส่หรือไม่ใส่ก็ได้)" type="text" tabindex="7" required>
             </fieldset>
             <fieldset class="form-group">
-                <input id="incorrect_4" placeholder="Your Incorrect answer(optional)" type="text" tabindex="8" required>
+                <input id="correct_detail" placeholder="คำอธิบายเฉลย...(จะใส่หรือไม่ใส่ก็ได้)" type="text" tabindex="8" required>
             </fieldset>
             <fieldset class="form-group">
                 <button name="submit" type="submit" id="contact-submit">Submit</button>
@@ -190,14 +190,15 @@
             var incorrect_1 = $('#incorrect_1').val();
             var incorrect_2 = $('#incorrect_2').val();
             var incorrect_3 = $('#incorrect_3').val();
-            var incorrect_4 = $('#incorrect_4').val();
+            var correct_detail = $('#correct_detail').val();
             var obj = [{
                 "id": GenerateId(),
                 "category": categoryName,
                 "tag": tagArray,
                 "quiz": quiz,
                 "correct_ans": correct,
-                "incorrect_ans": [incorrect_1, incorrect_2, incorrect_3, incorrect_4]
+                "incorrect_ans": [incorrect_1, incorrect_2, incorrect_3],
+                "correct_detail": correct_detail
             }];
 
             var data = '{"objects":' + JSON.stringify(obj) + '}';
