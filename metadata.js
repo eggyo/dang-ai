@@ -22,7 +22,7 @@ module.exports = {
       switch (type) {
         case "GET_QUIZ_BY_CATEGORY":
           var query = data.query;
-          var data = '{"name":' + query + ',"limit":'+limit+'}'
+          var data = '{"name":"' + query + '","limit":'+limit+'}'
           console.log("userID:" + userId + "  data:" + data);
           callParseServerCloudCode("getQuizsByCategory", data, function(response) {
             if (response) {
