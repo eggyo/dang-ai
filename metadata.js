@@ -106,8 +106,7 @@ module.exports = {
                     type: "template",
                     payload: {
                       template_type: "button",
-                      text: "เลือกคำตอบที่ถูกต้อง",
-                      buttons: []
+                      text: "เลือกคำตอบที่ถูกต้อง"
                     }
                   }
                 }
@@ -122,6 +121,8 @@ module.exports = {
                 });
               }
               templateData.message.attachment.payload['buttons'] = buttons;
+              console.log("messageData " + JSON.stringify(messageData) + " templateData:" + JSON.stringify(templateData));
+
               /*
               var quick_replies = []
               for (var i = 0; i < choice_count; i++) {
