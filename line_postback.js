@@ -38,7 +38,7 @@ function processPostback(userId, postbackData, replyData) {
         });
         break;
 
-      case "PLAY_QUIZ_FROM_SAMPLE_QUIZ":
+      case "PLAY_QUIZ_FROM_TOPIC":
         showFirstQuiz(data, function(res) {
           replyData(res);
         });
@@ -262,12 +262,9 @@ function showNextQuiz(data, replyData) {
 }
 
 function showFirstQuiz(data, replyData) {
-  var tags = data.tags;
   var count = data.count;
   var name = data.name;
-  var tagArray = JSON.stringify(tags);
 
-  console.log("tags:" + tags + "  tagArray:" + tagArray);
   var msg_1 = {
     type: 'text',
     text: "กำลังค้นหา Quiz: " + name
@@ -276,10 +273,10 @@ function showFirstQuiz(data, replyData) {
     type: 'text',
     text: "โอเค เรามาเริ่มกันเลย"
   };
-  var requestdata = '{"tags":' + tagArray + ',"limit":' + count + ',"getTemp":' + true + '}'
-  _parseFunction.callCloudCode("getQuizsByTags", requestdata, function(response) {
+  var requestdata = '{"name":' + name + ',"limit":' + count + ',"getTemp":' + true + '}'
+  _parseFunction.callCloudCode("getQuizsByCategory", requestdata, function(response) {
     if (response) {
-      console.log("getQuizsByTags response:" + JSON.stringify(response));
+      console.log("getQuizsByCategory response:" + JSON.stringify(response));
 
       var quizs = response.quizs;
       var quizTempId = response.objectId;
@@ -371,12 +368,11 @@ function showTopics(userId, replyData) {
   };
 
   var requestdata = '{"limit":5}';
-  _parseFunction.callCloudCode("getSampleQuiz", requestdata, function(response) {
+  _parseFunction.callCloudCode("getTopics", requestdata, function(response) {
     if (response.length != 0) {
       //console.log("getSampleQuiz: "+JSON.stringify(response));
       for (var i = 0; i < response.length; i++) {
         var obj = response[i];
-        var tags = obj.tags;
         var count = obj.count;
         var name = obj.name;
 
@@ -388,8 +384,7 @@ function showTopics(userId, replyData) {
               "type": "postback",
               "label": "Start",
               "data": JSON.stringify({
-                type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ",
-                tags: tags,
+                type: "PLAY_QUIZ_FROM_TOPIC",
                 count: count,
                 name: name
               })

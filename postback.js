@@ -75,12 +75,12 @@ module.exports = {
             }
           };
           var data = '{"limit":5}';
-          _parseFunction.callCloudCode("getSampleQuiz", data, function(response) {
+          _parseFunction.callCloudCode("getTopics", data, function(response) {
             if (response.length != 0) {
               //console.log("getSampleQuiz: "+JSON.stringify(response));
               for (var i = 0; i < response.length; i++) {
                 var obj = response[i];
-                var tags = obj.tags;
+                //var tags = obj.tags;
                 var count = obj.count;
                 var name = obj.name;
 
@@ -90,8 +90,7 @@ module.exports = {
                   buttons: [{
                     type: "postback",
                     payload: JSON.stringify({
-                      type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ",
-                      tags: tags,
+                      type: "PLAY_QUIZ_FROM_TOPIC",
                       count: count,
                       name: name
                     }),
@@ -113,13 +112,9 @@ module.exports = {
           });
 
           break;
-        case "PLAY_QUIZ_FROM_SAMPLE_QUIZ":
-          var tags = data.tags;
+        case "PLAY_QUIZ_FROM_TOPIC":
           var count = data.count;
           var name = data.name;
-          var tagArray = JSON.stringify(tags);
-
-          console.log("tags:" + tags + "  tagArray:" + tagArray);
 
           var messageData = {
             recipient: {
@@ -128,8 +123,8 @@ module.exports = {
             message: {
               text: "กำลังค้นหา Quiz: " + name,
               metadata: JSON.stringify({
-                type: "GET_QUIZ_BY_TAGS",
-                query: tagArray,
+                type: "GET_QUIZ_BY_CATEGORY",
+                query: name,
                 userId: recipientId,
                 limit: count
               })
@@ -180,7 +175,6 @@ module.exports = {
         //console.log("getSampleQuiz: "+JSON.stringify(response));
         for (var i = 0; i < response.length; i++) {
           var obj = response[i];
-          var tags = obj.tags;
           var count = obj.count;
           var name = obj.name;
 
@@ -190,8 +184,7 @@ module.exports = {
             buttons: [{
               type: "postback",
               payload: JSON.stringify({
-                type: "PLAY_QUIZ_FROM_SAMPLE_QUIZ",
-                tags: tags,
+                type: "PLAY_QUIZ_FROM_TOPIC",
                 count: count,
                 name: name
               }),

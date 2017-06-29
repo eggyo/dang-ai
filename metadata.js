@@ -20,6 +20,41 @@ module.exports = {
       var limit = data.limit;
 
       switch (type) {
+        case "GET_QUIZ_BY_CATEGORY":
+          var query = data.query;
+          var data = '{"name":' + query + ',"limit":'+limit+'}'
+          console.log("userID:" + userId + "  data:" + data);
+          callParseServerCloudCode("getQuizsByCategory", data, function(response) {
+            if (response) {
+              var dataResponse = [];
+              console.log("getQuizsByCategory response:" + JSON.stringify(response));
+              for (var i = 0; i < response.length; i++) {
+                var obj = response[i]
+                var objectId = obj.objectId;
+                dataResponse.push(objectId);
+              }
+              var messageText = "โอเค เรามาเริ่มกันเลย";
+              var messageData = {
+                recipient: {
+                  id: userId
+                },
+                message: {
+                  text: messageText,
+                  metadata: JSON.stringify({
+                    "type": "PLAY_QUIZ_STATE_FIRST",
+                    "userId": userId,
+                    "data": dataResponse
+                  })
+                }
+              };
+              responseData({
+                "results": [messageData]
+              });
+            } else {
+              return;
+            }
+          });
+          break;
         case "GET_QUIZ_BY_TAGS":
           var query = data.query;
           var taggg = JSON.stringify(query);
