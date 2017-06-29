@@ -90,7 +90,9 @@ function showLastQuiz(data, replyData) {
       text: "คุณตอบ : " + payload_index + "\n❌❌❌❌\nคุณได้คะแนน " + score + "/" + quiz_count + "\nเฉลย : " + correct_index
     };
   }
-  if (score > 5) {
+  console.log("score normalise:" + (score/quiz_count));
+
+  if ((score/quiz_count) > 0.5) {
     messageText.text += "\n\nผลการทดสอบ : ผ่าน!!\n😁😁😁😁"
   } else {
     messageText.text += "\n\nผลการทดสอบ : ไม่ผ่าน!!\n😭😭😭😭"

@@ -175,10 +175,12 @@ module.exports = {
               }
             };
           }
-          if (score > 5) {
-            messageText.message.text += "\nผลการทดสอบ : ผ่าน!! 😁😁"
+          console.log("score normalise:" + (score/quiz_count));
+
+          if ((score/quiz_count) > 0.5) {
+            messageText.message.text += "\n\nผลการทดสอบ : ผ่าน!!\n😁😁😁😁"
           } else {
-            messageText.message.text += "\nผลการทดสอบ : ไม่ผ่าน!! 😭😭"
+            messageText.message.text += "\n\nผลการทดสอบ : ไม่ผ่าน!!\n😭😭😭😭"
           }
           var templateData = {
             recipient: {
