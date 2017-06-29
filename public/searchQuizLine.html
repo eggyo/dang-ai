@@ -41,7 +41,7 @@
       </fieldset>
       <label for="input-tags">จำนวนข้อ:</label>
       <fieldset class="form-group">
-        <input id="quiz-count" name="quiz-count" placeholder="กรอกจำนวนข้อที่เล่น 1 - 20 ข้อ (ใส่แค่ตัวเลข)" type="text" tabindex="2" required>
+        <input id="quiz-count" name="quiz-count" placeholder="กรอกจำนวนข้อที่เล่น 2 - 20 ข้อ (ใส่แค่ตัวเลข)" type="text" tabindex="2" required>
       </fieldset>
 
       <fieldset>
@@ -80,7 +80,7 @@
       var count = parseInt($('#quiz-count').val());
       userId = getUrlVars()['userId'];
 
-      if (count && (count != 0) && (currentQuizCount != 0) && (count <= currentQuizCount) && (count <= 20)) {
+      if (count && (count >= 2) && (currentQuizCount != 0) && (count <= currentQuizCount) && (count <= 20)) {
         $.ajax({
           type: 'GET',
           url: 'https://dang-ai.herokuapp.com/push/userId=' + userId + '&tags=[' + tagArray + ']&limit='+count,

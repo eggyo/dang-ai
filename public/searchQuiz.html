@@ -42,7 +42,7 @@
       </fieldset>
       <label for="input-tags">จำนวนข้อ:</label>
       <fieldset class="form-group">
-        <input id="quiz-count" name="quiz-count" placeholder="กรอกจำนวนข้อที่เล่น 1 - 20 ข้อ (ใส่แค่ตัวเลข)" type="text" tabindex="2" required>
+        <input id="quiz-count" name="quiz-count" placeholder="กรอกจำนวนข้อที่เล่น 2 - 20 ข้อ (ใส่แค่ตัวเลข)" type="text" tabindex="2" required>
       </fieldset>
 
       <fieldset>
@@ -109,7 +109,7 @@
         }
       };
 
-      if (count && (count != 0) && (currentQuizCount != 0) && (count <= currentQuizCount) && (count <= 20)) {
+      if (count && (count >= 2) && (currentQuizCount != 0) && (count <= currentQuizCount) && (count <= 20)) {
         callSendAPI(JSON.stringify(data), function(response) {
           MessengerExtensions.requestCloseBrowser(function success() {
 
