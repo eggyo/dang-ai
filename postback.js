@@ -170,7 +170,7 @@ module.exports = {
       }
     };
     var data = '{"limit":5}';
-    _parseFunction.callCloudCode("getSampleQuiz", data, function(response) {
+    _parseFunction.callCloudCode("getTopics", data, function(response) {
       if (response.length != 0) {
         //console.log("getSampleQuiz: "+JSON.stringify(response));
         for (var i = 0; i < response.length; i++) {
