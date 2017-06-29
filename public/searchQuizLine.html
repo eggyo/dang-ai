@@ -41,7 +41,7 @@
       </fieldset>
       <label for="input-tags">จำนวนข้อ:</label>
       <fieldset class="form-group">
-        <input id="quiz-count" name="quiz-count" placeholder="กรอกจำนวนข้อที่เล่น 5 - 20 ข้อ (ใส่แค่ตัวเลข)" type="text" tabindex="2" required>
+        <input id="quiz-count" name="quiz-count" placeholder="กรอกจำนวนข้อที่เล่น 1 - 20 ข้อ (ใส่แค่ตัวเลข)" type="text" tabindex="2" required>
       </fieldset>
 
       <fieldset>
@@ -52,6 +52,9 @@
   </div>
 
 
+  <div id="myNav" class="overlay">
+    <div class="loader"></div>
+  </div>
 
 
 
@@ -69,20 +72,29 @@
     }
     var currentTagsString = "";
     var userId = '';
+    var currentQuizCount = 0;
 
     function search() {
+
       var tagArray = currentTagsString.split(',');
       var count = parseInt($('#quiz-count').val());
       userId = getUrlVars()['userId'];
-      $.ajax({
-        type: 'GET',
-        url: 'https://dang-ai.herokuapp.com/push/userId=' + userId + '&tags=[' + tagArray + ']&limit='+count,
-        success: function(resp) {
-          alert(JSON.stringify(resp));
-        },
-        error: function(error) {
-        }
-      });
+
+      if (count && (count != 0) && (currentQuizCount != 0) && (count <= currentQuizCount) && (count <= 20)) {
+        $.ajax({
+          type: 'GET',
+          url: 'https://dang-ai.herokuapp.com/push/userId=' + userId + '&tags=[' + tagArray + ']&limit='+count,
+          success: function(resp) {
+            alert(JSON.stringify(resp));
+          },
+          error: function(error) {
+          }
+        });
+      }else {
+        alert('จำนวน Quiz ไม่ถูกต้อง');
+      }
+
+
     }
 
     getAllTag();
@@ -92,6 +104,8 @@
       var tags = [];
       callParseServerCloudCode("getTags", null, function(response) {
         if (response) {
+          document.getElementById("myNav").style.visibility = "hidden";
+
           for (var i = 0; i < response.length; i++) {
             var v = JSON.stringify(response[i]);
             tags.push({
@@ -99,7 +113,7 @@
               value: v
             });
           }
-          document.getElementById('input-tags').style.visibility = "visible";
+          //document.getElementById('input-tags').style.visibility = "visible";
           // selectize script
           $('#input-tags').selectize({
             plugins: ['remove_button'],
@@ -116,7 +130,8 @@
               var tagArray = currentTagsString.split(',');
               var data = '{"tags":[' + tagArray + ']}';
               callParseServerCloudCode("quizsCountByTags", data, function(response) {
-                document.getElementById('label-tags').innerHTML = "จำนวน Quiz ที่พบ : " + response + " ข้อ";
+                currentQuizCount = parseInt(response);
+                document.getElementById('label-tags').innerHTML = "จำนวน Quiz ที่พบ : " + currentQuizCount + " ข้อ";
 
               });
             }

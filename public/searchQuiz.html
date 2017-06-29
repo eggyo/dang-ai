@@ -33,15 +33,16 @@
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
   <div class="container_2">
+
     <form id="contact" action="" method="post">
 
       <label id="label-tags" for="input-tags">Quiz Tags:</label>
       <fieldset class="form-group">
-        <input type="text" id="input-tags" class="demo-default" tabindex="1" style="visibility:hidden;" required>
+        <input type="text" id="input-tags" class="demo-default" tabindex="1" required>
       </fieldset>
       <label for="input-tags">จำนวนข้อ:</label>
       <fieldset class="form-group">
-        <input id="quiz-count" name="quiz-count" placeholder="กรอกจำนวนข้อที่เล่น 5 - 20 ข้อ (ใส่แค่ตัวเลข)" type="text" tabindex="2" required>
+        <input id="quiz-count" name="quiz-count" placeholder="กรอกจำนวนข้อที่เล่น 1 - 20 ข้อ (ใส่แค่ตัวเลข)" type="text" tabindex="2" required>
       </fieldset>
 
       <fieldset>
@@ -49,6 +50,11 @@
       </fieldset>
       <p class="copyright">Created by <a href="https://dang-ai.herokuapp.com" target="_blank" title="Colorlib">Dang.ai</a></p>
     </form>
+  </div>
+
+
+  <div id="myNav" class="overlay">
+    <div class="loader"></div>
   </div>
 
 
@@ -60,6 +66,7 @@
 
   <script>
     var currentTagsString = "";
+    var currentQuizCount = 0;
 
     var userId = '';
     var pageToken = "EAAEXd2XKlTEBAFiCOWAwbvxrKeYq9m3ElhPZBpwR0Sn2nIeE8fnLFDGcGVR7TCCB6OegNcArLiXSl8I8eqLasjU0IzkSAhwicUxsHoepVygGgYcfIXiRnLdNkAOpD2azdVnx7GEUBJwe0beQ9tCB0ZABZCYavgDngTfzAd6DgZDZD";
@@ -101,21 +108,32 @@
           })
         }
       };
-      callSendAPI(JSON.stringify(data), function(response) {
-        MessengerExtensions.requestCloseBrowser(function success() {
 
-        }, function error(err) {
+      if (count && (count != 0) && (currentQuizCount != 0) && (count <= currentQuizCount) && (count <= 20)) {
+        callSendAPI(JSON.stringify(data), function(response) {
+          MessengerExtensions.requestCloseBrowser(function success() {
 
+          }, function error(err) {
+
+          });
         });
-      });
+      }else {
+        alert('จำนวน Quiz ไม่ถูกต้อง');
+      }
+
     }
 
     getAllTag();
 
     function getAllTag() {
+      //document.getElementById("myNav").style.width = "100%";
+
+
       var tags = [];
       callParseServerCloudCode("getTags", null, function(response) {
         if (response) {
+          document.getElementById("myNav").style.visibility = "hidden";
+
           for (var i = 0; i < response.length; i++) {
             var v = JSON.stringify(response[i]);
             tags.push({
@@ -123,7 +141,7 @@
               value: v
             });
           }
-          document.getElementById('input-tags').style.visibility = "visible";
+          //document.getElementById('input-tags').style.visibility = "visible";
           // selectize script
           $('#input-tags').selectize({
             plugins: ['remove_button'],
@@ -140,7 +158,8 @@
               var tagArray = currentTagsString.split(',');
               var data = '{"tags":[' + tagArray + ']}';
               callParseServerCloudCode("quizsCountByTags", data, function(response) {
-                document.getElementById('label-tags').innerHTML = "จำนวน Quiz ที่พบ : " + response + " ข้อ";
+                currentQuizCount = parseInt(response);
+                document.getElementById('label-tags').innerHTML = "จำนวน Quiz ที่พบ : " + currentQuizCount + " ข้อ";
 
               });
             }
@@ -207,6 +226,8 @@
   <!-- Scrolling Nav JavaScript -->
   <script src="js/jquery.easing.min.js"></script>
   <script src="js/scrolling-nav.js"></script>
+
+
 
 </body>
 
