@@ -273,7 +273,7 @@ function showFirstQuiz(data, replyData) {
     type: 'text',
     text: "โอเค เรามาเริ่มกันเลย"
   };
-  var requestdata = '{"name":' + name + ',"limit":' + count + ',"getTemp":' + true + '}'
+  var requestdata = '{"name":"' + name + '","limit":' + count + ',"getTemp":' + true + '}'
   _parseFunction.callCloudCode("getQuizsByCategory", requestdata, function(response) {
     if (response) {
       console.log("getQuizsByCategory response:" + JSON.stringify(response));
