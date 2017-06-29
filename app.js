@@ -311,7 +311,7 @@ function receivedMessage(event) {
         for (var i = 0; i < results.results.length; i++) {
           console.log("callSendAPI :" + JSON.stringify(results.results[i]));
           callSendAPI(results.results[i]);
-          return;
+          //return;
         }
       }
     });

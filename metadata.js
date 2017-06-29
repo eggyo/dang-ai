@@ -97,6 +97,32 @@ module.exports = {
                   metadata: ""
                 }
               };
+              var templateData = {
+                recipient: {
+                  id: userId
+                },
+                message: {
+                  attachment: {
+                    type: "template",
+                    payload: {
+                      template_type: "button",
+                      text: "เลือกคำตอบที่ถูกต้อง",
+                      buttons: []
+                    }
+                  }
+                }
+              };
+              var buttons = []
+              for (var i = 0; i < choice_count; i++) {
+                payloadData['payload_index'] = i + 1;
+                buttons.push({
+                  "type": "postback",
+                  "title": i + 1,
+                  "payload": JSON.stringify(payloadData)
+                });
+              }
+              templateData.message.attachment.payload['buttons'] = buttons;
+              /*
               var quick_replies = []
               for (var i = 0; i < choice_count; i++) {
                 payloadData['payload_index'] = i + 1;
@@ -108,9 +134,9 @@ module.exports = {
               }
               messageData.message['quick_replies'] = quick_replies;
               console.log("messageData " + JSON.stringify(messageData) + " quick_replies:" + JSON.stringify(quick_replies));
-
+*/
               responseData({
-                "results": [messageData]
+                "results": [messageData,templateData]
               });
             }
           });
