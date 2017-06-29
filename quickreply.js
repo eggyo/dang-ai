@@ -73,7 +73,7 @@ module.exports = {
                     id: recipientId
                   },
                   message: {
-                    text: quiz,
+                    text: quiz + "\nกดเลือกคำตอบด้านล่าง",
                     metadata: ""
                   }
                 };
@@ -117,7 +117,7 @@ module.exports = {
                     id: recipientId
                   },
                   message: {
-                    text: quiz,
+                    text: quiz + "\nกดเลือกคำตอบด้านล่าง",
                     metadata: ""
                   }
                 };

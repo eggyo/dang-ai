@@ -93,7 +93,7 @@ module.exports = {
                   id: userId
                 },
                 message: {
-                  text: quiz,
+                  text: quiz + "\nกดเลือกคำตอบด้านล่าง",
                   metadata: ""
                 }
               };
