@@ -227,7 +227,7 @@
             callParseServerCloudCode("createTagsToDataArray", tagNameData, function(response) {
 
             });
-
+            $(this).scrollTop(0);
             $('.registerForm').data('bootstrapValidator').resetForm();
             $('#alertbox').show();
             $('#alertbox').fadeTo(2000, 500).slideUp(500, function() {
