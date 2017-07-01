@@ -23,7 +23,7 @@ const
   _quickreply = require('./quickreply.js'),
   _fbMessageProcess = require('./fbMessageProcess.js'),
   line = require('@line/bot-sdk'),
-   _parseFunction = require('./parseFunction.js'),
+  _parseFunction = require('./parseFunction.js'),
   _metadata = require('./metadata.js');
 
 var app = express();
@@ -95,8 +95,8 @@ app.get('/push/userId=:userId&tags=:tags&limit=:limit', function(req, res) {
   var userId = req.params.userId;
   var tags = req.params.tags;
   var limit = req.params.limit;
-  var data = '{"tags":' + tags + ',"limit":'+limit+ ',"getTemp":' + true +'}'
-  console.log("push userId: " + userId + " limit :" + limit + " tags :" + tags +"\ndata:"+data);
+  var data = '{"tags":' + tags + ',"limit":' + limit + ',"getTemp":' + true + '}'
+  console.log("push userId: " + userId + " limit :" + limit + " tags :" + tags + "\ndata:" + data);
 
   line_client.pushMessage(userId, {
       type: 'text',
@@ -109,15 +109,15 @@ app.get('/push/userId=:userId&tags=:tags&limit=:limit', function(req, res) {
       console.error("push error :" + err);
     });
 
-    _line_postback.getQuizsByTags(data,function(replyData){
-      line_client.pushMessage(userId,replyData.results)
-        .then(() => {
-          res.json("done");
-        })
-        .catch((err) => {
-          console.error("push error :" + err);
-        });
-    });
+  _line_postback.getQuizsByTags(data, function(replyData) {
+    line_client.pushMessage(userId, replyData.results)
+      .then(() => {
+        res.json("done");
+      })
+      .catch((err) => {
+        console.error("push error :" + err);
+      });
+  });
 
 
 
@@ -509,7 +509,8 @@ function handleEvent(event) {
       console.log("userId: %s ---- replyMessage: %s", userId, JSON.stringify(replyMessage));
       line_client.replyMessage(event.replyToken, replyMessage);
     });
-  } else if (event.message.text == 'เล่น' || event.message.text == 'เริ่ม') {
+  } else if (event.message.text == 'เล่น' || event.message.text == 'เริ่ม' ||
+    event.message.text == 'play' || event.message.text == 'start') {
     line_client.replyMessage(event.replyToken, [{
       type: "template",
       altText: "this is a buttons template",

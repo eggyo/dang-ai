@@ -20,6 +20,7 @@ function processText(recipientId, messageText) {
   // keywords and send back the corresponding example. Otherwise, just echo
   // the text we received.
   switch (messageText) {
+    /*
     case 'image':
       sendImageMessage(recipientId);
       break;
@@ -71,23 +72,39 @@ function processText(recipientId, messageText) {
     case 'account linking':
       sendAccountLinking(recipientId);
       break;
-
+*/
     case 'play':
-      var data = {
+    case 'เริ่ม':
+    case 'เล่น':
+    case 'start':
+      var templateData = {
         recipient: {
           id: recipientId
         },
         message: {
-          text: "กำลังสุ่ม Quiz จากการร้องขอ..",
-          metadata: JSON.stringify({
-            type: "GET_QUIZ_BY_TAGS",
-            query: '["gat"]',
-            userId: recipientId,
-            limit: 10
-          })
+          attachment: {
+            type: "template",
+            payload: {
+              template_type: "button",
+              text: "คุณต้องการทำอะไร?",
+              buttons: [{
+                type: "postback",
+                payload: JSON.stringify({
+                  "type": "PLAY_QUIZ_PAYLOAD"
+                }),
+                title: "เล่น Quiz"
+              }, {
+                type: "web_url",
+                url: "https://dang-ai.herokuapp.com/createquiz",
+                title: "สร้าง Quiz",
+                messenger_extensions: true,
+                webview_height_ratio: "tall"
+              }]
+            }
+          }
         }
       };
-      callSendAPI(data);
+      callSendAPI(templateData);
       break;
     default:
       //sendTextMessage(recipientId, messageText);

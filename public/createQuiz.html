@@ -191,13 +191,21 @@
             var incorrect_2 = $('#incorrect_2').val();
             var incorrect_3 = $('#incorrect_3').val();
             var correct_detail = $('#correct_detail').val();
+            var inc = [];
+            inc.push(incorrect_1);
+            if (incorrect_2) {
+              inc.push(incorrect_2);
+            }if (incorrect_3) {
+              inc.push(incorrect_3);
+            }
+
             var obj = [{
                 "id": GenerateId(),
                 "category": categoryName,
                 "tag": tagArray,
                 "quiz": quiz,
                 "correct_ans": correct,
-                "incorrect_ans": [incorrect_1, incorrect_2, incorrect_3],
+                "incorrect_ans": inc,
                 "correct_detail": correct_detail
             }];
 
