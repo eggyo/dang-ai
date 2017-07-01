@@ -541,7 +541,7 @@ function handleEvent(event) {
       }]);
         break;
         case '#help':
-        line_client.replyMessage(event.replyToken, [var choiceData = {
+        line_client.replyMessage(event.replyToken, [{
           type: "template",
           altText: "ตัวช่วย - Help",
           template: {
