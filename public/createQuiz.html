@@ -184,6 +184,7 @@
         function submitquiz() {
 
             var categoryName = $('#category').val();
+            currentTagsString = currentTagsString.replace(/\\"/g, '')
             var tagArray = currentTagsString.split(',');
             var quiz = $('#quiz').val();
             var correct = $('#correct').val();
