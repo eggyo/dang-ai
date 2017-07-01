@@ -447,7 +447,7 @@ function parseQuizObjectToMessage(objectId, quizMsg) {
       var quiz = response.quiz;
       var correct_ans = response.correct_ans;
       var incorrect_ans = response.incorrect_ans;
-      var correct_index = Math.floor(Math.random() * 4) + 1;
+      var correct_index = Math.floor(Math.random() * (1 + incorrect_ans.length)) + 1;
       var messageQuiz = quiz;
       var incorrect_index = 1;
       for (var i = 0; i < incorrect_ans.length; i++) {
