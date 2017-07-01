@@ -9,7 +9,7 @@ module.exports = {
       var type = data.type;
       switch (type) {
         case "GET_START_PAYLOAD":
-          var messageText = "ยินดีต้อนรับสู่ Bot ไอ้แดง - Dang.ai \nคุณสามารถเลือกตอบปัญหาได้ หลากหลายหัวข้อ หรือสร้างชุดปัญหาของคุณเองก็ได้";
+          var messageText = "ยินดีต้อนรับสู่ Bot ไอ้แดง - Dang.ai \nคุณสามารถเลือกตอบปัญหาได้ หลากหลายหัวข้อ หรือสร้างชุดปัญหาของคุณเองก็ได้\n\nคุณสามารถเริ่มเล่น Quiz ด้วยวิธีง่ายๆ เพียงพิมพ์ เล่น,เริ่ม,play หรือ start \n\nแต่หากต้องการดูการทำงานอื่นๆ พิมพ์ #help";
           var messageData = {
             recipient: {
               id: recipientId

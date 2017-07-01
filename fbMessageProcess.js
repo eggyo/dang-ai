@@ -116,7 +116,7 @@ function processText(recipientId, messageText) {
             type: "template",
             payload: {
               template_type: "button",
-              text: "ต้องการเล่น Quiz ให้พิมพ์ เล่น,เริ่ม,play,start หรือ กดปุ่ม เล่น Quiz ที่เมนู \n\nต้องการดูคำสั่งต่างๆ ให้พิมพ์  #help \n\nต้องการสร้างชุดคำถามกดปุ่ม สร้าง Quiz ที่เมนู\n\nคุณสามารถค้นหา Quiz ที่ต้องการเล่นเพียงกดปุ่ม ค้นหา Quiz เมื่อเริ่มเล่น Quiz ระบบจะค้นหาจาก Tag และส่ง Quiz มาให้คุณ \n\nn😁😁😁😁",
+              text: "ต้องการเล่น Quiz ให้พิมพ์ เล่น,เริ่ม,play,start หรือ กดปุ่ม เล่น Quiz ที่เมนู \n\nต้องการดูคำสั่งต่างๆ ให้พิมพ์  #help \n\nต้องการสร้างชุดคำถามกดปุ่ม สร้าง Quiz ที่เมนู\n\nคุณสามารถค้นหา Quiz ที่ต้องการเล่นเพียงกดปุ่ม ค้นหา Quiz เมื่อเริ่มเล่น Quiz ระบบจะค้นหาจาก Tag และส่ง Quiz มาให้คุณ \n\n😁😁😁😁",
               buttons: [{
                 type: "web_url",
                 url: "https://dang-ai.herokuapp.com",
