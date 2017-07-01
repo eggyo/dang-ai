@@ -509,33 +509,59 @@ function handleEvent(event) {
       console.log("userId: %s ---- replyMessage: %s", userId, JSON.stringify(replyMessage));
       line_client.replyMessage(event.replyToken, replyMessage);
     });
-  } else if (event.message.text == 'เล่น' || event.message.text == 'เริ่ม' ||
-    event.message.text == 'play' || event.message.text == 'start') {
-    line_client.replyMessage(event.replyToken, [{
-      type: "template",
-      altText: "this is a buttons template",
-      template: {
-        type: "buttons",
-        thumbnailImageUrl: SERVER_URL + "/assets/dan.ai_cover_bg.jpg",
-        title: "คุณต้องการทำอะไร?",
-        text: "เลือกเมนูด้านล่าง",
-        actions: [{
-            type: "postback",
-            label: "เล่น Quiz",
-            data: JSON.stringify({
-              "type": "PLAY_QUIZ_PAYLOAD"
-            })
-          },
-          {
-            "type": "uri",
-            "label": "สร้าง Quiz",
-            "uri": "https://dang-ai.herokuapp.com/createquiz"
-          }
-        ]
-      }
-    }]);
   } else if (event.message.type == 'text') {
     console.log("------------> event.message.text: %s", event.message.text);
+    switch (event.message.text) {
+      case 'เล่น':
+      case 'เริ่ม':
+      case 'play':
+      case 'start':
+      line_client.replyMessage(event.replyToken, [{
+        type: "template",
+        altText: "this is a buttons template",
+        template: {
+          type: "buttons",
+          thumbnailImageUrl: SERVER_URL + "/assets/dan.ai_cover_bg.jpg",
+          title: "คุณต้องการทำอะไร?",
+          text: "เลือกเมนูด้านล่าง",
+          actions: [{
+              type: "postback",
+              label: "เล่น Quiz",
+              data: JSON.stringify({
+                "type": "PLAY_QUIZ_PAYLOAD"
+              })
+            },
+            {
+              "type": "uri",
+              "label": "สร้าง Quiz",
+              "uri": "https://dang-ai.herokuapp.com/createquiz"
+            }
+          ]
+        }
+      }]);
+        break;
+        case '#help':
+        line_client.replyMessage(event.replyToken, [var choiceData = {
+          type: "template",
+          altText: "ตัวช่วย - Help",
+          template: {
+            type: "buttons",
+            text: "้องการเล่น Quiz ให้พิมพ์ เล่น,เริ่ม,play,start หรือ กดปุ่ม เล่น Quiz ที่เมนู \n\nต้องการดูคำสั่งต่างๆ ให้พิมพ์  #help \n\nต้องการสร้างชุดคำถามกดปุ่ม สร้าง Quiz ที่เมนู\n\nคุณสามารถค้นหา Quiz ที่ต้องการเล่นเพียงกดปุ่ม ค้นหา Quiz เมื่อเริ่มเล่น Quiz ระบบจะค้นหาจาก Tag และส่ง Quiz มาให้คุณ \n\nn😁😁😁😁",
+            actions: [{
+              "type": "uri",
+              "label": "About Me",
+              "uri": "https://dang-ai.herokuapp.com"
+            }]
+          }
+        }]);
+          break;
+      default:
+
+    }
+
+
+
+
   } else {
     return Promise.resolve(null);
   }
