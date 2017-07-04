@@ -1,0 +1,15 @@
+particle {
+  position: absolute;
+  background: #e74c3c;
+  width: 100%;
+  min-height: 140%;
+  max-height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+@media (min-width: 768px) {
+  particle {
+    min-height: 100%;
+  }
+}
