@@ -138,19 +138,11 @@ function processText(recipientId, messageText) {
             if (response == "") {
               console.log("no msg reply");
             } else {
-              event.reply(response).then(function(data) {
-                // success
-              }).catch(function(error) {
-                // error
-              });
+              sendTextMessage(recipientId,response);
             }
           });
         } else {
-          event.reply(responseMsg).then(function(data) {
-            // success
-          }).catch(function(error) {
-            // error
-          });
+          sendTextMessage(recipientId,responseMsg);
         }
       });
       break;
