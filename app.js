@@ -548,6 +548,7 @@ function handleEvent(event) {
         break;
 
       default:
+      var messageText = event.message.text;
         processMessage(messageText, function(responseMsg) {
           if (responseMsg == messageText) {
             callParseServerCloudCode("getReplyMsg", '{"msg":"' + messageText + '"}', function(response) {
