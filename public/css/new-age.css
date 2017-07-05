@@ -148,20 +148,21 @@ p {
   .navbar-default.affix .nav > li > a:focus:hover {
     color: #e74c3c;
   }
-}/*
+}
 header {
   position: relative;
   width: 100%;
   min-height: auto;
   overflow-y: hidden;
   background: url("../img/bg-pattern.png"), #e74c3c;
-  /* fallback for old browsers
+  /* fallback for old browsers*/
   background: url("../img/bg-pattern.png"), -webkit-linear-gradient(to left, #e74c3c, #ef6246);
-  /* Chrome 10-25, Safari 5.1-6
+  /* Chrome 10-25, Safari 5.1-6*/
   background: url("../img/bg-pattern.png"), linear-gradient(to left, #e74c3c, #ef6246);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+*/
   color: white;
-}*/
+}
+/*
 header {
   position: relative;
   width: 100%;
@@ -169,7 +170,7 @@ header {
   overflow-y: hidden;
   color: white;
 }
-
+*/
 header .header-content {
   text-align: center;
   padding: 150px 0 50px;
