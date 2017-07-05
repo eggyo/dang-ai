@@ -1,6 +1,6 @@
 var request = require('request');
 var config = require('config');
-var _app = require('./app.js');
+var _reply = require('./reply.js');
 
 const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
   (process.env.MESSENGER_PAGE_ACCESS_TOKEN) :
@@ -133,9 +133,9 @@ function processText(recipientId, messageText) {
       break;
     default:
       //sendTextMessage(recipientId, messageText);
-      _app.processMessage(messageText, function(responseMsg) {
+      _reply.processMessage(messageText, function(responseMsg) {
         if (responseMsg == messageText) {
-          _app.callParseServerCloudCode("getReplyMsg", '{"msg":"' + messageText + '"}', function(response) {
+          _reply.callCloudCode("getReplyMsg", '{"msg":"' + messageText + '"}', function(response) {
             if (response == "") {
               console.log("no msg reply");
             } else {
