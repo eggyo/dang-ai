@@ -482,6 +482,8 @@ footer ul li a.active {
   letter-spacing: 2px;
   border-radius: 300px;
   margin-right: 30px;
+  margin-bottom: 10px;
+
 }
 .btn-xl {
   padding: 15px 45px;
