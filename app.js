@@ -599,10 +599,6 @@ app.listen(app.get('port'), function() {
 
 module.exports = app;
 
-
-// This will enable the Live Query real-time server
-ParseServer.createLiveQueryServer(httpServer);
-
 // ------ bot process ------//
 
 function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
