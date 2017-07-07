@@ -340,7 +340,7 @@ function receivedMessage(event) {
   if (messageText) {
     _fbMessageProcess.process(senderID, messageText);
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    sendTextMessage(senderID, "นี่คือ 😁\nไอ้แดง - Dang.ai \n\nต้องการเล่น Quiz พิมพ์ เล่น,เริ่ม,play,start หรือกดปุ่ม เล่น Quiz ด้านล่าง\n\nต้องการดูการทำงานอื่นๆ พิมพ์ #help");
   }
 }
 
