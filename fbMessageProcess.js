@@ -79,6 +79,7 @@ function processText(recipientId, messageText) {
     case '2':
     case '3':
     case '4':
+    case '5':
       break;
     case 'play':
     case 'เริ่ม':
