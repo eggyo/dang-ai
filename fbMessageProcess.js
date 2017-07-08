@@ -137,6 +137,7 @@ function processText(recipientId, messageText) {
         if (responseMsg == messageText) {
           _reply.callCloudCode("getReplyMsg", '{"msg":"' + messageText + '"}', function(response) {
             if (response == "") {
+              sendTextMessage(recipientId,"#!?!%$");
               sendTextMessage(recipientId,"ข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ");
 
               //console.log("no msg reply");
