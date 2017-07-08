@@ -92,8 +92,10 @@
       replyDatas = JSON.stringify(replyDatas);
       var data = '{"msg":' + msgDatas + ',"replyMsg":' + replyDatas + '}';
       callParseServerCloudCode("botTraining", data, function(response) {
-        console.log(response);
-        alert(response);
+        if (response) {
+          console.log(response);
+          alert("🤖:จำได้แล้ว !");
+        }
       });
 
     }
