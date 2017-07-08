@@ -74,6 +74,12 @@ function processText(recipientId, messageText) {
       sendAccountLinking(recipientId);
       break;
 */
+
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+      break;
     case 'play':
     case 'เริ่ม':
     case 'เล่น':
@@ -137,8 +143,8 @@ function processText(recipientId, messageText) {
         if (responseMsg == messageText) {
           _reply.callCloudCode("getReplyMsg", '{"msg":"' + messageText + '"}', function(response) {
             if (response == "") {
-              sendTextMessage(recipientId,"#!?!%$");
-              sendTextMessage(recipientId,"ข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ");
+              sendTextMessage(recipientId, "#!?!%$");
+              sendTextMessage(recipientId, "ข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ");
 
               //console.log("no msg reply");
               /*TODO
@@ -152,11 +158,11 @@ function processText(recipientId, messageText) {
 */
 
             } else {
-              sendTextMessage(recipientId,response);
+              sendTextMessage(recipientId, response);
             }
           });
         } else {
-          sendTextMessage(recipientId,responseMsg);
+          sendTextMessage(recipientId, responseMsg);
         }
       });
       break;
