@@ -135,7 +135,7 @@
 
     function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://eggyo-quiz-db.herokuapp.com/parse/functions/' + methodName, true);
+      xhr.open('POST', 'https://reply-msg-parse-server.herokuapp.com/parse/functions/' + methodName, true);
       xhr.setRequestHeader('Content-type', 'application/json');
       xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
       xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
