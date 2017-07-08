@@ -114,6 +114,9 @@ function processText(recipientId, messageText) {
       };
       callSendAPI(templateData);
       break;
+    case 'help':
+    case 'Help':
+    case '#Help':
     case '#help':
       var templateData = {
         recipient: {
@@ -129,6 +132,12 @@ function processText(recipientId, messageText) {
                 type: "web_url",
                 url: "https://dang-ai.herokuapp.com",
                 title: "About Me",
+                messenger_extensions: true,
+                webview_height_ratio: "tall"
+              },{
+                type: "web_url",
+                url: "https://dang-ai.herokuapp.com/bot-train",
+                title: "สอนไอ้แดง",
                 messenger_extensions: true,
                 webview_height_ratio: "tall"
               }]
@@ -147,16 +156,6 @@ function processText(recipientId, messageText) {
               sendTextMessage(recipientId, "#!?!%$");
               sendTextMessage(recipientId, "ข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ");
 
-              //console.log("no msg reply");
-              /*TODO
-              get messageText , recipientId
-              sendto me --> messageText : recipientId
-
-              me #sendlearn messageText,messageText,messageText #ans reply,reply,reply,reply #to recipientId
-              bot
-
-
-*/
 
             } else {
               sendTextMessage(recipientId, response);
@@ -581,6 +580,34 @@ function sendAccountLinking(recipientId) {
           buttons: [{
             type: "account_link",
             url: SERVER_URL + "/authorize"
+          }]
+        }
+      }
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
+
+
+function sendAskTrainMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "ข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ\n\nหรือใช้วิธีง่ายๆแค่กดปุ่มด้านล่าง",
+          buttons: [{
+            type: "web_url",
+            url: "https://dang-ai.herokuapp.com/bot-train",
+            title: "สอนไอ้แดง",
+            messenger_extensions: true,
+            webview_height_ratio: "tall"
           }]
         }
       }

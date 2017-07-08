@@ -89,6 +89,9 @@ app.get('/searchquizLine', function(req, res) {
 app.get('/policy', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/policy.html'));
 });
+app.get('/bot-train', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/bottrain.html'));
+});
 app.get('/json-upload-to-parse', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/json-upload-to-parse.html'));
 });
@@ -541,6 +544,9 @@ function handleEvent(event) {
           }
         }]);
         break;
+      case 'help':
+      case 'Help':
+      case '#Help':
       case '#help':
         line_client.replyMessage(event.replyToken, [{
           type: "text",
@@ -549,12 +555,31 @@ function handleEvent(event) {
         break;
 
       default:
-      var messageText = event.message.text;
+        var messageText = event.message.text;
         _reply.processMessage(messageText, function(responseMsg) {
           if (responseMsg == messageText) {
             _reply.callCloudCode("getReplyMsg", '{"msg":"' + messageText + '"}', function(response) {
               if (response == "") {
-                console.log("no msg reply");
+                sendTextMessage(recipientId, "ข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ");
+                line_client.replyMessage(event.replyToken, [{
+                  type: "text",
+                  text: "#!?!%$"
+                },{
+                  type: "template",
+                  altText: "วิธีสอนไอ้แดง",
+                  template: {
+                    type: "buttons",
+                    title: "วิธีสอนไอ้แดง",
+                    text: "ข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ\n\nหรือใช้วิธีง่ายๆแค่กดปุ่มด้านล่าง",
+                    actions: [
+                      {
+                        "type": "uri",
+                        "label": "สอนไอ้แดง",
+                        "uri": "https://dang-ai.herokuapp.com/bot-train"
+                      }
+                    ]
+                  }
+                }]);
               } else {
                 line_client.replyMessage(event.replyToken, [{
                   type: "text",
