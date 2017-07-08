@@ -49,7 +49,7 @@ function processMessage(reqMsg, resMsg) {
         // trainingCommand
         trainingCommand(reqMsg, function(res) {
           if (!res) {
-            resMsg("ข้าว่ามีบางอย่างผิดพลาด ลองใหม่ซิ");
+            resMsg("ข้าว่ามีบางอย่างผิดพลาด คุณอาจจะลืมเว้นวรรค หรือเผลอกด เว้นบันทัด");
             //failed
           } else {
             resMsg("ข้าจำได้แล้ว ลองทักข้าใหม่ซิ อิอิ");
@@ -73,18 +73,23 @@ function processMessage(reqMsg, resMsg) {
 }
 
 function trainingCommand(msg, res) {
-  msg = msg.replace("#ask ", "");
-  msg = msg.replace(" #ans ", ":");
-  var msgs = msg.split(":");
-  var msgDatas = msgs[0].split(",");
-  var replyDatas = msgs[1].split(",");
-  msgDatas = JSON.stringify(msgDatas);
-  replyDatas = JSON.stringify(replyDatas);
-  var data = '{"msg":' + msgDatas + ',"replyMsg":' + replyDatas + '}';
-  callParseServerCloudCode("botTraining", data, function(response) {
-    console.log(response);
-    res(response);
-  });
+  try {
+    msg = msg.replace("#ask ", "");
+    msg = msg.replace(" #ans ", ":");
+    var msgs = msg.split(":");
+    var msgDatas = msgs[0].split(",");
+    var replyDatas = msgs[1].split(",");
+    msgDatas = JSON.stringify(msgDatas);
+    replyDatas = JSON.stringify(replyDatas);
+    var data = '{"msg":' + msgDatas + ',"replyMsg":' + replyDatas + '}';
+    callParseServerCloudCode("botTraining", data, function(response) {
+      console.log(response);
+      res(response);
+    });
+  } catch (err) {
+    res(null);
+    console.log(err);
+  }
 }
 
 function isBotCommand(msg, res) {
