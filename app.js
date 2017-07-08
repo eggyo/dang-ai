@@ -562,14 +562,14 @@ function handleEvent(event) {
               if (response == "") {
                 line_client.replyMessage(event.replyToken, [{
                   type: "text",
-                  text: "#!?!%$"
+                  text: "#!?!%$\n\nข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ"
                 },{
                   type: "template",
                   altText: "วิธีสอนไอ้แดง",
                   template: {
                     type: "buttons",
                     title: "วิธีสอนไอ้แดง",
-                    text: "ข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ\n\nหรือใช้วิธีง่ายๆแค่กดปุ่มด้านล่าง",
+                    text: "หรือใช้วิธีง่ายๆแค่กดปุ่มด้านล่าง",
                     actions: [
                       {
                         "type": "uri",
