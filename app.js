@@ -310,7 +310,7 @@ function receivedMessage(event) {
     // Just logging message echoes to console
     console.log("Received echo for message %s and app %d with metadata %s senderID :%s recipientID : %s",
       messageId, appId, metadata, senderID, recipientID);
-    if (messageAttachments) {
+    if (messageAttachments[0].title = "Dang.ai") {
       // for send message button in ads
       sendTextMessage(recipientID, "นี่คือ 😁\nไอ้แดง - Dang.ai \n\nต้องการเล่น Quiz พิมพ์ เล่น,เริ่ม,play,start หรือกดปุ่ม เล่น Quiz ด้านล่าง\n\nต้องการดูการทำงานอื่นๆ พิมพ์ #help");
     }
