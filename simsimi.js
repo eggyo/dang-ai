@@ -1,7 +1,7 @@
 var request = require('request');
 module.exports = {
   processMessage: function(requestMsg, responseMsg) {
-    processMessage(requestMsg, function(res) {
+    requestSimsimi(requestMsg, function(res) {
       responseMsg(res);
     });
   }
