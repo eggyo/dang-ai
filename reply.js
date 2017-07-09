@@ -105,6 +105,7 @@ function processMessage(reqMsg, resMsg) {
 function trainingCommand(msg, res) {
   try {
     msg = msg.replace(/ /g, "");
+    msg = msg.replace("\n", "");
     msg = msg.replace("#ask", "");
     msg = msg.replace("#ans", ":");
     var msgs = msg.split(":");
