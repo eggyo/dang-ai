@@ -628,10 +628,6 @@ function handleEvent(event) {
                   type: "text",
                   text: obj.replyMsg[0]
                 });
-                line_client.replyMessage(event.replyToken, [{
-                  type: "text",
-                  text: "done! : userId = " + obj.userId + ' reply: ' + obj.replyMsg[0]
-                }]);
               } else {
                 line_client.replyMessage(event.replyToken, [{
                   type: "text",

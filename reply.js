@@ -84,7 +84,6 @@ function processMessage(reqMsg, resMsg) {
                   text: obj.replyMsg[0]
                 }
               };
-              resMsg("done! : "+JSON.stringify(messageData));
 
               callSendAPI(messageData);
                 break;
