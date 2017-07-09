@@ -311,7 +311,8 @@ function receivedMessage(event) {
     console.log("Received echo for message %s and app %d with metadata %s senderID :%s recipientID : %s",
       messageId, appId, metadata, senderID, recipientID);
     if (messageAttachments) {
-      sendTextMessage(senderID, "นี่คือ 😁\nไอ้แดง - Dang.ai \n\nต้องการเล่น Quiz พิมพ์ เล่น,เริ่ม,play,start หรือกดปุ่ม เล่น Quiz ด้านล่าง\n\nต้องการดูการทำงานอื่นๆ พิมพ์ #help");
+      // for send message button in ads
+      sendTextMessage(recipientID, "นี่คือ 😁\nไอ้แดง - Dang.ai \n\nต้องการเล่น Quiz พิมพ์ เล่น,เริ่ม,play,start หรือกดปุ่ม เล่น Quiz ด้านล่าง\n\nต้องการดูการทำงานอื่นๆ พิมพ์ #help");
     }
     _metadata.metadataProcess(metadata, function(results) {
       if (results.results != null) {
