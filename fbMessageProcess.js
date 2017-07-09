@@ -166,9 +166,9 @@ function processText(recipientId, messageText) {
                   sendAskTrainMessage(recipientId);
                 }else {
                   sendTextMessage(recipientId, res);
-                  var data = '{"msg":' + messageText + ',"replyMsg":' + res + '}';
+                  var data = '{"msg":' + JSON.stringify(messageText) + ',"replyMsg":' + JSON.stringify(res) + '}';
                   _reply.callCloudCode("botTraining", data, function(response) {
-                    
+
                   });
                 }
               });
