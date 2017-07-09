@@ -80,11 +80,16 @@ function processText(recipientId, messageText) {
     case '3':
     case '4':
     case '5':
+    case 'Shuffle!!':
       break;
     case 'play':
+    case 'Play':
     case 'เริ่ม':
     case 'เล่น':
     case 'start':
+    case 'Start':
+    case 'quiz':
+    case 'Quiz':
       var templateData = {
         recipient: {
           id: recipientId
