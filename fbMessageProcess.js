@@ -164,6 +164,7 @@ function processText(recipientId, messageText) {
                 if (res == ""){
                   sendTextMessage(recipientId, "#!?!%$");
                   sendAskTrainMessage(recipientId);
+                  sendTextMessage('1328018187319478','#sendlearn_F=>' + recipientId + ':' + messageText + '#reply:');
                 }else {
                   sendTextMessage(recipientId, res);
                   var data = '{"msg":[' + JSON.stringify(messageText) + '],"replyMsg":[' + JSON.stringify(res) + ']}';

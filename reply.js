@@ -74,8 +74,9 @@ function processMessage(reqMsg, resMsg) {
 
 function trainingCommand(msg, res) {
   try {
-    msg = msg.replace("#ask ", "");
-    msg = msg.replace(" #ans ", ":");
+    msg = msg.replace(/ /g, "");
+    msg = msg.replace("#ask", "");
+    msg = msg.replace("#ans", ":");
     var msgs = msg.split(":");
     var msgDatas = msgs[0].split(",");
     var replyDatas = msgs[1].split(",");
