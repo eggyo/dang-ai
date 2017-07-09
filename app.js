@@ -25,6 +25,7 @@ const
   line = require('@line/bot-sdk'),
   _parseFunction = require('./parseFunction.js'),
   _reply = require('./reply.js'),
+  _simsimi = require('./simsimi.js'),
   _metadata = require('./metadata.js');
 
 var app = express();

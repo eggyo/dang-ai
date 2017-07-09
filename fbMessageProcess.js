@@ -1,6 +1,7 @@
 var request = require('request');
 var config = require('config');
 var _reply = require('./reply.js');
+var _simsimi = require('./simsimi.js');
 
 const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
   (process.env.MESSENGER_PAGE_ACCESS_TOKEN) :
@@ -158,10 +159,19 @@ function processText(recipientId, messageText) {
         if (responseMsg == messageText) {
           _reply.callCloudCode("getReplyMsg", '{"msg":"' + messageText + '"}', function(response) {
             if (response == "") {
-              sendTextMessage(recipientId, "#!?!%$");
-              sendAskTrainMessage(recipientId);
-
-
+              sendTypingOn(recipientId);
+              _simsimi.processMessage(messageText, function(res) {
+                if (res == ""){
+                  sendTextMessage(recipientId, "#!?!%$");
+                  sendAskTrainMessage(recipientId);
+                }else {
+                  sendTextMessage(recipientId, res);
+                  var data = '{"msg":' + messageText + ',"replyMsg":' + res + '}';
+                  _reply.callCloudCode("botTraining", data, function(response) {
+                    
+                  });
+                }
+              });
             } else {
               sendTextMessage(recipientId, response);
             }
