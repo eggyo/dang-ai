@@ -588,7 +588,7 @@ function handleEvent(event) {
             _reply.callCloudCode("getReplyMsg", '{"msg":"' + messageText + '"}', function(response) {
               if (response == "") {
                 _simsimi.processMessage(messageText, function(res) {
-                  if (res == ""){
+                  if (res == "") {
                     line_client.pushMessage('U00ee8b47197031fe022c5150a96501cc', {
                       type: "text",
                       text: '#sendlearn_L=>' + userId + ':' + messageText + '#reply:'
@@ -610,7 +610,7 @@ function handleEvent(event) {
                         }]
                       }
                     }]);
-                  }else {
+                  } else {
                     line_client.replyMessage(event.replyToken, [{
                       type: "text",
                       text: res
@@ -621,6 +621,17 @@ function handleEvent(event) {
                     });
                   }
                 });
+              } else if (responseMsg.substring(0, 5) == '#PUSH') {
+                var msg = responseMsg.replace("#PUSH", "");
+                var obj = JSON.parse(msg);
+                line_client.pushMessage(obj.userId, {
+                  type: "text",
+                  text: obj.replyMsg[0]
+                });
+                line_client.replyMessage(event.replyToken, [{
+                  type: "text",
+                  text: "done! : userId = " + obj.userId + ' reply: ' + obj.replyMsg[0]
+                }]);
               } else {
                 line_client.replyMessage(event.replyToken, [{
                   type: "text",

@@ -1,4 +1,12 @@
 var request = require('request');
+var config = require('config');
+const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
+  (process.env.MESSENGER_PAGE_ACCESS_TOKEN) :
+  config.get('pageAccessToken');
+const SERVER_URL = (process.env.SERVER_URL) ?
+  (process.env.SERVER_URL) :
+  config.get('serverURL');
+
 
 module.exports = {
   callCloudCode: function(methodName, requestMsg, responseMsg) {
@@ -57,11 +65,34 @@ function processMessage(reqMsg, resMsg) {
           }
         });
         break;
-      case '#bot':
-        // botCommand
-        resMsg("bot command");
+      case '#sen':
+        sendingCommand(reqMsg, function(res) {
+          if (res) {
+            var checkSend = reqMsg.substring(0, 12);
+            switch (checkSend) {
+              case '#sendlearn_L':
+                resMsg("#PUSH"+res);
 
-        break;
+                break;
+              case '#sendlearn_F':
+              var obj = JSON.parse(res);
+              var messageData = {
+                recipient: {
+                  id: obj.userId
+                },
+                message: {
+                  text: obj.replyMsg[0]
+                }
+              };
+              resMsg("done! : "+JSON.stringify(messageData));
+
+              callSendAPI(messageData);
+                break;
+              default:
+
+            }
+          }
+        });
 
       default:
         resMsg(reqMsg);
@@ -93,6 +124,31 @@ function trainingCommand(msg, res) {
   }
 }
 
+function sendingCommand(msg, res) {
+  try {
+    //#sendlearn_L=>' + userId + ':' + messageText + '#reply:
+    msg = msg.replace(/ /g, "");
+    msg = msg.replace("#sendlearn_F=>", "");
+    msg = msg.replace("#sendlearn_L=>", "");
+    msg = msg.replace("#reply", "");
+    var msgs = msg.split(":");
+    var userId = msgs[0];
+    var msgDatas = msgs[1].split(",");
+    var replyDatas = msgs[2].split(",");
+    msgDatas = JSON.stringify(msgDatas);
+    replyDatas = JSON.stringify(replyDatas);
+    var resMsg = '{"userId":' + userId + ',"replyMsg":' + replyDatas + '}';
+    var data = '{"msg":' + msgDatas + ',"replyMsg":' + replyDatas + '}';
+    callParseServerCloudCode("botTraining", data, function(response) {
+      console.log(response);
+      res(resMsg);
+    });
+  } catch (err) {
+    res(null);
+    console.log(err);
+  }
+}
+
 function isBotCommand(msg, res) {
   if (msg.length > 6) {
     if (msg.substring(0, 4) == "#bot") {
@@ -115,5 +171,31 @@ function containsAny(str, substrings) {
   return null;
 }
 
+function callSendAPI(messageData) {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {
+      access_token: PAGE_ACCESS_TOKEN
+    },
+    method: 'POST',
+    json: messageData
+
+  }, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var recipientId = body.recipient_id;
+      var messageId = body.message_id;
+
+      if (messageId) {
+        console.log("Successfully sent message with id %s to recipient %s",
+          messageId, recipientId);
+      } else {
+        console.log("Successfully called Send API for recipient %s",
+          recipientId);
+      }
+    } else {
+      console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+    }
+  });
+}
 
 // ------ bot process ------//
