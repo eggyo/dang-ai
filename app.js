@@ -311,7 +311,7 @@ function receivedMessage(event) {
     console.log("Received echo for message %s and app %d with metadata %s senderID :%s recipientID : %s",
       messageId, appId, metadata, senderID, recipientID);
     try {
-      console.log("messageAttachments:"+messageAttachments);
+      console.log("messageAttachments:"+JSON.stringify(messageAttachments));
       /*
       if (messageAttachments.title = "Dang.ai") {
         // for send message button in ads
