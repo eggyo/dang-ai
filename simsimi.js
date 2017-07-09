@@ -6,7 +6,7 @@ var simsimi = new Simsimi({
 module.exports = {
   processMessage: function(requestMsg, responseMsg) {
     simsimi.listen(requestMsg, function(err, msg) {
-      if (err) return console.error(err);
+      if (err) return responseMsg('');
       responseMsg(msg);
     });
   }
