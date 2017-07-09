@@ -16,17 +16,17 @@ function requestSimsimi(requestMsg, responseMsg) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
-    }
+    },body:''
   };
 
   function callback(error, response, body) {
-    console.log("response:" + JSON.stringify(response));
+    console.log("requestSimsimi response:" + JSON.stringify(response));
     if (!error && response.statusCode == 200) {
       var info = JSON.parse(body);
       responseMsg(info.response);
-      console.log("result.msg: " + info.response );
+      console.log("requestSimsimi result.msg: " + info.response );
     } else {
-      console.error("Unable to send message. Error :" + error);
+      console.error("requestSimsimi Unable to send message. Error :" + error);
       responseMsg("");
     }
   }
