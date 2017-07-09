@@ -291,7 +291,7 @@ function receivedMessage(event) {
   var recipientID = event.recipient.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
-  console.log("event: "JSON.stringify(event));
+  console.log("event: " + JSON.stringify(event));
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
@@ -556,20 +556,18 @@ function handleEvent(event) {
         line_client.replyMessage(event.replyToken, [{
           type: "text",
           text: "ต้องการเล่น Quiz ให้พิมพ์ เล่น,เริ่ม,play,start หรือ กดปุ่ม เล่น Quiz ที่เมนู \n\nต้องการดูคำสั่งต่างๆ ให้พิมพ์  #help \n\nต้องการสร้างชุดคำถามกดปุ่ม สร้าง Quiz ที่เมนู\n\nคุณสามารถค้นหา Quiz ที่ต้องการเล่นเพียงกดปุ่ม ค้นหา Quiz เมื่อเริ่มเล่น Quiz \n\nสอนไอ้แดงให้ตอบโต้ พิมพ์\n  #ask (ข้อความที่1),(ข้อความที่..) #ans (คำตอบที่1),(คำตอบที่..)\n\n😁😁😁😁",
-        },{
+        }, {
           type: "template",
           altText: "วิธีสอนไอ้แดงพูด",
           template: {
             type: "buttons",
             title: "สอนไอ้แดงให้พูด",
             text: "วิธีง่ายๆแค่กดปุ่มด้านล่าง",
-            actions: [
-              {
-                "type": "uri",
-                "label": "สอนไอ้แดง",
-                "uri": "https://dang-ai.herokuapp.com/bot-train"
-              }
-            ]
+            actions: [{
+              "type": "uri",
+              "label": "สอนไอ้แดง",
+              "uri": "https://dang-ai.herokuapp.com/bot-train"
+            }]
           }
         }]);
         break;
@@ -583,20 +581,18 @@ function handleEvent(event) {
                 line_client.replyMessage(event.replyToken, [{
                   type: "text",
                   text: "#!?!%$\n\nข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ"
-                },{
+                }, {
                   type: "template",
                   altText: "วิธีสอนไอ้แดง",
                   template: {
                     type: "buttons",
                     title: "สอนไอ้แดงให้พูด",
                     text: "หรือใช้วิธีง่ายๆแค่กดปุ่มด้านล่าง",
-                    actions: [
-                      {
-                        "type": "uri",
-                        "label": "สอนไอ้แดง",
-                        "uri": "https://dang-ai.herokuapp.com/bot-train"
-                      }
-                    ]
+                    actions: [{
+                      "type": "uri",
+                      "label": "สอนไอ้แดง",
+                      "uri": "https://dang-ai.herokuapp.com/bot-train"
+                    }]
                   }
                 }]);
               } else {
