@@ -92,6 +92,7 @@ function processMessage(reqMsg, resMsg) {
             }
           }
         });
+        break;
 
       default:
         resMsg(reqMsg);
