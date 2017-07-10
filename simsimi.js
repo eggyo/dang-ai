@@ -1,6 +1,6 @@
 const Simsimi = require('simsimi');
 var simsimi = new Simsimi({
-  key: '1299f691-0dc1-4bdb-a2fa-df257b2340d6',
+  key: '9a97521e-05ab-4c48-8cf7-fc9cfa9f821d',
   lc: 'th'
 });
 module.exports = {
