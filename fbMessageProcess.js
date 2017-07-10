@@ -140,7 +140,7 @@ function processText(recipientId, messageText) {
                 title: "About Me",
                 messenger_extensions: true,
                 webview_height_ratio: "tall"
-              },{
+              }, {
                 type: "web_url",
                 url: "https://dang-ai.herokuapp.com/bot-train",
                 title: "สอนไอ้แดง",
@@ -161,11 +161,14 @@ function processText(recipientId, messageText) {
             if (response == "") {
               sendTypingOn(recipientId);
               _simsimi.processMessage(messageText, function(res) {
-                if (res == ""){
+                if (res == "") {
                   sendTextMessage(recipientId, "#!?!%$");
                   sendAskTrainMessage(recipientId);
-                  sendTextMessage('1328018187319478','#sendlearn_F=>' + recipientId + ':' + messageText + '#reply:');
-                }else {
+                  sendTextMessage('1328018187319478', '#sendlearn_F=>' + recipientId + ':' + messageText + '#reply:');
+                  _reply.callCloudCode("createUnknowMsg", '{"msg":[' + JSON.stringify(messageText) + ']}', function(response) {
+
+                  });
+                } else {
                   sendTextMessage(recipientId, res);
                   var data = '{"msg":[' + JSON.stringify(messageText) + '],"replyMsg":[' + JSON.stringify(res) + ']}';
                   _reply.callCloudCode("botTraining", data, function(response) {

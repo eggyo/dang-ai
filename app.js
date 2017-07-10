@@ -590,6 +590,9 @@ function handleEvent(event) {
               if (response == "") {
                 _simsimi.processMessage(messageText, function(res) {
                   if (res == "") {
+                    _reply.callCloudCode("createUnknowMsg", '{"msg":[' + JSON.stringify(messageText) + ']}', function(response) {
+
+                    });
                     line_client.pushMessage('U00ee8b47197031fe022c5150a96501cc', {
                       type: "text",
                       text: '#sendlearn_L=>' + userId + ':' + messageText + '#reply:'
