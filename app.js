@@ -288,11 +288,12 @@ function receivedAuthentication(event) {
  *
  */
 function receivedMessage(event) {
+  console.log("event: " + JSON.stringify(event));
+
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
-  console.log("event: " + JSON.stringify(event));
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
