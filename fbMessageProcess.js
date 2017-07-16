@@ -162,11 +162,23 @@ function processText(recipientId, messageText) {
               sendTypingOn(recipientId);
               _simsimi.processMessage(messageText, function(res) {
                 if (res == "") {
-                  sendTextMessage(recipientId, "#!?!%$");
-                  sendAskTrainMessage(recipientId);
-                  sendTextMessage('1328018187319478', '#sendlearn_F=>' + recipientId + ':' + messageText + '#reply:');
-                  _reply.callCloudCode("createUnknowMsg", '{"msg":[' + JSON.stringify(messageText) + ']}', function(response) {
+                  //sendTextMessage(recipientId, "#!?!%$");
+                  //sendAskTrainMessage(recipientId);
+                  //sendTextMessage('1328018187319478', '#sendlearn_F=>' + recipientId + ':' + messageText + '#reply:');
+                  _reply.callCloudCode("findBestMsgFromUnknow", '{"msg":"' + messageText + '"}', function(response) {
+                    if (response == "") {
+                      sendTextMessage(recipientId, "#!?!%$");
+                    }else {
+                      sendTextMessage(recipientId, response);
+                      var data = '{"msg":[' + JSON.stringify(messageText) + '],"replyMsg":[' + JSON.stringify(res) + ']}';
+                      /*  // wait for accurate
+                      _reply.callCloudCode("botTraining", data, function(response) {
 
+                      });*/
+                      _reply.callCloudCode("createUnknowMsg", data, function(response) {
+
+                      });
+                    }
                   });
                 } else {
                   sendTextMessage(recipientId, res);

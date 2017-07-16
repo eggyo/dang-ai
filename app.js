@@ -590,30 +590,26 @@ function handleEvent(event) {
               if (response == "") {
                 _simsimi.processMessage(messageText, function(res) {
                   if (res == "") {
-                    _reply.callCloudCode("createUnknowMsg", '{"msg":[' + JSON.stringify(messageText) + ']}', function(response) {
+                    
+                    _reply.callCloudCode("findBestMsgFromUnknow", '{"msg":"' + messageText + '"}', function(response) {
+                      if (response == "") {
+                        line_client.replyMessage(event.replyToken, [{
+                          type: "text",
+                          text: "#!?!%$"
+                        }]);
+                      }else {
+                        line_client.replyMessage(event.replyToken, [{
+                          type: "text",
+                          text: response
+                        }]);
+                        var data = '{"msg":[' + JSON.stringify(messageText) + '],"replyMsg":[' + JSON.stringify(response) + ']}';
+                        _reply.callCloudCode("createUnknowMsg", data, function(response) {
 
-                    });
-                    line_client.pushMessage('U00ee8b47197031fe022c5150a96501cc', {
-                      type: "text",
-                      text: '#sendlearn_L=>' + userId + ':' + messageText + '#reply:'
-                    });
-                    line_client.replyMessage(event.replyToken, [{
-                      type: "text",
-                      text: "#!?!%$\n\nข้ายังโง่อยู ช่วยสอนข้าแค่พิมพ์\n#ask ข้อความที่สอน #ans ข้อความที่ตอบ"
-                    }, {
-                      type: "template",
-                      altText: "วิธีสอนไอ้แดง",
-                      template: {
-                        type: "buttons",
-                        title: "สอนไอ้แดงให้พูด",
-                        text: "หรือใช้วิธีง่ายๆแค่กดปุ่มด้านล่าง",
-                        actions: [{
-                          "type": "uri",
-                          "label": "สอนไอ้แดง",
-                          "uri": "https://dang-ai.herokuapp.com/bot-train"
-                        }]
+                        });
                       }
-                    }]);
+                    });
+
+
                   } else {
                     line_client.replyMessage(event.replyToken, [{
                       type: "text",
