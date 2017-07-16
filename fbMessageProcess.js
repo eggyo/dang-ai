@@ -170,7 +170,7 @@ function processText(recipientId, messageText) {
                       sendTextMessage(recipientId, "#!?!%$");
                     }else {
                       sendTextMessage(recipientId, response);
-                      var data = '{"msg":[' + JSON.stringify(messageText) + '],"replyMsg":[' + JSON.stringify(res) + ']}';
+                      var data = '{"msg":[' + JSON.stringify(messageText) + '],"replyMsg":[' + JSON.stringify(response) + ']}';
                       /*  // wait for accurate
                       _reply.callCloudCode("botTraining", data, function(response) {
 
