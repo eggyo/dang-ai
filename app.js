@@ -590,7 +590,7 @@ function handleEvent(event) {
               if (response == "") {
                 _simsimi.processMessage(messageText, function(res) {
                   if (res == "") {
-                    
+
                     _reply.callCloudCode("findBestMsgFromUnknow", '{"msg":"' + messageText + '"}', function(response) {
                       if (response == "") {
                         line_client.replyMessage(event.replyToken, [{
@@ -600,7 +600,7 @@ function handleEvent(event) {
                       }else {
                         line_client.replyMessage(event.replyToken, [{
                           type: "text",
-                          text: response
+                          text: _reply.badwordFilter(response)
                         }]);
                         var data = '{"msg":[' + JSON.stringify(messageText) + '],"replyMsg":[' + JSON.stringify(response) + ']}';
                         _reply.callCloudCode("createUnknowMsg", data, function(response) {
@@ -613,7 +613,7 @@ function handleEvent(event) {
                   } else {
                     line_client.replyMessage(event.replyToken, [{
                       type: "text",
-                      text: res
+                      text: _reply.badwordFilter(res)
                     }]);
                     var data = '{"msg":[' + JSON.stringify(messageText) + '],"replyMsg":[' + JSON.stringify(res) + ']}';
                     _reply.callCloudCode("botTraining", data, function(response) {
@@ -631,14 +631,14 @@ function handleEvent(event) {
               } else {
                 line_client.replyMessage(event.replyToken, [{
                   type: "text",
-                  text: response
+                  text: _reply.badwordFilter(response)
                 }]);
               }
             });
           } else {
             line_client.replyMessage(event.replyToken, [{
               type: "text",
-              text: responseMsg
+              text: _reply.badwordFilter(responseMsg)
             }]);
           }
         });
