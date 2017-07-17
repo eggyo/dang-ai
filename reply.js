@@ -19,9 +19,9 @@ module.exports = {
       responseMsg(res);
     });
   },
-  badwordFilter: function(requestMsg, responseMsg) {
+  badwordFilter: function(requestMsg) {
     badwordFilter(requestMsg, function(res) {
-      responseMsg(res);
+      return res;
     });
   }
 };
@@ -232,6 +232,18 @@ function badwordFilter(messageText, responseText) {
   messageData = messageData.replace(/เงี่ย/g, 'need');
   messageData = messageData.replace(/เงี้ยน/g, 'need');
   messageData = messageData.replace(/เงียน/g, 'need');
+
+  messageData = messageData.replace(/ชักว่าว/g, 'สาว');
+  messageData = messageData.replace(/ชักว้าว/g, 'สาว');
+
+  messageData = messageData.replace(/ตูด/g, 'ก้น');
+
+  messageData = messageData.replace(/กู/g, 'เค้า');
+  messageData = messageData.replace(/กุ/g, 'เค้า');
+
+  messageData = messageData.replace(/มึง/g, 'เธอ');
+  messageData = messageData.replace(/มิง/g, 'เธอ');
+  messageData = messageData.replace(/เมิง/g, 'เธอ');
 
 
   responseText(messageData);
