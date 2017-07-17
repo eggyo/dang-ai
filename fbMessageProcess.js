@@ -344,19 +344,19 @@ function sendFileMessage(recipientId) {
  */
 function sendTextMessage(recipientId, messageText) {
   _reply.badwordFilter(messageText, function(res) {
-      var messageData = {
-        recipient: {
-          id: recipientId
-        },
-        message: {
-          text: res
-        }
-      };
+    var messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+        text: res
+      }
+    };
 
-      callSendAPI(messageData);
-    }
+    callSendAPI(messageData);
+
   });
-
+}
 
 /*
  * Send a button message using the Send API.
