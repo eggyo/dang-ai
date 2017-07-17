@@ -20,11 +20,7 @@ module.exports = {
     });
   },
   badwordFilter: function(requestMsg) {
-    var msg = '';
-    badwordFilter(requestMsg, function(res) {
-      msg = res;
-      return msg;
-    });
+    return badwordFilter(requestMsg);
   }
 };
 // ------ bot process ------//
@@ -78,21 +74,21 @@ function processMessage(reqMsg, resMsg) {
             var checkSend = reqMsg.substring(0, 12);
             switch (checkSend) {
               case '#sendlearn_L':
-                resMsg("#PUSH"+res);
+                resMsg("#PUSH" + res);
 
                 break;
               case '#sendlearn_F':
-              var obj = JSON.parse(res);
-              var messageData = {
-                recipient: {
-                  id: obj.userId
-                },
-                message: {
-                  text: obj.replyMsg[0]
-                }
-              };
+                var obj = JSON.parse(res);
+                var messageData = {
+                  recipient: {
+                    id: obj.userId
+                  },
+                  message: {
+                    text: obj.replyMsg[0]
+                  }
+                };
 
-              callSendAPI(messageData);
+                callSendAPI(messageData);
                 break;
               default:
 
@@ -206,7 +202,7 @@ function callSendAPI(messageData) {
   });
 }
 
-function badwordFilter(messageText, responseText) {
+function badwordFilter(messageText) {
   var messageData = messageText;
   messageData = messageData.replace(/เย็ด/g, 'จุ๊บ');
   messageData = messageData.replace(/เยด/g, 'จุ๊บ');
@@ -248,6 +244,6 @@ function badwordFilter(messageText, responseText) {
   messageData = messageData.replace(/เมิง/g, 'เธอ');
 
 
-  responseText(messageData);
+  return messageData;
 }
 // ------ bot process ------//
