@@ -168,7 +168,7 @@ function processText(recipientId, messageText) {
                   _reply.callCloudCode("findBestMsgFromUnknow", '{"msg":"' + messageText + '"}', function(response) {
                     if (response == "") {
                       sendTextMessage(recipientId, "#!?!%$");
-                    }else {
+                    } else {
                       sendTextMessage(recipientId, response);
                       var data = '{"msg":[' + JSON.stringify(messageText) + '],"replyMsg":[' + JSON.stringify(response) + ']}';
                       /*  // wait for accurate
@@ -343,17 +343,20 @@ function sendFileMessage(recipientId) {
  *
  */
 function sendTextMessage(recipientId, messageText) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      text: messageText
-    }
-  };
+  badwordFilter(messageText, function(res) {
+      var messageData = {
+        recipient: {
+          id: recipientId
+        },
+        message: {
+          text: res
+        }
+      };
 
-  callSendAPI(messageData);
-}
+      callSendAPI(messageData);
+    }
+  });
+
 
 /*
  * Send a button message using the Send API.
@@ -645,4 +648,37 @@ function sendAskTrainMessage(recipientId) {
   };
 
   callSendAPI(messageData);
+}
+
+function badwordFilter(messageText, responseText) {
+  var messageData = messageText;
+  messageData = messageData.replace(/เย็ด/g, 'จุ๊บ');
+  messageData = messageData.replace(/เยด/g, 'จุ๊บ');
+  messageData = messageData.replace(/เย็ส/g, 'จุ๊บ');
+  messageData = messageData.replace(/เยด/g, 'จุ๊บ');
+  messageData = messageData.replace(/เยส/g, 'จุ๊บ');
+  messageData = messageData.replace(/เย้ด/g, 'จุ๊บ');
+  messageData = messageData.replace(/เย้ส/g, 'จุ๊บ');
+
+  messageData = messageData.replace(/ควย/g, 'จู๋');
+  messageData = messageData.replace(/หี/g, 'ฉี');
+  messageData = messageData.replace(/ดอ/g, 'จู๋');
+
+  messageData = messageData.replace(/เหี้ย/g, '*#$!');
+  messageData = messageData.replace(/เหี่ย/g, '*#$!');
+
+  messageData = messageData.replace(/บอด/g, '');
+
+  messageData = messageData.replace(/ยุด/g, '_');
+  messageData = messageData.replace(/ยุท/g, '_');
+  messageData = messageData.replace(/ยุทธ/g, '_');
+  messageData = messageData.replace(/ยุธ/g, '_');
+
+  messageData = messageData.replace(/เงี่ยน/g, 'need');
+  messageData = messageData.replace(/เงี่ย/g, 'need');
+  messageData = messageData.replace(/เงี้ยน/g, 'need');
+  messageData = messageData.replace(/เงียน/g, 'need');
+
+
+  responseText(messageData);
 }
