@@ -20,8 +20,10 @@ module.exports = {
     });
   },
   badwordFilter: function(requestMsg) {
+    var msg = '';
     badwordFilter(requestMsg, function(res) {
-      return res;
+      msg = res;
+      return msg;
     });
   }
 };
