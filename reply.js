@@ -204,7 +204,7 @@ function callSendAPI(messageData) {
 
 function badwordFilter(messageText) {
   var messageData = messageText;
-  if (messageData != '') {
+  if (messageData != '' && messageData != null) {
     messageData = messageData.replace(/เย็ด/g, 'จุ๊บ');
     messageData = messageData.replace(/เยด/g, 'จุ๊บ');
     messageData = messageData.replace(/เย็ส/g, 'จุ๊บ');
