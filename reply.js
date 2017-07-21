@@ -244,6 +244,14 @@ function badwordFilter(messageText) {
     messageData = messageData.replace(/มิง/g, 'เธอ');
     messageData = messageData.replace(/เมิง/g, 'เธอ');
 
+    messageData = messageData.replace(/simsimi/g, 'ไอ้แดง');
+    messageData = messageData.replace(/Simsimi/g, 'ไอ้แดง');
+    messageData = messageData.replace(/SIMSIMI/g, 'ไอ้แดง');
+    messageData = messageData.replace(/SimSimi/g, 'ไอ้แดง');
+    messageData = messageData.replace(/ซิมซิมิ/g, 'ไอ้แดง');
+    
+
+
   }
   return messageData;
 }
