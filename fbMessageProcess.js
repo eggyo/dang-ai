@@ -157,6 +157,8 @@ function processText(recipientId, messageText) {
       //sendTextMessage(recipientId, messageText);
       _reply.processMessage(messageText, function(responseMsg) {
         if (responseMsg == messageText) {
+          messageText = messageText.replace(/\r?\n|\r/g, "");
+
           _reply.callCloudCode("getReplyMsg", '{"msg":"' + messageText + '"}', function(response) {
             if (response == "") {
               sendTypingOn(recipientId);
