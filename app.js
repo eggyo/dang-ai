@@ -144,7 +144,7 @@ app.get('/webhook', function(req, res) {
   }
 });
 app.post('/redirect', function(req, res) {
-  console.log("req.body:"+req.body);
+  console.log("req.body:"+JSON.stringify(req.body));
   res.sendFile(path.join(__dirname + '/public/index.html'));
 
 });
