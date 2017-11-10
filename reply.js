@@ -249,9 +249,6 @@ function badwordFilter(messageText) {
     messageData = messageData.replace(/SIMSIMI/g, 'ไอ้แดง');
     messageData = messageData.replace(/SimSimi/g, 'ไอ้แดง');
     messageData = messageData.replace(/ซิมซิมิ/g, 'ไอ้แดง');
-    
-
-
   }
   return messageData;
 }

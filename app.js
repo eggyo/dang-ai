@@ -592,9 +592,26 @@ function handleEvent(event) {
           if (responseMsg == messageText) {
             _reply.callCloudCode("getReplyMsg", '{"msg":"' + messageText + '"}', function(response) {
               if (response == "") {
+                _reply.callCloudCode("findBestMsgFromUnknow", '{"msg":"' + messageText + '"}', function(response) {
+                  if (response == "") {
+                    line_client.replyMessage(event.replyToken, [{
+                      type: "text",
+                      text: "#!?!%$"
+                    }]);
+                  }else {
+                    line_client.replyMessage(event.replyToken, [{
+                      type: "text",
+                      text: _reply.badwordFilter(response)
+                    }]);
+                    var data = '{"msg":[' + JSON.stringify(messageText) + '],"replyMsg":[' + JSON.stringify(response) + ']}';
+                    _reply.callCloudCode("createUnknowMsg", data, function(response) {
+
+                    });
+                  }
+                });
+                /*
                 _simsimi.processMessage(messageText, function(res) {
                   if (res == "") {
-
                     _reply.callCloudCode("findBestMsgFromUnknow", '{"msg":"' + messageText + '"}', function(response) {
                       if (response == "") {
                         line_client.replyMessage(event.replyToken, [{
@@ -612,8 +629,6 @@ function handleEvent(event) {
                         });
                       }
                     });
-
-
                   } else {
                     line_client.replyMessage(event.replyToken, [{
                       type: "text",
@@ -624,7 +639,7 @@ function handleEvent(event) {
 
                     });
                   }
-                });
+                });*/
               } else if (responseMsg.substring(0, 5) == '#PUSH') {
                 var msg = responseMsg.replace("#PUSH", "");
                 var obj = JSON.parse(msg);
